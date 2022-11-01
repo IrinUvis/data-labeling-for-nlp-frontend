@@ -1,43 +1,33 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.ui.theme.DataLabelingForNLPFrontendTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
             DataLabelingForNLPFrontendTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
+                Scaffold { paddingValues ->
+                    Text(
+                        modifier = Modifier.padding(paddingValues),
+                        text = "Hello Droid!",
+                    )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    DataLabelingForNLPFrontendTheme {
-        Greeting("Android")
     }
 }
