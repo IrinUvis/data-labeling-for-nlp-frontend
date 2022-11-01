@@ -1,4 +1,4 @@
-package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.ui.theme
+package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
