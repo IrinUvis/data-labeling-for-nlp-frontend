@@ -31,14 +31,14 @@ fun AppTheme(
 
     SideEffect {
         systemUiController.setSystemBarsColor(
-            Color.Transparent,
-            darkIcons = useDarkIcons
+            color = Color.Transparent,
+            darkIcons = useDarkIcons,
         )
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
         typography = AppTypography,
-        content = content
+        content = content,
     )
 }

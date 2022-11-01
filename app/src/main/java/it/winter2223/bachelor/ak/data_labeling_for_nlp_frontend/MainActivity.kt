@@ -1,17 +1,13 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.ui.Modifier
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.core.view.WindowCompat
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.ui.theme.AppTheme
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.CommentLabelingScreen
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,11 +17,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AppTheme {
-                Scaffold { paddingValues ->
-                    Text(
-                        modifier = Modifier.padding(paddingValues),
-                        text = "Hello Droid!",
-                    )
+                Surface(
+                    color = MaterialTheme.colorScheme.background,
+                ) {
+                    CommentLabelingScreen()
                 }
             }
         }
