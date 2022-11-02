@@ -5,12 +5,15 @@ import androidx.compose.runtime.collectAsState
 
 @Composable
 fun CommentLabelingScreen(
-    viewModel: CommentLabelingViewModel = CommentLabelingViewModel()
+    viewModel: CommentLabelingViewModel,
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
     CommentLabelingContent(
         viewState = viewState.value,
-        onSettingsButtonPressed = { /* TODO */ },
+        onEmotionSelected = viewModel::onEmotionSelected,
+        onNextButtonClicked = viewModel::goToNextComment,
+        onBackButtonClicked = { /* TODO */ },
+        onSettingsButtonClicked = { /* TODO */ },
     )
 }

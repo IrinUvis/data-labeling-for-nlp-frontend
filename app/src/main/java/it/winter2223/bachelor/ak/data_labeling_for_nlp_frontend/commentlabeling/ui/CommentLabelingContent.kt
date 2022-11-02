@@ -1,20 +1,34 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Emotion
 
 @Composable
 fun CommentLabelingContent(
     viewState: CommentLabelingViewState,
-    onSettingsButtonPressed: () -> Unit,
+    onEmotionSelected: (Emotion) -> Unit,
+    onNextButtonClicked: () -> Unit,
+    onBackButtonClicked: () -> Unit,
+    onSettingsButtonClicked: () -> Unit,
 ) {
-    when (viewState) {
-        is CommentLabelingViewState.Loading -> {
-            LoadingCommentLabelingContent()
-        }
-        is CommentLabelingViewState.Active -> {
-            ActiveCommentLabelingContent(
-                onSettingsButtonPressed = onSettingsButtonPressed,
-            )
+    Crossfade(targetState = viewState.screenType) { screenType ->
+        when (screenType) {
+            CommentLabelingScreenType.Loading -> {
+                LoadingCommentLabelingContent()
+            }
+            CommentLabelingScreenType.Active -> {
+                viewState.activeLabelingScreenData?.let { state ->
+                    ActiveCommentLabelingContent(
+                        currentComment = state.currentComment,
+                        progress = state.progress,
+                        onEmotionSelected = onEmotionSelected,
+                        onNextButtonClicked = onNextButtonClicked,
+                        onBackButtonClicked = onBackButtonClicked,
+                        onSettingButtonClicked = onSettingsButtonClicked,
+                    )
+                }
+            }
         }
     }
 }
