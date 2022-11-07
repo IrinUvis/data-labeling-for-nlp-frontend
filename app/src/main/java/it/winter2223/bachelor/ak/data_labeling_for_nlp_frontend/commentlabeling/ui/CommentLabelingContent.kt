@@ -12,13 +12,13 @@ fun CommentLabelingContent(
     onBackButtonClicked: () -> Unit,
     onSettingsButtonClicked: () -> Unit,
 ) {
-    Crossfade(targetState = viewState.screenType) { screenType ->
+    Crossfade(targetState = viewState.type) { screenType ->
         when (screenType) {
             CommentLabelingScreenType.Loading -> {
                 LoadingCommentLabelingContent()
             }
             CommentLabelingScreenType.Active -> {
-                viewState.activeLabelingScreenData?.let { state ->
+                (viewState as? CommentLabelingViewState.Active)?.let { state ->
                     ActiveCommentLabelingContent(
                         currentComment = state.currentComment,
                         progress = state.progress,

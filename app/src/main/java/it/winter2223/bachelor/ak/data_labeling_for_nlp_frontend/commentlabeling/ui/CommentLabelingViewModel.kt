@@ -1,13 +1,18 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Comment
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Emotion
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
+private const val TAG = "CommentLabelingVM"
 
 class CommentLabelingViewModel : ViewModel() {
     @Suppress("MaxLineLength")
@@ -25,66 +30,58 @@ class CommentLabelingViewModel : ViewModel() {
     )
 
     private val _viewState: MutableStateFlow<CommentLabelingViewState> = MutableStateFlow(
-        value = CommentLabelingViewState()
+        value = CommentLabelingViewState.Loading
     )
     val viewState: StateFlow<CommentLabelingViewState> = _viewState
 
     init {
         viewModelScope.launch {
-            @Suppress("MagicNumber")
-            delay(2000)
-            _viewState.value = CommentLabelingViewState(
-                screenType = CommentLabelingScreenType.Active,
-                activeLabelingScreenData = ActiveLabelingScreenData(
-                    comments = _comments,
-                    currentCommentIndex = 0,
-                )
-            )
+            loadComments()
         }
     }
 
     fun onEmotionSelected(emotion: Emotion) {
         viewModelScope.launch {
-            if (_viewState.value.screenType == CommentLabelingScreenType.Active) {
-                val state = _viewState.value
-                val activeLabelingScreenData = state.activeLabelingScreenData!!
-                _viewState.value = _viewState.value.copy(
-                    activeLabelingScreenData = activeLabelingScreenData.copy(
-                        comments = activeLabelingScreenData.comments.withChangedEmotionAtIndex(
+            _viewState.update { state ->
+                (state as? CommentLabelingViewState.Active)?.let {
+                    it.copy(
+                        comments = it.comments.withChangedEmotionAtIndex(
                             emotion = emotion,
-                            index = activeLabelingScreenData.currentCommentIndex
+                            index = it.currentCommentIndex
                         )
                     )
-                )
+                } ?: state
             }
         }
     }
 
     fun goToNextComment() {
         viewModelScope.launch {
-            if (_viewState.value.screenType == CommentLabelingScreenType.Active) {
-                val state = _viewState.value
-                val activeLabelingScreenData = state.activeLabelingScreenData!!
-                if (activeLabelingScreenData.currentCommentIndex + 1 != activeLabelingScreenData.comments.size) {
-                    _viewState.value = state.copy(
-                        activeLabelingScreenData = activeLabelingScreenData.copy(
-                            currentCommentIndex = activeLabelingScreenData.currentCommentIndex + 1
+            _viewState.update { state ->
+                (state as? CommentLabelingViewState.Active)?.let {
+                    if (it.currentCommentIndex + 1 != it.comments.size) {
+                        it.copy(
+                            currentCommentIndex = it.currentCommentIndex + 1
                         )
-                    )
-                } else {
-                    _viewState.value = CommentLabelingViewState()
-                    @Suppress("MagicNumber")
-                    delay(2000)
-                    _viewState.value = CommentLabelingViewState(
-                        screenType = CommentLabelingScreenType.Active,
-                        activeLabelingScreenData = ActiveLabelingScreenData(
-                            comments = _comments,
-                            currentCommentIndex = 0,
-                        )
-                    )
-                }
+                    } else {
+                        launch { loadComments() }
+                        CommentLabelingViewState.Loading
+                    }
+                } ?: state
             }
         }
+    }
+
+    private suspend fun loadComments() = coroutineScope {
+        @Suppress("MagicNumber")
+        delay(5000)
+        _viewState.update {
+            CommentLabelingViewState.Active(
+                comments = _comments,
+                currentCommentIndex = 0,
+            )
+        }
+        Log.d(TAG, "View state update to ${_viewState.value.type.name}")
     }
 }
 
