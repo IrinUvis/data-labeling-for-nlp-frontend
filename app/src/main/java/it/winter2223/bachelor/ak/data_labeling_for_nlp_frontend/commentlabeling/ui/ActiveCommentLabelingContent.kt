@@ -3,6 +3,7 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,11 +12,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -61,21 +65,33 @@ fun ActiveCommentLabelingContent(
         ) {
             Column(
                 modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                    vertical = 8.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 8.dp,
+                    bottom = 32.dp,
                 )
             ) {
-                CommentText(currentComment = currentComment)
+                CommentCard(
+                    modifier = Modifier.weight(1f),
+                    scrollState = rememberScrollState(),
+                    comment = currentComment,
+                )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                for (emotion in Emotion.values()) {
-                    EmotionSelectionRadioButton(
-                        currentComment = currentComment,
-                        emotion = emotion,
-                        onEmotionSelected = onEmotionSelected,
-                    )
+                Column(modifier = Modifier
+                    .weight(2f)
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                ) {
+                    for (emotion in Emotion.values()) {
+                        EmotionSelectionRadioButton(
+                            comment = currentComment,
+                            emotion = emotion,
+                            onEmotionSelected = onEmotionSelected,
+                        )
 
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -86,7 +102,7 @@ fun ActiveCommentLabelingContent(
                 ) {
                     NextCommentButton(
                         onNextButtonClicked = onNextButtonClicked,
-                        currentComment = currentComment,
+                        comment = currentComment,
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -99,9 +115,37 @@ fun ActiveCommentLabelingContent(
 }
 
 @Composable
-private fun CommentText(currentComment: Comment) {
+private fun CommentCard(
+    modifier: Modifier = Modifier,
+    scrollState: ScrollState,
+    comment: Comment,
+) {
+    Card(modifier = modifier) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 16.dp, horizontal = 8.dp)
+            .simpleVerticalScrollbar(scrollState)
+            .padding(horizontal = 8.dp)
+            .verticalScroll(scrollState)
+        ) {
+            CommentText(
+                modifier = Modifier
+                    .align(Alignment.Center),
+                comment = comment,
+            )
+        }
+
+    }
+}
+
+@Composable
+private fun CommentText(
+    modifier: Modifier = Modifier,
+    comment: Comment,
+) {
     Text(
-        text = "\"${currentComment.text}\"",
+        modifier = modifier,
+        text = "\"${comment.text}\"",
         style = MaterialTheme.typography.bodyMedium,
         textAlign = TextAlign.Center,
     )
@@ -109,40 +153,50 @@ private fun CommentText(currentComment: Comment) {
 
 @Composable
 private fun NextCommentButton(
+    modifier: Modifier = Modifier,
     onNextButtonClicked: () -> Unit,
-    currentComment: Comment,
+    comment: Comment,
 ) {
     Button(
+        modifier = modifier,
         onClick = onNextButtonClicked,
-        enabled = currentComment.emotion != null,
+        enabled = comment.emotion != null,
     ) {
         Text(text = "Next")
     }
 }
 
 @Composable
-private fun AnimatedLinearProgressIndicator(progress: Float) {
+private fun AnimatedLinearProgressIndicator(
+    modifier: Modifier = Modifier,
+    progress: Float,
+) {
     val animatedProgress by animateFloatAsState(
         targetValue = progress,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
     )
-    LinearProgressIndicator(progress = animatedProgress)
+    LinearProgressIndicator(
+        modifier = modifier,
+        progress = animatedProgress,
+    )
 }
 
 @Composable
 private fun EmotionSelectionRadioButton(
-    currentComment: Comment,
+    modifier: Modifier = Modifier,
+    comment: Comment,
     emotion: Emotion,
     onEmotionSelected: (Emotion) -> Unit,
 ) {
     Surface(
+        modifier = modifier,
         shape = MaterialTheme.shapes.extraLarge,
         color = Color.Transparent,
     ) {
         Row(
             modifier = Modifier
                 .selectable(
-                    selected = currentComment.emotion == emotion,
+                    selected = comment.emotion == emotion,
                     onClick = { onEmotionSelected(emotion) },
                 )
                 .padding(
@@ -154,7 +208,7 @@ private fun EmotionSelectionRadioButton(
         ) {
             RadioButton(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                selected = currentComment.emotion == emotion,
+                selected = comment.emotion == emotion,
                 onClick = null,
             )
             Text(text = emotion.name)
@@ -164,10 +218,12 @@ private fun EmotionSelectionRadioButton(
 
 @Composable
 private fun CommentLabelingTopBar(
+    modifier: Modifier = Modifier,
     onBackButtonClicked: () -> Unit,
     onSettingsButtonClicked: () -> Unit,
 ) {
     TopAppBar(
+        modifier = modifier,
         title = { Text(text = "Emotion assignment") },
         navigationIcon = {
             IconButton(onClick = onBackButtonClicked) {
