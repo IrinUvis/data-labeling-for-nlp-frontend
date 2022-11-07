@@ -3,6 +3,7 @@ package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Comment
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Emotion
 import kotlinx.coroutines.coroutineScope
@@ -11,10 +12,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val TAG = "CommentLabelingVM"
 
-class CommentLabelingViewModel : ViewModel() {
+@HiltViewModel
+class CommentLabelingViewModel @Inject constructor() : ViewModel() {
     @Suppress("MaxLineLength")
     private val _comments = listOf(
         Comment(text = "im feeling rather rotten so im not very ambitious right now"),

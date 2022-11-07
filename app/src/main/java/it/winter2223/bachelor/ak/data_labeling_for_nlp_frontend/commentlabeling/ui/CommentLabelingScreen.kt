@@ -2,10 +2,11 @@ package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun CommentLabelingScreen(
-    viewModel: CommentLabelingViewModel,
+    viewModel: CommentLabelingViewModel = hiltViewModel(),
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
