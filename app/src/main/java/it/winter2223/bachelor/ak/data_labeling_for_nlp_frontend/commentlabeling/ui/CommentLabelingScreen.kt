@@ -13,6 +13,7 @@ fun CommentLabelingScreen(
     CommentLabelingContent(
         viewState = viewState.value,
         onEmotionSelected = viewModel::onEmotionSelected,
+        onPreviousButtonClicked = viewModel::goToPreviousComment,
         onNextButtonClicked = viewModel::goToNextComment,
         onBackButtonClicked = { /* TODO */ },
         onSettingsButtonClicked = { /* TODO */ },

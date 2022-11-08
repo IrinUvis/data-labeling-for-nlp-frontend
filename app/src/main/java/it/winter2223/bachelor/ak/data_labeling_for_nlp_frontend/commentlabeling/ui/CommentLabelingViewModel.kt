@@ -14,12 +14,16 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val TAG = "CommentLabelingVM"
 
 @HiltViewModel
 class CommentLabelingViewModel @Inject constructor(
-    private val commentRepository: CommentRepository
+    private val commentRepository: CommentRepository,
 ) : ViewModel() {
+    companion object {
+        private const val TAG = "CommentLabelingVM"
+        private const val DEFAULT_COMMENT_QUANTITY = 10
+    }
+
     private val _viewState: MutableStateFlow<CommentLabelingViewState> = MutableStateFlow(
         value = CommentLabelingViewState.Loading
     )
@@ -27,7 +31,7 @@ class CommentLabelingViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            loadComments(quantity = 5)
+            loadComments(quantity = DEFAULT_COMMENT_QUANTITY)
         }
     }
 
@@ -46,6 +50,22 @@ class CommentLabelingViewModel @Inject constructor(
         }
     }
 
+    fun goToPreviousComment() {
+        viewModelScope.launch {
+            _viewState.update { state ->
+                (state as? CommentLabelingViewState.Active)?.let {
+                    if (it.currentCommentIndex > 0) {
+                        it.copy(
+                            currentCommentIndex = it.currentCommentIndex - 1
+                        )
+                    } else {
+                        it
+                    }
+                } ?: state
+            }
+        }
+    }
+
     fun goToNextComment() {
         viewModelScope.launch {
             _viewState.update { state ->
@@ -59,7 +79,7 @@ class CommentLabelingViewModel @Inject constructor(
                             postComments(state.comments)
                         }
                         launch {
-                            loadComments(quantity = 10)
+                            loadComments(quantity = DEFAULT_COMMENT_QUANTITY)
                         }
                         CommentLabelingViewState.Loading
                     }

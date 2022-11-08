@@ -12,7 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.R
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.smallPadding
 
 @Composable
 fun LoadingCommentLabelingContent() {
@@ -27,10 +29,10 @@ fun LoadingCommentLabelingContent() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = "Loading comments",
+                text = stringResource(R.string.loadingComments),
                 style = MaterialTheme.typography.titleMedium,
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(smallPadding))
             LinearProgressIndicator()
         }
     }

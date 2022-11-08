@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Data Labeling for NLP frontend</string>
+    <string name="loadingComments">Loading comments</string>
+    <string name="commentLabelingAppBarTitle">Emotion assignment</string>
+    <string name="goToSettingsButtonContentDescription">Go to Settings button</string>
+    <string name="goBackToPreviousScreenButtonContentDescription">Go back to previous screen</string>
+    <string name="nextButtonText">Next</string>
+    <string name="previousButtonText">Previous</string>
+    <string name="shortPreviewText">This is a preview text</string>
+    <string name="longPreviewText">This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text</string>
 </resources>

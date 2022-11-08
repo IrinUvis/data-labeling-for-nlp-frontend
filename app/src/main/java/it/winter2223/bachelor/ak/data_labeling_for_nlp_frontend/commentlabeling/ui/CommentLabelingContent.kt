@@ -8,6 +8,7 @@ import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.
 fun CommentLabelingContent(
     viewState: CommentLabelingViewState,
     onEmotionSelected: (Emotion) -> Unit,
+    onPreviousButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
     onSettingsButtonClicked: () -> Unit,
@@ -20,9 +21,9 @@ fun CommentLabelingContent(
             CommentLabelingScreenType.Active -> {
                 (viewState as? CommentLabelingViewState.Active)?.let { state ->
                     ActiveCommentLabelingContent(
-                        currentComment = state.currentComment,
-                        progress = state.progress,
+                        viewState = state,
                         onEmotionSelected = onEmotionSelected,
+                        onPreviousButtonClicked = onPreviousButtonClicked,
                         onNextButtonClicked = onNextButtonClicked,
                         onBackButtonClicked = onBackButtonClicked,
                         onSettingButtonClicked = onSettingsButtonClicked,
