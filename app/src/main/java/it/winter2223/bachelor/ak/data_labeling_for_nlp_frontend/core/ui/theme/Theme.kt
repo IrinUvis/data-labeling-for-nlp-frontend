@@ -1,4 +1,4 @@
-package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.ui.theme
+package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -31,14 +31,14 @@ fun AppTheme(
 
     SideEffect {
         systemUiController.setSystemBarsColor(
-            Color.Transparent,
-            darkIcons = useDarkIcons
+            color = Color.Transparent,
+            darkIcons = useDarkIcons,
         )
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
         typography = AppTypography,
-        content = content
+        content = content,
     )
 }
