@@ -8,4 +8,11 @@
     <string name="previousButtonText">Previous</string>
     <string name="shortPreviewText">This is a preview text</string>
     <string name="longPreviewText">This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="logIn">Log in</string>
+    <string name="signUp">Sign up</string>
+    <string name="emailIconContentDescription">Email icon</string>
+    <string name="clearIconContentDescription">Clear icon</string>
+    <string name="lockIconContentDescription">Lock icon</string>
 </resources>

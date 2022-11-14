@@ -8,8 +8,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.CommentLabelingScreen
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.theme.AppTheme
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.ui.LoginScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -30,7 +30,7 @@ fun DataLabelingForNlp() {
         Surface(
             color = MaterialTheme.colorScheme.background,
         ) {
-            CommentLabelingScreen()
+            LoginScreen()
         }
     }
 }

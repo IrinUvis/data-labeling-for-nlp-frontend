@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.repository.CommentRepository
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.repository.NetworkCommentRepository
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.repository.CommentRepository
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.repository.NetworkCommentRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
