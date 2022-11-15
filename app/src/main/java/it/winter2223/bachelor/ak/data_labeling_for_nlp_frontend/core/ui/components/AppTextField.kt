@@ -1,5 +1,6 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,6 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -70,17 +74,20 @@ fun AppTextField(
             trailingIcon = trailingIcon,
         )
 
-        if (errorMessage != null) {
-            Text(
-                text = errorMessage,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier
-                    .padding(
-                        top = 4.dp,
-                        start = 16.dp,
-                    ),
-            )
+        AnimatedVisibility(visible = errorMessage != null) {
+            val errorText by remember { mutableStateOf(errorMessage) }
+            errorText?.let {
+                Text(
+                    text = it,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .padding(
+                            top = 4.dp,
+                            start = 16.dp,
+                        ),
+                )
+            }
         }
     }
 }

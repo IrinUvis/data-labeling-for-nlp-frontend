@@ -53,8 +53,8 @@ import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.smallPad
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginContent(
-    viewState: LoginViewState,
+fun LogInContent(
+    viewState: LogInViewState,
     onEmailChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     onLogInClicked: () -> Unit,
@@ -82,7 +82,7 @@ fun LoginContent(
             EmailInput(
                 text = viewState.credentials.email,
                 onTextChanged = onEmailChanged,
-                errorMessage = (viewState as? LoginViewState.Active)?.emailInputErrorMessage?.getString(),
+                errorMessage = (viewState as? LogInViewState.Active)?.emailInputErrorMessage?.getString(),
                 enabled = viewState.inputsEnabled,
             )
 
@@ -91,27 +91,29 @@ fun LoginContent(
             PasswordInput(
                 text = viewState.credentials.password,
                 onTextChanged = onPasswordChanged,
-                errorMessage = (viewState as? LoginViewState.Active)?.passwordInputErrorMessage?.getString(),
+                errorMessage = (viewState as? LogInViewState.Active)?.passwordInputErrorMessage?.getString(),
                 enabled = viewState.inputsEnabled,
             )
 
             AnimatedSubmissionError(viewState)
 
             VerticalSpacer(height = mediumPadding)
+            
+            Row {
+                SignUpButton(
+                    onClick = onSignUpClicked,
+                    enabled = viewState.inputsEnabled,
+                    isSubmittingSignUp = viewState is LogInViewState.Submitting.SignUp,
+                )
+                
+                HorizontalSpacer(width = mediumPadding)
 
-            LogInButton(
-                onClick = onLogInClicked,
-                enabled = viewState.inputsEnabled,
-                isSubmittingLogIn = viewState is LoginViewState.Submitting.LogIn,
-            )
-
-            VerticalSpacer(height = smallPadding)
-
-            SignUpButton(
-                onClick = onSignUpClicked,
-                enabled = viewState.inputsEnabled,
-                isSubmittingSignUp = viewState is LoginViewState.Submitting.SignUp,
-            )
+                LogInButton(
+                    onClick = onLogInClicked,
+                    enabled = viewState.inputsEnabled,
+                    isSubmittingLogIn = viewState is LogInViewState.Submitting.LogIn,
+                )
+            }
 
             VerticalSpacer(height = WindowInsets.ime.asPaddingValues().calculateBottomPadding())
         }
@@ -201,16 +203,17 @@ private fun PasswordInput(
 }
 
 @Composable
-private fun AnimatedSubmissionError(viewState: LoginViewState) {
-    AnimatedVisibility(visible = viewState is LoginViewState.SubmissionError) {
+private fun AnimatedSubmissionError(viewState: LogInViewState) {
+    AnimatedVisibility(visible = viewState is LogInViewState.SubmissionError) {
         val context = LocalContext.current
         val errorMessage by remember {
-            mutableStateOf((viewState as? LoginViewState.SubmissionError)?.errorMessage?.getString(
+            mutableStateOf((viewState as? LogInViewState.SubmissionError)?.errorMessage?.getString(
                 context))
         }
         errorMessage?.let {
-            Text(                modifier = Modifier
-                .padding(top = 12.dp),
+            Text(
+                modifier = Modifier
+                    .padding(top = 12.dp),
                 text = it,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium,

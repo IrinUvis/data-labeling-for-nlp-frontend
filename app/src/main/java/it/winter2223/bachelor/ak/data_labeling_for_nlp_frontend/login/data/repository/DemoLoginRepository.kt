@@ -1,7 +1,7 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.repository
 
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.Credentials
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.LoginException
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.LogInException
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.dto.RefreshTokenOutput
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.dto.UserOutput
 import kotlinx.coroutines.delay
@@ -24,9 +24,9 @@ class DemoLoginRepository @Inject constructor() : LoginRepository {
         @Suppress("MagicNumber")
         delay(2000)
         return if (credentials.email.isEmpty()) {
-            Result.failure(LoginException.EmptyCredentialsException())
+            Result.failure(LogInException.EmptyCredentialsException())
         } else {
-            Result.failure(LoginException.InvalidCredentialsException())
+            Result.failure(LogInException.InvalidCredentialsException())
         }
     }
 

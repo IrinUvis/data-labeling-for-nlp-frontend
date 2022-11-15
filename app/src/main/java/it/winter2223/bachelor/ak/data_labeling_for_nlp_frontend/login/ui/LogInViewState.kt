@@ -3,20 +3,20 @@ package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.ui
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.UiText
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.Credentials
 
-sealed class LoginViewState(
+sealed class LogInViewState(
     open val credentials: Credentials,
     open val inputsEnabled: Boolean = true,
 ) {
-    object Initial : LoginViewState(credentials = Credentials())
+    object Initial : LogInViewState(credentials = Credentials())
 
     data class Active(
         override val credentials: Credentials,
         val emailInputErrorMessage: UiText? = null,
         val passwordInputErrorMessage: UiText? = null,
-    ) : LoginViewState(credentials = credentials)
+    ) : LogInViewState(credentials = credentials)
 
     sealed class Submitting(override val credentials: Credentials) :
-        LoginViewState(
+        LogInViewState(
             credentials = credentials,
             inputsEnabled = false,
         ) {
@@ -30,9 +30,9 @@ sealed class LoginViewState(
     data class SubmissionError(
         override val credentials: Credentials,
         val errorMessage: UiText,
-    ) : LoginViewState(credentials = credentials)
+    ) : LogInViewState(credentials = credentials)
 
-    object Completed : LoginViewState(
+    object Completed : LogInViewState(
         credentials = Credentials(),
         inputsEnabled = false,
     )

@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.R
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.UiText
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.Credentials
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.LoginException
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.LogInException
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.Token
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.dto.UserOutput
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.repository.LoginRepository
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class LogInViewModel @Inject constructor(
     private val loginRepository: LoginRepository,
     private val tokenRepository: TokenRepository,
 ) : ViewModel() {
@@ -28,17 +28,17 @@ class LoginViewModel @Inject constructor(
         const val TAG = "LoginVM"
     }
 
-    private val _viewState: MutableStateFlow<LoginViewState> = MutableStateFlow(
-        value = LoginViewState.Initial
+    private val _viewState: MutableStateFlow<LogInViewState> = MutableStateFlow(
+        value = LogInViewState.Initial
     )
-    val viewState: StateFlow<LoginViewState> = _viewState
+    val viewState: StateFlow<LogInViewState> = _viewState
 
     fun onEmailChanged(newEmail: String) {
         val currentCredentials = _viewState.value.credentials
         val currentPasswordErrorMessage =
-            (_viewState.value as? LoginViewState.Active)?.passwordInputErrorMessage
+            (_viewState.value as? LogInViewState.Active)?.passwordInputErrorMessage
 
-        _viewState.value = LoginViewState.Active(
+        _viewState.value = LogInViewState.Active(
             credentials = currentCredentials.withUpdatedEmail(newEmail),
             emailInputErrorMessage = null,
             passwordInputErrorMessage = currentPasswordErrorMessage,
@@ -48,9 +48,9 @@ class LoginViewModel @Inject constructor(
     fun onPasswordChanged(newPassword: String) {
         val currentCredentials = _viewState.value.credentials
         val currentEmailErrorMessage =
-            (_viewState.value as? LoginViewState.Active)?.emailInputErrorMessage
+            (_viewState.value as? LogInViewState.Active)?.emailInputErrorMessage
 
-        _viewState.value = LoginViewState.Active(
+        _viewState.value = LogInViewState.Active(
             credentials = currentCredentials.withUpdatedPassword(newPassword),
             emailInputErrorMessage = currentEmailErrorMessage,
             passwordInputErrorMessage = null,
@@ -60,7 +60,7 @@ class LoginViewModel @Inject constructor(
     fun onLogInPressed() {
         val currentCredentials = _viewState.value.credentials
 
-        _viewState.value = LoginViewState.Submitting.LogIn(
+        _viewState.value = LogInViewState.Submitting.LogIn(
             credentials = currentCredentials,
         )
 
@@ -76,7 +76,7 @@ class LoginViewModel @Inject constructor(
     fun onSignUpPressed() {
         val currentCredentials = _viewState.value.credentials
 
-        _viewState.value = LoginViewState.Submitting.SignUp(
+        _viewState.value = LogInViewState.Submitting.SignUp(
             credentials = currentCredentials,
         )
 
@@ -103,18 +103,18 @@ class LoginViewModel @Inject constructor(
                 )
                 val token = tokenRepository.tokenFlow().first().toString()
                 Log.d(TAG, token)
-                _viewState.value = LoginViewState.Completed
+                _viewState.value = LogInViewState.Completed
             },
             onFailure = { exception ->
                 when (exception) {
-                    is LoginException.InvalidCredentialsException -> {
-                        _viewState.value = LoginViewState.SubmissionError(
+                    is LogInException.InvalidCredentialsException -> {
+                        _viewState.value = LogInViewState.SubmissionError(
                             credentials = logInCredentials,
                             errorMessage = UiText.ResourceText(R.string.invalidCredentials)
                         )
                     }
-                    is LoginException.EmptyCredentialsException -> {
-                        _viewState.value = LoginViewState.Active(
+                    is LogInException.EmptyCredentialsException -> {
+                        _viewState.value = LogInViewState.Active(
                             credentials = logInCredentials,
                             emailInputErrorMessage = UiText.ResourceText(R.string.emptyEmailInputErrorMessage),
                             passwordInputErrorMessage = UiText.ResourceText(R.string.emptyPasswordInputErrorMessage),
