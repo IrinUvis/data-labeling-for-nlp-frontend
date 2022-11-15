@@ -15,4 +15,7 @@
     <string name="emailIconContentDescription">Email icon</string>
     <string name="clearIconContentDescription">Clear icon</string>
     <string name="lockIconContentDescription">Lock icon</string>
+    <string name="invalidCredentials">The provided credentials are invalid</string>
+    <string name="emptyEmailInputErrorMessage">Email cannot be empty</string>
+    <string name="emptyPasswordInputErrorMessage">Password cannot be empty</string>
 </resources>

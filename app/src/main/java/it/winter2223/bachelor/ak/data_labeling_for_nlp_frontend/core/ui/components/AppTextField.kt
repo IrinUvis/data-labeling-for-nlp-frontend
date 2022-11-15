@@ -74,6 +74,7 @@ fun AppTextField(
             Text(
                 text = errorMessage,
                 color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .padding(
                         top = 4.dp,

@@ -40,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.R
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.components.AppTextField
@@ -208,11 +209,12 @@ private fun AnimatedSubmissionError(viewState: LoginViewState) {
                 context))
         }
         errorMessage?.let {
-            Text(
+            Text(                modifier = Modifier
+                .padding(top = 12.dp),
                 text = it,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.error,
-                modifier = Modifier
-                    .padding(top = 12.dp),
             )
         }
     }

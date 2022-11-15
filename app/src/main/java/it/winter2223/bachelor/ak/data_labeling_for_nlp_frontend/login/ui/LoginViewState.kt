@@ -1,6 +1,7 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.ui
 
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.UiText
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.Credentials
 
 sealed class LoginViewState(
     open val credentials: Credentials,
@@ -36,14 +37,3 @@ sealed class LoginViewState(
         inputsEnabled = false,
     )
 }
-
-data class Credentials(
-    val email: String = "",
-    val password: String = "",
-)
-
-fun Credentials.withUpdatedEmail(newEmail: String) =
-    Credentials(email = newEmail, password = password)
-
-fun Credentials.withUpdatedPassword(newPassword: String) =
-    Credentials(email = email, password = newPassword)
