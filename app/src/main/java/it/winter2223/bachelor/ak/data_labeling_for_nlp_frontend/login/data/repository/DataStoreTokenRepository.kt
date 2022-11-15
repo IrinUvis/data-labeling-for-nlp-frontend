@@ -14,8 +14,6 @@ class DataStoreTokenRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
 ) : TokenRepository {
     companion object {
-        private const val TAG = "DataStoreTokenRepository"
-
         private object TokenPreferencesKeys {
             val AUTH_TOKEN = stringPreferencesKey("auth_token")
             val REFRESH_TOKEN = stringPreferencesKey("refresh_token")

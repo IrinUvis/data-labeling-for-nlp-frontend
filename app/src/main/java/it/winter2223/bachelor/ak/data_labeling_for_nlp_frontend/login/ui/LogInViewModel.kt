@@ -7,22 +7,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.R
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.UiText
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.Credentials
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.LogInException
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.Token
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.dto.UserOutput
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.repository.LoginRepository
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.repository.TokenRepository
-import kotlinx.coroutines.coroutineScope
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.LogInResult
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.usecase.AuthenticationActivity
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.usecase.CredentialsLogInOrSignUpUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LogInViewModel @Inject constructor(
-    private val loginRepository: LoginRepository,
-    private val tokenRepository: TokenRepository,
+    private val credentialsLogInOrSignUpUseCase: CredentialsLogInOrSignUpUseCase,
 ) : ViewModel() {
     companion object {
         const val TAG = "LoginVM"
@@ -39,7 +34,7 @@ class LogInViewModel @Inject constructor(
             (_viewState.value as? LogInViewState.Active)?.passwordInputErrorMessage
 
         _viewState.value = LogInViewState.Active(
-            credentials = currentCredentials.withUpdatedEmail(newEmail),
+            credentials = currentCredentials.withUpdatedEmail(newEmail.trim()),
             emailInputErrorMessage = null,
             passwordInputErrorMessage = currentPasswordErrorMessage,
         )
@@ -51,7 +46,7 @@ class LogInViewModel @Inject constructor(
             (_viewState.value as? LogInViewState.Active)?.emailInputErrorMessage
 
         _viewState.value = LogInViewState.Active(
-            credentials = currentCredentials.withUpdatedPassword(newPassword),
+            credentials = currentCredentials.withUpdatedPassword(newPassword.trim()),
             emailInputErrorMessage = currentEmailErrorMessage,
             passwordInputErrorMessage = null,
         )
@@ -65,8 +60,12 @@ class LogInViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
-            val logInResult = loginRepository.logIn(currentCredentials)
-            handleLoginResult(
+            val logInResult =
+                credentialsLogInOrSignUpUseCase(
+                    credentials = currentCredentials,
+                    authenticationActivity = AuthenticationActivity.LogIn,
+                )
+            handleLogInResult(
                 logInCredentials = currentCredentials,
                 result = logInResult,
             )
@@ -81,48 +80,56 @@ class LogInViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
-            val signUpResult = loginRepository.signUp(currentCredentials)
-            handleLoginResult(
+            val logInResult = credentialsLogInOrSignUpUseCase(
+                credentials = currentCredentials,
+                authenticationActivity = AuthenticationActivity.SignUp,
+            )
+            Log.d(TAG, logInResult.toString())
+            handleLogInResult(
                 logInCredentials = currentCredentials,
-                result = signUpResult,
+                result = logInResult,
             )
         }
     }
 
-    private suspend fun handleLoginResult(
+    private fun handleLogInResult(
         logInCredentials: Credentials,
-        result: Result<UserOutput>,
-    ) = coroutineScope {
-        result.fold(
-            onSuccess = {
-                tokenRepository.storeToken(
-                    Token(
-                        authToken = it.idToken,
-                        refreshToken = it.refreshToken,
-                    )
-                )
-                val token = tokenRepository.tokenFlow().first().toString()
-                Log.d(TAG, token)
-                _viewState.value = LogInViewState.Completed
-            },
-            onFailure = { exception ->
-                when (exception) {
-                    is LogInException.InvalidCredentialsException -> {
-                        _viewState.value = LogInViewState.SubmissionError(
-                            credentials = logInCredentials,
-                            errorMessage = UiText.ResourceText(R.string.invalidCredentials)
-                        )
-                    }
-                    is LogInException.EmptyCredentialsException -> {
-                        _viewState.value = LogInViewState.Active(
-                            credentials = logInCredentials,
-                            emailInputErrorMessage = UiText.ResourceText(R.string.emptyEmailInputErrorMessage),
-                            passwordInputErrorMessage = UiText.ResourceText(R.string.emptyPasswordInputErrorMessage),
-                        )
-                    }
+        result: LogInResult,
+    ) {
+        _viewState.value = when (result) {
+            is LogInResult.Failure.InvalidCredentials -> {
+                var emailInputErrorMessage: UiText? = null
+                var passwordInputErrorMessage: UiText? = null
+                if (result.emptyEmail) {
+                    emailInputErrorMessage =
+                        UiText.ResourceText(R.string.emptyEmailInputErrorMessage)
+                } else if (result.badEmailFormat) {
+                    emailInputErrorMessage = UiText.ResourceText(R.string.incorrectEmailFormat)
                 }
+                if (result.emptyPassword) {
+                    passwordInputErrorMessage =
+                        UiText.ResourceText(R.string.emptyPasswordInputErrorMessage)
+
+                } else if (result.passwordLessThanSixCharacters) {
+                    passwordInputErrorMessage =
+                        UiText.ResourceText(R.string.passwordCannotBeLessThanSixCharacters)
+                }
+                LogInViewState.Active(
+                    credentials = logInCredentials,
+                    emailInputErrorMessage = emailInputErrorMessage,
+                    passwordInputErrorMessage = passwordInputErrorMessage,
+                )
             }
-        )
+            is LogInResult.Failure.WrongCredentials -> LogInViewState.SubmissionError(
+                credentials = logInCredentials,
+                errorMessage = UiText.ResourceText(R.string.wrongCredentials)
+            )
+            is LogInResult.Failure.Unknown -> LogInViewState.SubmissionError(
+                credentials = logInCredentials,
+                errorMessage = UiText.ResourceText(R.string.unknownErrorOccurred)
+            )
+            is LogInResult.Success -> LogInViewState.Completed
+        }
     }
 
 }

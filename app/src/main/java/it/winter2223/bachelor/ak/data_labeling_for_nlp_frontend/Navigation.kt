@@ -26,7 +26,7 @@ fun AppNavHost(
             LogInScreen(navController = navController)
         }
         composable(AppDestination.CommentLabeling.route) {
-            CommentLabelingScreen(navController = navController)
+            CommentLabelingScreen()
         }
     }
 }
