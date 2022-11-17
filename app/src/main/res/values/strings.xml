@@ -15,10 +15,10 @@
     <string name="emailIconContentDescription">Email icon</string>
     <string name="clearIconContentDescription">Clear icon</string>
     <string name="lockIconContentDescription">Lock icon</string>
-    <string name="wrongCredentials">The provided credentials are wrong</string>
+    <string name="wrongCredentialsErrorMessage">The provided credentials are wrong</string>
     <string name="emptyEmailInputErrorMessage">Email cannot be empty</string>
     <string name="emptyPasswordInputErrorMessage">Password cannot be empty</string>
-    <string name="incorrectEmailFormat">Email in incorrect format</string>
-    <string name="passwordCannotBeLessThanSixCharacters">Password must have at least 6 characters</string>
-    <string name="unknownErrorOccurred">An unknown error has occurred</string>
+    <string name="incorrectEmailFormatErrorMessage">Email in incorrect format</string>
+    <string name="passwordCannotBeLessThanSixCharactersErrorMessage">Password must have at least 6 characters</string>
+    <string name="unknownErrorOccurredErrorMessage">An unknown error has occurred</string>
 </resources>

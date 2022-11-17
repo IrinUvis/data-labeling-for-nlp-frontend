@@ -11,6 +11,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.model.Emotion
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.CommentCard
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.CommentLabelingTopBar
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.EmotionSelector
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.ProgressSection
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.bigPadding
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.components.VerticalSpacer
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.mediumPadding

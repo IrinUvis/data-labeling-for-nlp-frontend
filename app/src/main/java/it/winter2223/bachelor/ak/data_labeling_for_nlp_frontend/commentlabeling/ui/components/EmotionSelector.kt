@@ -1,4 +1,4 @@
-package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui
+package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

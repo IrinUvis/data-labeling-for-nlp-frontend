@@ -105,7 +105,7 @@ class LogInViewModel @Inject constructor(
                     emailInputErrorMessage =
                         UiText.ResourceText(R.string.emptyEmailInputErrorMessage)
                 } else if (result.badEmailFormat) {
-                    emailInputErrorMessage = UiText.ResourceText(R.string.incorrectEmailFormat)
+                    emailInputErrorMessage = UiText.ResourceText(R.string.incorrectEmailFormatErrorMessage)
                 }
                 if (result.emptyPassword) {
                     passwordInputErrorMessage =
@@ -113,7 +113,7 @@ class LogInViewModel @Inject constructor(
 
                 } else if (result.passwordLessThanSixCharacters) {
                     passwordInputErrorMessage =
-                        UiText.ResourceText(R.string.passwordCannotBeLessThanSixCharacters)
+                        UiText.ResourceText(R.string.passwordCannotBeLessThanSixCharactersErrorMessage)
                 }
                 LogInViewState.Active(
                     credentials = logInCredentials,
@@ -123,15 +123,15 @@ class LogInViewModel @Inject constructor(
             }
             is LogInResult.Failure.WrongCredentials -> LogInViewState.SubmissionError(
                 credentials = logInCredentials,
-                errorMessage = UiText.ResourceText(R.string.wrongCredentials)
+                errorMessage = UiText.ResourceText(R.string.wrongCredentialsErrorMessage)
             )
             is LogInResult.Failure.DataStore -> LogInViewState.SubmissionError(
                 credentials = logInCredentials,
-                errorMessage = UiText.ResourceText(R.string.unknownErrorOccurred)
+                errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
             )
             is LogInResult.Failure.Unknown -> LogInViewState.SubmissionError(
                 credentials = logInCredentials,
-                errorMessage = UiText.ResourceText(R.string.unknownErrorOccurred)
+                errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
             )
             is LogInResult.Success -> LogInViewState.Completed
         }
