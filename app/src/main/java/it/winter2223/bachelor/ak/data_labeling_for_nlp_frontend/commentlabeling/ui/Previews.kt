@@ -3,21 +3,23 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui
 
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.R
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Comment
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Emotion
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.theme.AppTheme
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.model.Comment
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.model.Emotion
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.CommentCard
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.CommentLabelingTopBar
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.EmotionSelector
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.ProgressSection
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.components.PreviewThemeWithBackground
 
 private const val NUMBER_OF_COMMENTS_FOR_PREVIEWS = 5
 
 @Preview(name = "Dark themed Active Comment Labeling Content", showBackground = true)
 @Composable
-private fun DarkActiveCommentLabelingContent() {
+private fun DarkActiveCommentLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         ActiveCommentLabelingContent(
             viewState = CommentLabelingViewState.Active(
@@ -40,7 +42,7 @@ private fun DarkActiveCommentLabelingContent() {
 
 @Preview(name = "Light themed Active Comment Labeling Content", showBackground = true)
 @Composable
-private fun LightActiveCommentLabelingContent() {
+private fun LightActiveCommentLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         ActiveCommentLabelingContent(
             viewState = CommentLabelingViewState.Active(
@@ -63,7 +65,7 @@ private fun LightActiveCommentLabelingContent() {
 
 @Preview(name = "Dark themed Loading Comment Labeling Content", showBackground = true)
 @Composable
-private fun DarkLoadingCommentLabelingContent() {
+private fun DarkLoadingCommentLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         LoadingCommentLabelingContent()
     }
@@ -71,7 +73,7 @@ private fun DarkLoadingCommentLabelingContent() {
 
 @Preview(name = "Light themed Loading Comment Labeling Content", showBackground = true)
 @Composable
-private fun LightLoadingCommentLabelingContent() {
+private fun LightLoadingCommentLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         LoadingCommentLabelingContent()
     }
@@ -79,7 +81,7 @@ private fun LightLoadingCommentLabelingContent() {
 
 @Preview(name = "Dark themed Top app bar", showBackground = true)
 @Composable
-private fun DarkCommentLabelingTopBar() {
+private fun DarkCommentLabelingTopBarPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         CommentLabelingTopBar(
             onBackButtonClicked = { },
@@ -90,7 +92,7 @@ private fun DarkCommentLabelingTopBar() {
 
 @Preview(name = "Light themed Top app bar", showBackground = true)
 @Composable
-private fun LightCommentLabelingTopBar() {
+private fun LightCommentLabelingTopBarPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         CommentLabelingTopBar(
             onBackButtonClicked = { },
@@ -105,7 +107,7 @@ private fun LightCommentLabelingTopBar() {
     heightDp = 150,
 )
 @Composable
-private fun DarkCommentCardWithShortText() {
+private fun DarkCommentCardWithShortTextPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         CommentCard(
             scrollState = rememberScrollState(),
@@ -121,7 +123,7 @@ private fun DarkCommentCardWithShortText() {
     heightDp = 150,
 )
 @Composable
-private fun DarkCommentCardWithLongText() {
+private fun DarkCommentCardWithLongTextPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         CommentCard(
             scrollState = rememberScrollState(),
@@ -136,7 +138,7 @@ private fun DarkCommentCardWithLongText() {
     heightDp = 150,
 )
 @Composable
-private fun LightCommentCardWithShortText() {
+private fun LightCommentCardWithShortTextPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         CommentCard(
             scrollState = rememberScrollState(),
@@ -151,7 +153,7 @@ private fun LightCommentCardWithShortText() {
     heightDp = 150,
 )
 @Composable
-private fun LightCommentCardWithLongText() {
+private fun LightCommentCardWithLongTextPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         CommentCard(
             scrollState = rememberScrollState(),
@@ -164,7 +166,7 @@ private fun LightCommentCardWithLongText() {
     name = "Dark themed Emotion selector without emotion selected", showBackground = true
 )
 @Composable
-private fun DarkEmotionSelectorWithoutEmotionSelected() {
+private fun DarkEmotionSelectorWithoutEmotionSelectedPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         EmotionSelector(
             currentComment = Comment(text = stringResource(R.string.shortPreviewText)),
@@ -177,7 +179,7 @@ private fun DarkEmotionSelectorWithoutEmotionSelected() {
     name = "Dark themed Emotion selector with emotion selected", showBackground = true
 )
 @Composable
-private fun DarkEmotionSelectorWithEmotionSelected() {
+private fun DarkEmotionSelectorWithEmotionSelectedPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         EmotionSelector(
             currentComment = Comment(
@@ -193,7 +195,7 @@ private fun DarkEmotionSelectorWithEmotionSelected() {
     name = "Light themed Emotion selector without emotion selected", showBackground = true
 )
 @Composable
-private fun LightEmotionSelectorWithoutEmotionSelected() {
+private fun LightEmotionSelectorWithoutEmotionSelectedPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         EmotionSelector(
             currentComment = Comment(text = stringResource(R.string.shortPreviewText)),
@@ -206,7 +208,7 @@ private fun LightEmotionSelectorWithoutEmotionSelected() {
     name = "Light themed Emotion selector with emotion selected", showBackground = true
 )
 @Composable
-private fun LightEmotionSelectorWithEmotionSelected() {
+private fun LightEmotionSelectorWithEmotionSelectedPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         EmotionSelector(
             currentComment = Comment(
@@ -223,7 +225,7 @@ private fun LightEmotionSelectorWithEmotionSelected() {
     showBackground = true,
 )
 @Composable
-private fun DarkProgressSectionForFirstElementWithoutSelectedEmotion() {
+private fun DarkProgressSectionForFirstElementWithoutSelectedEmotionPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         ProgressSection(
             currentCommentIndex = 0,
@@ -240,7 +242,7 @@ private fun DarkProgressSectionForFirstElementWithoutSelectedEmotion() {
     showBackground = true,
 )
 @Composable
-private fun DarkProgressSectionForSecondElementWithSelectedEmotion() {
+private fun DarkProgressSectionForSecondElementWithSelectedEmotionPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         ProgressSection(
             currentCommentIndex = 1,
@@ -257,7 +259,7 @@ private fun DarkProgressSectionForSecondElementWithSelectedEmotion() {
     showBackground = true,
 )
 @Composable
-private fun LightProgressSectionForFirstElementWithoutSelectedEmotion() {
+private fun LightProgressSectionForFirstElementWithoutSelectedEmotionPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         ProgressSection(
             currentCommentIndex = 0,
@@ -274,7 +276,7 @@ private fun LightProgressSectionForFirstElementWithoutSelectedEmotion() {
     showBackground = true,
 )
 @Composable
-private fun LightProgressSectionForSecondElementWithSelectedEmotion() {
+private fun LightProgressSectionForSecondElementWithSelectedEmotionPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         ProgressSection(
             currentCommentIndex = 1,
@@ -286,11 +288,4 @@ private fun LightProgressSectionForSecondElementWithSelectedEmotion() {
     }
 }
 
-@Composable
-private fun PreviewThemeWithBackground(darkTheme: Boolean, content: @Composable () -> Unit) {
-    AppTheme(
-        darkTheme = darkTheme,
-    ) {
-        Surface(color = MaterialTheme.colorScheme.background, content = content)
-    }
-}
+

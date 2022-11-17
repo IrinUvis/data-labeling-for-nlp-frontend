@@ -1,4 +1,4 @@
-package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui
+package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Comment
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Emotion
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.model.Comment
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.model.Emotion
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.buttonHorizontalPadding
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.buttonVerticalPadding
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.smallPadding

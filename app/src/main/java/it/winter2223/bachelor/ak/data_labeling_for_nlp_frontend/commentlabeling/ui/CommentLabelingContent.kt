@@ -2,7 +2,7 @@ package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Emotion
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.model.Emotion
 
 @Composable
 fun CommentLabelingContent(

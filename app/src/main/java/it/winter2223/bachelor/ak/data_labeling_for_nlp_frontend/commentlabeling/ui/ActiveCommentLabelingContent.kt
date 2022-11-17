@@ -1,10 +1,8 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,8 +10,13 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Emotion
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.model.Emotion
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.CommentCard
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.CommentLabelingTopBar
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.EmotionSelector
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components.ProgressSection
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.bigPadding
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.components.VerticalSpacer
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.mediumPadding
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.smallPadding
 
@@ -70,7 +73,7 @@ fun ScaffoldBody(
             text = viewState.currentComment.text,
         )
 
-        Spacer(modifier = Modifier.height(mediumPadding))
+        VerticalSpacer(height = mediumPadding)
 
         EmotionSelector(
             modifier = Modifier
@@ -81,7 +84,7 @@ fun ScaffoldBody(
             onEmotionSelected = onEmotionSelected,
         )
 
-        Spacer(modifier = Modifier.height(mediumPadding))
+        VerticalSpacer(height = mediumPadding)
 
         ProgressSection(
             modifier = Modifier.fillMaxWidth(),

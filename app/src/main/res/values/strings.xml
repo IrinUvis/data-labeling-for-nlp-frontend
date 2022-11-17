@@ -8,4 +8,17 @@
     <string name="previousButtonText">Previous</string>
     <string name="shortPreviewText">This is a preview text</string>
     <string name="longPreviewText">This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text This is a preview text</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="logIn">Log in</string>
+    <string name="signUp">Sign up</string>
+    <string name="emailIconContentDescription">Email icon</string>
+    <string name="clearIconContentDescription">Clear icon</string>
+    <string name="lockIconContentDescription">Lock icon</string>
+    <string name="wrongCredentialsErrorMessage">The provided credentials are wrong</string>
+    <string name="emptyEmailInputErrorMessage">Email cannot be empty</string>
+    <string name="emptyPasswordInputErrorMessage">Password cannot be empty</string>
+    <string name="incorrectEmailFormatErrorMessage">Email in incorrect format</string>
+    <string name="passwordCannotBeLessThanSixCharactersErrorMessage">Password must have at least 6 characters</string>
+    <string name="unknownErrorOccurredErrorMessage">An unknown error has occurred</string>
 </resources>

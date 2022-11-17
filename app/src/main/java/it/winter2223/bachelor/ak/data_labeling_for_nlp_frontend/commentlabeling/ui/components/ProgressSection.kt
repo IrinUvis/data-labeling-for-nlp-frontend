@@ -1,11 +1,8 @@
-package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui
+package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedButton
@@ -17,8 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.R
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.domain.model.Emotion
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.model.Emotion
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.bigPadding
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.components.HorizontalSpacer
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.components.VerticalSpacer
 
 @Composable
 fun ProgressSection(
@@ -39,7 +38,7 @@ fun ProgressSection(
                 commentIndex = currentCommentIndex,
             )
 
-            Spacer(modifier = Modifier.width(bigPadding))
+            HorizontalSpacer(width = bigPadding)
 
             NextCommentButton(
                 onNextButtonClicked = onNextButtonClicked,
@@ -47,7 +46,7 @@ fun ProgressSection(
             )
         }
 
-        Spacer(modifier = Modifier.height(bigPadding))
+        VerticalSpacer(height = bigPadding)
 
         AnimatedLinearProgressIndicator(progress = progress)
     }

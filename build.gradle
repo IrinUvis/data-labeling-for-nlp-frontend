@@ -33,6 +33,12 @@ buildscript {
         // https://developer.android.com/jetpack/androidx/releases/hilt
         hiltNavigationComposeVersion = "1.0.0"
 
+        // https://developer.android.com/jetpack/androidx/releases/datastore
+        dataStoreVersion = "1.0.0"
+
+        // https://developer.android.com/jetpack/androidx/releases/navigation
+        navigationComposeVersion = "2.5.3"
+
         // https://developer.android.com/jetpack/androidx/releases/test
         espressoVersion = "3.4.0"
         androidJunitVersion = "1.1.3"

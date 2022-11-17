@@ -1,4 +1,4 @@
-package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui
+package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui.components
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ScrollState
@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.components.verticalScrollbar
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.mediumPadding
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.smallPadding
 
