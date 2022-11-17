@@ -7,8 +7,8 @@ import dagger.hilt.components.SingletonComponent
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.repository.CommentRepository
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.data.repository.NetworkCommentRepository
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.repository.DataStoreTokenRepository
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.repository.DemoLoginRepository
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.repository.LoginRepository
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.repository.DemoLogInRepository
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.repository.LogInRepository
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.repository.TokenRepository
 
 @Module
@@ -27,6 +27,6 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindLoginRepository(
-        loginRepository: DemoLoginRepository
-    ): LoginRepository
+        logInRepository: DemoLogInRepository
+    ): LogInRepository
 }

@@ -6,10 +6,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.R
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.UiText
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.Credentials
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.LogInResult
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.usecase.AuthenticationActivity
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.usecase.CredentialsLogInOrSignUpUseCase
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.domain.model.Credentials
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.domain.model.LogInResult
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.domain.model.AuthenticationActivity
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.domain.usecase.CredentialsLogInOrSignUpUseCase
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.ui.model.UiCredentials
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -62,7 +63,7 @@ class LogInViewModel @Inject constructor(
         viewModelScope.launch {
             val logInResult =
                 credentialsLogInOrSignUpUseCase(
-                    credentials = currentCredentials,
+                    credentials = currentCredentials.toDomainCredentials(),
                     authenticationActivity = AuthenticationActivity.LogIn,
                 )
             handleLogInResult(
@@ -81,7 +82,7 @@ class LogInViewModel @Inject constructor(
 
         viewModelScope.launch {
             val logInResult = credentialsLogInOrSignUpUseCase(
-                credentials = currentCredentials,
+                credentials = currentCredentials.toDomainCredentials(),
                 authenticationActivity = AuthenticationActivity.SignUp,
             )
             Log.d(TAG, logInResult.toString())
@@ -93,7 +94,7 @@ class LogInViewModel @Inject constructor(
     }
 
     private fun handleLogInResult(
-        logInCredentials: Credentials,
+        logInCredentials: UiCredentials,
         result: LogInResult,
     ) {
         _viewState.value = when (result) {
@@ -124,6 +125,10 @@ class LogInViewModel @Inject constructor(
                 credentials = logInCredentials,
                 errorMessage = UiText.ResourceText(R.string.wrongCredentials)
             )
+            is LogInResult.Failure.DataStore -> LogInViewState.SubmissionError(
+                credentials = logInCredentials,
+                errorMessage = UiText.ResourceText(R.string.unknownErrorOccurred)
+            )
             is LogInResult.Failure.Unknown -> LogInViewState.SubmissionError(
                 credentials = logInCredentials,
                 errorMessage = UiText.ResourceText(R.string.unknownErrorOccurred)
@@ -131,11 +136,6 @@ class LogInViewModel @Inject constructor(
             is LogInResult.Success -> LogInViewState.Completed
         }
     }
-
 }
 
-private fun Credentials.withUpdatedEmail(newEmail: String) =
-    Credentials(email = newEmail, password = password)
-
-private fun Credentials.withUpdatedPassword(newPassword: String) =
-    Credentials(email = email, password = newPassword)
+private fun UiCredentials.toDomainCredentials() = Credentials(email, password)

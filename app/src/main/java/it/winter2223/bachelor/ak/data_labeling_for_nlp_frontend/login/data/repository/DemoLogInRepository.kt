@@ -7,7 +7,7 @@ import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
-class DemoLoginRepository @Inject constructor() : LoginRepository {
+class DemoLogInRepository @Inject constructor() : LogInRepository {
     override suspend fun logIn(userInput: UserInput): Result<UserOutput> {
         @Suppress("MagicNumber")
         delay(2000)
@@ -37,7 +37,7 @@ class DemoLoginRepository @Inject constructor() : LoginRepository {
         delay(2000)
         return Result.success(
             RefreshTokenOutput(
-                authToken = "refreshedAuthToken",
+                idToken = "refreshedAuthToken",
                 refreshToken = "refreshedRefreshToken",
             )
         )

@@ -7,6 +7,7 @@ import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.AppDestination
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.repository.TokenRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +23,7 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch {
             // TODO: To be removed later on
             tokenRepository.clearToken()
-            val token = tokenRepository.getToken()
+            val token = tokenRepository.tokenFlow().first()
             val startingDestination = token?.let {
                 AppDestination.CommentLabeling
             } ?: AppDestination.LogIn

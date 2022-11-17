@@ -5,7 +5,7 @@ import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.dto.UserInput
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model.dto.UserOutput
 
-interface LoginRepository {
+interface LogInRepository {
     suspend fun logIn(userInput: UserInput): Result<UserOutput>
 
     suspend fun signUp(userInput: UserInput): Result<UserOutput>

@@ -1,4 +1,4 @@
-package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.data.model
+package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.domain.model
 
 sealed class LogInResult {
     object Success : LogInResult()
@@ -11,6 +11,8 @@ sealed class LogInResult {
             val emptyEmail: Boolean = false,
             val emptyPassword: Boolean = false,
         ) : Failure()
+
+        object DataStore : Failure()
 
         object Unknown : Failure()
 
