@@ -1,0 +1,33 @@
+package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.navigation
+
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.home.ui.HomeScreen
+
+object HomeDestination : AppDestination("home")
+
+fun NavGraphBuilder.homeScreen(
+    navController: NavController,
+) {
+    composable(HomeDestination.route) {
+        HomeScreen(navController = navController)
+    }
+}
+
+fun NavController.navigateToHome(
+    navOptions: NavOptions? = null
+) {
+    navigate(HomeDestination.route, navOptions = navOptions)
+}
+
+fun NavController.navigateToHome(
+    builder: (NavOptionsBuilder.() -> Unit)
+) {
+    navigateToHome(
+        navOptions = navOptions(builder)
+    )
+}

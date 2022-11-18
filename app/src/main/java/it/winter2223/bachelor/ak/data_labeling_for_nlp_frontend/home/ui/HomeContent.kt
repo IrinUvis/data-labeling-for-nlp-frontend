@@ -21,6 +21,9 @@ import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.mediumPa
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.smallPadding
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.home.ui.components.HomeTopBar
 
+private const val MIN_COMMENT_QUANTITY = 5
+private const val MAX_COMMENT_QUANTITY = 20
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeContent(
@@ -73,7 +76,7 @@ fun HomeContent(
                                 .animateContentSize(),
                             value = viewState.numberOfCommentsToLabel,
                             onValueChange = onNumberOfCommentsToLabelUpdated,
-                            range = 1..20,
+                            range = MIN_COMMENT_QUANTITY..MAX_COMMENT_QUANTITY,
                         )
                     }
                 }

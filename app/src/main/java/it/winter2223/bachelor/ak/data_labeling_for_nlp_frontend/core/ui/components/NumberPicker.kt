@@ -1,3 +1,4 @@
+@file:Suppress("MagicNumber")
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.components
 
 import androidx.compose.animation.core.Animatable
@@ -74,6 +75,7 @@ private fun <T> getItemIndexForOffset(
     return maxOf(0, minOf(indexOf, range.count() - 1))
 }
 
+@Suppress("LongMethod")
 @Composable
 fun <T> ListItemPicker(
     modifier: Modifier = Modifier,
@@ -236,9 +238,7 @@ fun <T> ListItemPicker(
 private fun Label(text: String, modifier: Modifier) {
     Text(
         modifier = modifier.pointerInput(Unit) {
-            detectTapGestures(onLongPress = {
-                // FIXME: Empty to disable text selection
-            })
+            detectTapGestures(onLongPress = { })
         },
         text = text,
         textAlign = TextAlign.Center,
