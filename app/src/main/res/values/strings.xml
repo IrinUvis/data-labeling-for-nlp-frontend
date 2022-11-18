@@ -3,7 +3,7 @@
     <string name="loadingComments">Loading comments</string>
     <string name="commentLabelingAppBarTitle">Emotion assignment</string>
     <string name="goToSettingsButtonContentDescription">Go to Settings button</string>
-    <string name="goBackToPreviousScreenButtonContentDescription">Go back to previous screen</string>
+    <string name="goBackToPreviousScreenButtonContentDescription">Go back to previous screen button</string>
     <string name="nextButtonText">Next</string>
     <string name="previousButtonText">Previous</string>
     <string name="shortPreviewText">This is a preview text</string>

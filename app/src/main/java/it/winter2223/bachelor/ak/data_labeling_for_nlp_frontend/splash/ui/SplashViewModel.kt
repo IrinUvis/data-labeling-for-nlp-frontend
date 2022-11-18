@@ -26,7 +26,7 @@ class SplashViewModel @Inject constructor(
             // TODO: To be removed later on
             clearTokenUseCase()
             val startingDestination = when (getTokenFlowUseCase()) {
-                is GetTokenFlowResult.Success -> AppDestination.CommentLabeling
+                is GetTokenFlowResult.Success -> AppDestination.Home
                 is GetTokenFlowResult.Failure -> AppDestination.LogIn
             }
 

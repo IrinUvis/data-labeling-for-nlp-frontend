@@ -1,6 +1,7 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.commentlabeling.ui
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,11 +18,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommentLabelingViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val commentRepository: CommentRepository,
 ) : ViewModel() {
     companion object {
         private const val TAG = "CommentLabelingVM"
-        private const val DEFAULT_COMMENT_QUANTITY = 10
     }
 
     private val _viewState: MutableStateFlow<CommentLabelingViewState> = MutableStateFlow(
@@ -29,9 +30,11 @@ class CommentLabelingViewModel @Inject constructor(
     )
     val viewState: StateFlow<CommentLabelingViewState> = _viewState
 
+    private val commentsQuantity: Int = checkNotNull(savedStateHandle["commentQuantity"])
+
     init {
         viewModelScope.launch {
-            loadComments(quantity = DEFAULT_COMMENT_QUANTITY)
+            loadComments(quantity = commentsQuantity)
         }
     }
 
@@ -79,7 +82,7 @@ class CommentLabelingViewModel @Inject constructor(
                             postComments(state.comments)
                         }
                         launch {
-                            loadComments(quantity = DEFAULT_COMMENT_QUANTITY)
+                            loadComments(quantity = commentsQuantity)
                         }
                         CommentLabelingViewState.Loading
                     }
