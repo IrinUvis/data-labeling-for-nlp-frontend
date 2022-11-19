@@ -24,7 +24,6 @@ class SplashViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            delay(2000)
             val startingDestination = when (val getTokenResult = getTokenFlowUseCase()) {
                 is GetTokenFlowResult.Success -> {
                     val token = getTokenResult.tokenFlow.first()
