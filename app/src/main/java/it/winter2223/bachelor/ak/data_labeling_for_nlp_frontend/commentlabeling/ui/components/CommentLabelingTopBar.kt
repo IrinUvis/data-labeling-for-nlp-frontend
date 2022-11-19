@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.R
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.core.ui.components.NavigateUpButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -25,14 +26,7 @@ fun CommentLabelingTopBar(
     TopAppBar(
         modifier = modifier,
         title = { Text(text = stringResource(R.string.commentLabelingAppBarTitle)) },
-        navigationIcon = {
-            IconButton(onClick = onBackButtonClicked) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = stringResource(R.string.goBackToPreviousScreenButtonContentDescription),
-                )
-            }
-        },
+        navigationIcon = { NavigateUpButton(onClick = onBackButtonClicked) },
         actions = {
             IconButton(onClick = onSettingsButtonClicked) {
                 Icon(

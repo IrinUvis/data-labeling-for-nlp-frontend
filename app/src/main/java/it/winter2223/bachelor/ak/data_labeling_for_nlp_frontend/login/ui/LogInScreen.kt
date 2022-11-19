@@ -4,24 +4,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.AppDestination
 
 @Composable
 fun LogInScreen(
     viewModel: LogInViewModel = hiltViewModel(),
-    navController: NavHostController,
+    navigateToHome: () -> Unit,
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
     LaunchedEffect(viewState.value) {
         val state = viewState.value
         if (state is LogInViewState.Completed) {
-            navController.navigate(AppDestination.CommentLabeling.route) {
-                popUpTo(AppDestination.LogIn.route) {
-                    inclusive = true
-                }
-            }
+            navigateToHome()
         }
     }
 

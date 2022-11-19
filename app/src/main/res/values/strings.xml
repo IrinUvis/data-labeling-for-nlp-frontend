@@ -3,7 +3,7 @@
     <string name="loadingComments">Loading comments</string>
     <string name="commentLabelingAppBarTitle">Emotion assignment</string>
     <string name="goToSettingsButtonContentDescription">Go to Settings button</string>
-    <string name="goBackToPreviousScreenButtonContentDescription">Go back to previous screen</string>
+    <string name="goBackToPreviousScreenButtonContentDescription">Go back to previous screen button</string>
     <string name="nextButtonText">Next</string>
     <string name="previousButtonText">Previous</string>
     <string name="shortPreviewText">This is a preview text</string>
@@ -21,4 +21,6 @@
     <string name="incorrectEmailFormatErrorMessage">Email in incorrect format</string>
     <string name="passwordCannotBeLessThanSixCharactersErrorMessage">Password must have at least 6 characters</string>
     <string name="unknownErrorOccurredErrorMessage">An unknown error has occurred</string>
+    <string name="labelCommentsHomeInstructions">Assign emotions to provided comments, in order to train AI, which will be able to recognize emotion from provided text</string>
+    <string name="labelComments">Label comments</string>
 </resources>

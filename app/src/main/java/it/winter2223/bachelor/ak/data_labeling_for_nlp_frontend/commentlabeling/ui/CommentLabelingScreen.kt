@@ -7,6 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun CommentLabelingScreen(
     viewModel: CommentLabelingViewModel = hiltViewModel(),
+    navigateUp: () -> Unit,
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
@@ -15,7 +16,7 @@ fun CommentLabelingScreen(
         onEmotionSelected = viewModel::onEmotionSelected,
         onPreviousButtonClicked = viewModel::goToPreviousComment,
         onNextButtonClicked = viewModel::goToNextComment,
-        onBackButtonClicked = { /* TODO */ },
+        onBackButtonClicked = navigateUp,
         onSettingsButtonClicked = { /* TODO */ },
     )
 }

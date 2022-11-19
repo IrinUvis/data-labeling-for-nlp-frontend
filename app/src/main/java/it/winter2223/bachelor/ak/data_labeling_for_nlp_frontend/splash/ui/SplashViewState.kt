@@ -1,6 +1,6 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.splash.ui
 
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.AppDestination
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.navigation.AppDestination
 
 sealed class SplashViewState {
     object Loading : SplashViewState()

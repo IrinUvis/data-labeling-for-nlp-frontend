@@ -9,24 +9,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.AppDestination
+import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.navigation.AppDestination
 
 @Composable
 fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel(),
-    navController: NavHostController
+    navigateToAppropriateStartingDestination: (AppDestination) -> Unit,
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
     LaunchedEffect(viewState.value) {
         val state = viewState.value
         if (state is SplashViewState.Completed) {
-            navController.navigate(state.destination.route) {
-                popUpTo(AppDestination.Splash.route) {
-                    inclusive = true
-                }
-            }
+            navigateToAppropriateStartingDestination(state.destination)
         }
     }
 
