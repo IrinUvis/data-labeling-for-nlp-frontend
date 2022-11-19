@@ -11,12 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".DataLabelingForNlpApp"
-        android:theme="@style/Theme.DataLabelingForNLPFrontend"
-        tools:targetApi="31">
+        android:theme="@style/Theme.AppSplash"
+        tools:targetApi="33">
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.DataLabelingForNLPFrontend"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Data Labeling for NLP frontend</string>
+    <string name="app_name">Comments labeling</string>
     <string name="loadingComments">Loading comments</string>
     <string name="commentLabelingAppBarTitle">Emotion assignment</string>
     <string name="goToSettingsButtonContentDescription">Go to Settings button</string>

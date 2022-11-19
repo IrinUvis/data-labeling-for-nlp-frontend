@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +17,7 @@ import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.navigation.AppNa
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 

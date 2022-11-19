@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend"
-        minSdk 21
+        minSdk 23
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -60,6 +60,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     implementation "androidx.hilt:hilt-navigation-compose:$hiltNavigationComposeVersion"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
+    implementation "androidx.core:core-splashscreen:$splashScreenVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
