@@ -21,4 +21,6 @@
     <string name="incorrectEmailFormatErrorMessage">Email in incorrect format</string>
     <string name="passwordCannotBeLessThanSixCharactersErrorMessage">Password must have at least 6 characters</string>
     <string name="unknownErrorOccurredErrorMessage">An unknown error has occurred</string>
+    <string name="labelCommentsHomeInstructions">Assign emotions to provided comments, in order to train AI, which will be able to recognize emotion from provided text</string>
+    <string name="labelComments">Label comments</string>
 </resources>

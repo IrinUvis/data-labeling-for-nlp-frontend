@@ -42,6 +42,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
+/// Taken from https://github.com/ChargeMap/Compose-NumberPicker, and modified to use Material 3
 @Composable
 fun NumberPicker(
     modifier: Modifier = Modifier,

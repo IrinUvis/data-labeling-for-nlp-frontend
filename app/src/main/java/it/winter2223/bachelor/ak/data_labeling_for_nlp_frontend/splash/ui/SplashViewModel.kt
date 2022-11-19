@@ -7,6 +7,7 @@ import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.domain.mod
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.domain.usecase.GetTokenFlowUseCase
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.navigation.HomeDestination
 import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.navigation.LogInDestination
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -23,6 +24,7 @@ class SplashViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            delay(2000)
             val startingDestination = when (val getTokenResult = getTokenFlowUseCase()) {
                 is GetTokenFlowResult.Success -> {
                     val token = getTokenResult.tokenFlow.first()
