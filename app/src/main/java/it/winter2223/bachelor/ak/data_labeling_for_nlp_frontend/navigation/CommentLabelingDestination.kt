@@ -21,7 +21,9 @@ fun NavGraphBuilder.commentLabelingScreen(
         CommentLabelingDestination.route,
         arguments = listOf(navArgument(COMMENT_QUANTITY_ARG) { type = NavType.IntType })
     ) {
-        CommentLabelingScreen(navController = navController)
+        CommentLabelingScreen(
+            navigateUp = { navController.navigateUp() },
+        )
     }
 }
 

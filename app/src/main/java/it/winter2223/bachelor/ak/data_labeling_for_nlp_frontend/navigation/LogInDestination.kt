@@ -14,18 +14,26 @@ fun NavGraphBuilder.logInScreen(
     navController: NavController,
 ) {
     composable(LogInDestination.route) {
-        LogInScreen(navController = navController)
+        LogInScreen(
+            navigateToHome = {
+                navController.navigateToHome {
+                    popUpTo(LogInDestination.route) {
+                        inclusive = true
+                    }
+                }
+            },
+        )
     }
 }
 
 fun NavController.navigateToLogIn(
-    navOptions: NavOptions? = null
+    navOptions: NavOptions? = null,
 ) {
     navigate(LogInDestination.route, navOptions = navOptions)
 }
 
 fun NavController.navigateToLogIn(
-    builder: (NavOptionsBuilder.() -> Unit)
+    builder: (NavOptionsBuilder.() -> Unit),
 ) {
     navigateToLogIn(
         navOptions = navOptions(builder)

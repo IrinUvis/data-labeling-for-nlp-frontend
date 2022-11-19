@@ -3,15 +3,12 @@ package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.home.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.navigation.HomeDestination
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.navigation.navigateToCommentLabeling
-import it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.navigation.navigateToLogIn
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    navController: NavController,
+    navigateToLogIn: () -> Unit,
+    navigateToCommentLabeling: (Int) -> Unit,
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
@@ -21,14 +18,10 @@ fun HomeScreen(
                 viewState = stateValue,
                 onLogOutButtonClicked = {
                     viewModel.logOut()
-                    navController.navigateToLogIn {
-                        popUpTo(HomeDestination.route) {
-                            inclusive = true
-                        }
-                    }
+                    navigateToLogIn()
                 },
                 onGoToCommentLabelingClicked = {
-                    navController.navigateToCommentLabeling(stateValue.numberOfCommentsToLabel)
+                    navigateToCommentLabeling(stateValue.numberOfCommentsToLabel)
                 },
                 onNumberOfCommentsToLabelUpdated = viewModel::updateNumberOfCommentsToLabel
             )
