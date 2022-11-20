@@ -1,6 +1,5 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.login.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -85,7 +84,6 @@ class LogInViewModel @Inject constructor(
                 credentials = currentCredentials.toDomainCredentials(),
                 authenticationActivity = AuthenticationActivity.SignUp,
             )
-            Log.d(TAG, logInResult.toString())
             handleLogInResult(
                 logInCredentials = currentCredentials,
                 result = logInResult,

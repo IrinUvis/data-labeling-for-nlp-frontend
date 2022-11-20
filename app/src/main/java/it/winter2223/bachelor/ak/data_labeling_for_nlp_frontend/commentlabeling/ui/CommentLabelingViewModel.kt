@@ -100,7 +100,6 @@ class CommentLabelingViewModel @Inject constructor(
                     currentCommentIndex = 0,
                 )
             }
-            Log.d(TAG, "New comments loaded")
         }
         fetchCommentsResult.onFailure { exception ->
             Log.e(TAG, "Loading comments failed", exception)
