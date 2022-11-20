@@ -2,11 +2,7 @@
 
 package it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -20,19 +16,10 @@ import it.winter2223.bachelor.ak.frontend.ui.core.component.NavigateUpButton
 fun CommentLabelingTopBar(
     modifier: Modifier = Modifier,
     onBackButtonClicked: () -> Unit,
-    onSettingsButtonClicked: () -> Unit,
 ) {
     TopAppBar(
         modifier = modifier,
         title = { Text(text = stringResource(R.string.commentLabelingAppBarTitle)) },
         navigationIcon = { NavigateUpButton(onClick = onBackButtonClicked) },
-        actions = {
-            IconButton(onClick = onSettingsButtonClicked) {
-                Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = stringResource(R.string.goToSettingsButtonContentDescription),
-                )
-            }
-        },
     )
 }

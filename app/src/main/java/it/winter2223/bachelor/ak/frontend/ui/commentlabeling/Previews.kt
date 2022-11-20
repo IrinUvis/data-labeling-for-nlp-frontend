@@ -34,8 +34,6 @@ private fun DarkActiveCommentLabelingContentPreview() {
             onEmotionSelected = { },
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },
-            onBackButtonClicked = { },
-            onSettingButtonClicked = { },
         )
     }
 }
@@ -57,8 +55,6 @@ private fun LightActiveCommentLabelingContentPreview() {
             onEmotionSelected = { },
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },
-            onBackButtonClicked = { },
-            onSettingButtonClicked = { },
         )
     }
 }
@@ -85,7 +81,6 @@ private fun DarkCommentLabelingTopBarPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         CommentLabelingTopBar(
             onBackButtonClicked = { },
-            onSettingsButtonClicked = { },
         )
     }
 }
@@ -96,7 +91,6 @@ private fun LightCommentLabelingTopBarPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         CommentLabelingTopBar(
             onBackButtonClicked = { },
-            onSettingsButtonClicked = { },
         )
     }
 }

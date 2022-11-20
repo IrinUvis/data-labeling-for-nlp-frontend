@@ -17,9 +17,11 @@ import it.winter2223.bachelor.ak.frontend.R
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.smallPadding
 
 @Composable
-fun LoadingCommentLabelingContent() {
+fun LoadingCommentLabelingContent(
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize(),
     ) {
         Column(

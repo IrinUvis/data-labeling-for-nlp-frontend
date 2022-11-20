@@ -17,6 +17,5 @@ fun CommentLabelingScreen(
         onPreviousButtonClicked = viewModel::goToPreviousComment,
         onNextButtonClicked = viewModel::goToNextComment,
         onBackButtonClicked = navigateUp,
-        onSettingsButtonClicked = { /* TODO */ },
     )
 }

@@ -1,18 +1,16 @@
 package it.winter2223.bachelor.ak.frontend.ui.commentlabeling
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import it.winter2223.bachelor.ak.frontend.data.comments.model.Emotion
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.CommentCard
-import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.CommentLabelingTopBar
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.EmotionSelector
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.ProgressSection
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.bigPadding
@@ -20,52 +18,28 @@ import it.winter2223.bachelor.ak.frontend.ui.core.component.VerticalSpacer
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.mediumPadding
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.smallPadding
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActiveCommentLabelingContent(
-    viewState: CommentLabelingViewState.Active,
-    onEmotionSelected: (Emotion) -> Unit,
-    onPreviousButtonClicked: () -> Unit,
-    onNextButtonClicked: () -> Unit,
-    onBackButtonClicked: () -> Unit,
-    onSettingButtonClicked: () -> Unit,
-) {
-    Scaffold(
-        topBar = {
-            CommentLabelingTopBar(
-                onBackButtonClicked = onBackButtonClicked,
-                onSettingsButtonClicked = onSettingButtonClicked,
-            )
-        },
-    ) { paddingValues ->
-        ScaffoldBody(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(
-                    start = mediumPadding,
-                    end = mediumPadding,
-                    top = smallPadding,
-                    bottom = bigPadding,
-                )
-                .fillMaxSize(),
-            viewState = viewState,
-            onEmotionSelected = onEmotionSelected,
-            onPreviousButtonClicked = onPreviousButtonClicked,
-            onNextButtonClicked = onNextButtonClicked,
-        )
-    }
-}
-
-@Composable
-fun ScaffoldBody(
     modifier: Modifier = Modifier,
     viewState: CommentLabelingViewState.Active,
     onEmotionSelected: (Emotion) -> Unit,
     onPreviousButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
+    BackHandler(
+        enabled = viewState.currentCommentIndex != 0,
+        onBack = onPreviousButtonClicked,
+    )
+
     Column(
         modifier = modifier
+            .padding(
+                start = mediumPadding,
+                end = mediumPadding,
+                top = smallPadding,
+                bottom = bigPadding,
+            )
+            .fillMaxSize()
     ) {
         CommentCard(
             modifier = Modifier.weight(1f),
