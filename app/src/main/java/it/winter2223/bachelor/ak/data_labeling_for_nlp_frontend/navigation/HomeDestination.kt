@@ -1,5 +1,6 @@
 package it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend.navigation
 
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -23,6 +24,8 @@ fun NavGraphBuilder.homeScreen(
                 }
             },
             navigateToCommentLabeling = { quantity ->
+                Log.d("NAV", navController.backQueue.map { it.destination.route }.toString())
+
                 navController.navigateToCommentLabeling(quantity)
             },
         )

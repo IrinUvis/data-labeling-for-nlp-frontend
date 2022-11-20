@@ -9,14 +9,16 @@ import androidx.navigation.compose.NavHost
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    startDestination: AppDestination,
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = SplashDestination.route
+        startDestination = InitialDestination.route,
     ) {
-        splashScreen(
+        initialScreen(
             navController = navController,
+            startDestination = startDestination,
         )
         logInScreen(
             navController = navController,
