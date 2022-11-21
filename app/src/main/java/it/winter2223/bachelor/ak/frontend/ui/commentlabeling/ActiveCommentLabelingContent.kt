@@ -9,7 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import it.winter2223.bachelor.ak.frontend.data.comments.model.Emotion
+import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.CommentCard
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.EmotionSelector
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.ProgressSection

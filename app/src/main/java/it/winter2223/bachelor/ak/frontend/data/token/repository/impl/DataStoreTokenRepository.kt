@@ -17,6 +17,7 @@ class DataStoreTokenRepository @Inject constructor(
         private object TokenPreferencesKeys {
             val AUTH_TOKEN = stringPreferencesKey("auth_token")
             val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
+            val USER_ID = stringPreferencesKey("user_id")
         }
     }
 
@@ -24,6 +25,7 @@ class DataStoreTokenRepository @Inject constructor(
         dataStore.edit { preferences ->
             preferences[TokenPreferencesKeys.AUTH_TOKEN] = tokenPreferences.authToken
             preferences[TokenPreferencesKeys.REFRESH_TOKEN] = tokenPreferences.refreshToken
+            preferences[TokenPreferencesKeys.USER_ID] = tokenPreferences.userId
         }
     }
 
@@ -31,6 +33,7 @@ class DataStoreTokenRepository @Inject constructor(
         dataStore.edit { preferences ->
             preferences.remove(TokenPreferencesKeys.AUTH_TOKEN)
             preferences.remove(TokenPreferencesKeys.REFRESH_TOKEN)
+            preferences.remove(TokenPreferencesKeys.USER_ID)
         }
     }
 
@@ -38,13 +41,15 @@ class DataStoreTokenRepository @Inject constructor(
         return dataStore.data.map { preferences ->
             val authToken = preferences[TokenPreferencesKeys.AUTH_TOKEN]
             val refreshToken = preferences[TokenPreferencesKeys.REFRESH_TOKEN]
+            val userId = preferences[TokenPreferencesKeys.USER_ID]
 
-            if (authToken == null || refreshToken == null) {
+            if (authToken == null || refreshToken == null || userId == null) {
                 null
             } else {
                 TokenPreferences(
                     authToken = authToken,
                     refreshToken = refreshToken,
+                    userId = userId,
                 )
             }
         }

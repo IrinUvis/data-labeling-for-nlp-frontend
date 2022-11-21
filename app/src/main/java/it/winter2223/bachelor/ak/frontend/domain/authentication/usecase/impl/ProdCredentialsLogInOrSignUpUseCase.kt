@@ -52,6 +52,7 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
                     Token(
                         authToken = it.idToken,
                         refreshToken = it.refreshToken,
+                        userId = it.userId,
                     )
                 )
                 when (storeTokenResult) {

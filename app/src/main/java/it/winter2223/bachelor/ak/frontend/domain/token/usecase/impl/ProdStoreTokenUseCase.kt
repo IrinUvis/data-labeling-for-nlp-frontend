@@ -21,6 +21,7 @@ class ProdStoreTokenUseCase @Inject constructor(
                 TokenPreferences(
                     authToken = token.authToken,
                     refreshToken = token.refreshToken,
+                    userId = token.userId,
                 )
             )
             StoreTokenResult.Success

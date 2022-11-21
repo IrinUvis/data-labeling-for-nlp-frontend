@@ -9,6 +9,8 @@ import it.winter2223.bachelor.ak.frontend.data.comments.repository.impl.NetworkC
 import it.winter2223.bachelor.ak.frontend.data.token.repository.impl.DataStoreTokenRepository
 import it.winter2223.bachelor.ak.frontend.data.authentication.repository.impl.DemoLogInRepository
 import it.winter2223.bachelor.ak.frontend.data.authentication.repository.LogInRepository
+import it.winter2223.bachelor.ak.frontend.data.comments.repository.EmotionAssignmentRepository
+import it.winter2223.bachelor.ak.frontend.data.comments.repository.impl.NetworkEmotionAssignmentRepository
 import it.winter2223.bachelor.ak.frontend.data.token.repository.TokenRepository
 
 @Module
@@ -19,6 +21,11 @@ abstract class RepositoryModule {
     abstract fun bindCommentRepository(
         commentRepository: NetworkCommentRepository
     ): CommentRepository
+
+    @Binds
+    abstract fun bindEmotionAssignmentRepository(
+        emotionAssignmentRepository: NetworkEmotionAssignmentRepository,
+    ): EmotionAssignmentRepository
 
     @Binds
     abstract fun bindTokenRepository(

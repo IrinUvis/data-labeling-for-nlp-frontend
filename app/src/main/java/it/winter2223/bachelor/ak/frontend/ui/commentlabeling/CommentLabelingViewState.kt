@@ -1,6 +1,6 @@
 package it.winter2223.bachelor.ak.frontend.ui.commentlabeling
 
-import it.winter2223.bachelor.ak.frontend.data.comments.model.Comment
+import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 
 sealed class CommentLabelingViewState {
 

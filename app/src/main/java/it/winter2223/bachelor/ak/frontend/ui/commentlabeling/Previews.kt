@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import it.winter2223.bachelor.ak.frontend.R
-import it.winter2223.bachelor.ak.frontend.data.comments.model.Comment
-import it.winter2223.bachelor.ak.frontend.data.comments.model.Emotion
+import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
+import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.CommentCard
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.CommentLabelingTopBar
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.EmotionSelector

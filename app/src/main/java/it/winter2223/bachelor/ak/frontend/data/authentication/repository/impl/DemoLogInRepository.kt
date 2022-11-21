@@ -15,6 +15,7 @@ class DemoLogInRepository @Inject constructor() : LogInRepository {
         return Result.success(
             UserOutput(
                 email = "demo@edu.p.lodz.pl",
+                userId = "userId",
                 idToken = "authToken",
                 refreshToken = "refreshToken",
             )
@@ -27,6 +28,7 @@ class DemoLogInRepository @Inject constructor() : LogInRepository {
         return Result.success(
             UserOutput(
                 email = "demo@edu.p.lodz.pl",
+                userId = "userId",
                 idToken = "authToken",
                 refreshToken = "refreshToken",
             )
@@ -38,6 +40,7 @@ class DemoLogInRepository @Inject constructor() : LogInRepository {
         delay(2000)
         return Result.success(
             RefreshTokenOutput(
+                userId = "userId",
                 idToken = "refreshedAuthToken",
                 refreshToken = "refreshedRefreshToken",
             )

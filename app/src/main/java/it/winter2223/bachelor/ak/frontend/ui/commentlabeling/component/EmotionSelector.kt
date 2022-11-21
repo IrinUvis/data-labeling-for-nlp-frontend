@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import it.winter2223.bachelor.ak.frontend.data.comments.model.Comment
-import it.winter2223.bachelor.ak.frontend.data.comments.model.Emotion
+import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
+import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.buttonHorizontalPadding
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.buttonVerticalPadding
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.smallPadding

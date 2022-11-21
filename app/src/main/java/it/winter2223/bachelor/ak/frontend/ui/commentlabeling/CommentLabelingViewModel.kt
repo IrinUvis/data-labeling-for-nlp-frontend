@@ -5,9 +5,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import it.winter2223.bachelor.ak.frontend.data.comments.model.Comment
-import it.winter2223.bachelor.ak.frontend.data.comments.model.Emotion
+import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
+import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
 import it.winter2223.bachelor.ak.frontend.data.comments.repository.CommentRepository
+import it.winter2223.bachelor.ak.frontend.domain.comments.model.GetCommentsToLabelResult
+import it.winter2223.bachelor.ak.frontend.domain.comments.model.SaveLabeledCommentsResult
+import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.GetCommentsToLabelUseCase
+import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.SaveLabeledCommentsUseCase
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentLabelingViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val commentRepository: CommentRepository,
+    private val getCommentsToLabelUseCase: GetCommentsToLabelUseCase,
+    private val saveLabeledCommentsUseCase: SaveLabeledCommentsUseCase,
 ) : ViewModel() {
     companion object {
         private const val TAG = "CommentLabelingVM"
@@ -91,30 +96,39 @@ class CommentLabelingViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loadComments(quantity: Int): Unit = coroutineScope {
-        val fetchCommentsResult = commentRepository.fetchComments(quantity)
-        fetchCommentsResult.onSuccess { comments ->
-            _viewState.update {
-                CommentLabelingViewState.Active(
-                    comments = comments,
-                    currentCommentIndex = 0,
-                )
+    private suspend fun loadComments(quantity: Int) {
+        when (val getCommentsToLabelResult = getCommentsToLabelUseCase(quantity)) {
+            is GetCommentsToLabelResult.Success -> {
+                _viewState.update {
+                    CommentLabelingViewState.Active(
+                        comments = getCommentsToLabelResult.comments,
+                        currentCommentIndex = 0,
+                    )
+                }
             }
-        }
-        fetchCommentsResult.onFailure { exception ->
-            Log.e(TAG, "Loading comments failed", exception)
-            // TODO: Update ui accordingly
+            is GetCommentsToLabelResult.Failure -> {
+                Log.e(TAG, "Loading comments failed")
+                // TODO: Update ui accordingly
+            }
         }
     }
 
-    private suspend fun postComments(comments: List<Comment>): Unit = coroutineScope {
-        val postCommentsResult = commentRepository.postComments(comments)
-        postCommentsResult.onSuccess {
-            Log.d(TAG, "Comments posted")
-        }
-        postCommentsResult.onFailure { exception ->
-            Log.e(TAG, "Posting comments failed", exception)
-            // TODO: Update ui accordingly
+    private suspend fun postComments(comments: List<Comment>) {
+        when (saveLabeledCommentsUseCase(comments)) {
+            is SaveLabeledCommentsResult.Success -> {
+                Log.d(TAG, "Comments posted")
+            }
+            is SaveLabeledCommentsResult.Failure.NonLabeledComments -> {
+                Log.e(
+                    TAG,
+                    "Posting comments failed because some comments did not have emotions assigned",
+                )
+                // TODO: Update ui accordingly
+            }
+            is SaveLabeledCommentsResult.Failure.Unknown -> {
+                Log.e(TAG, "Posting comments failed due to unknown error")
+                // TODO: Update ui accordingly
+            }
         }
     }
 }

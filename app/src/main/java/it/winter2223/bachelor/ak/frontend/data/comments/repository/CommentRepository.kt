@@ -1,9 +1,7 @@
 package it.winter2223.bachelor.ak.frontend.data.comments.repository
 
-import it.winter2223.bachelor.ak.frontend.data.comments.model.Comment
+import it.winter2223.bachelor.ak.frontend.data.comments.model.dto.CommentOutput
 
 interface CommentRepository {
-    suspend fun fetchComments(quantity: Int): Result<List<Comment>>
-
-    suspend fun postComments(comments: List<Comment>): Result<Unit>
+    suspend fun fetchComments(quantity: Int): Result<List<CommentOutput>>
 }

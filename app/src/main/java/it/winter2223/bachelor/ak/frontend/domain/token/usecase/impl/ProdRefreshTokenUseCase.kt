@@ -21,13 +21,13 @@ class ProdRefreshTokenUseCase(
                     Token(
                         authToken = tokenOutput.idToken,
                         refreshToken = tokenOutput.refreshToken,
+                        userId = tokenOutput.userId,
                     ),
                 )
                 when (storeTokenResult) {
                     is StoreTokenResult.Success -> RefreshTokenResult.Success
                     else -> RefreshTokenResult.Failure.DataStore
                 }
-
             },
             onFailure = {
                 RefreshTokenResult.Failure.Network

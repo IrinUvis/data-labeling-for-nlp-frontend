@@ -11,6 +11,10 @@ import it.winter2223.bachelor.ak.frontend.domain.token.usecase.RefreshTokenUseCa
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.StoreTokenUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdClearTokenUseCase
 import it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.impl.ProdCredentialsLogInOrSignUpUseCase
+import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.GetCommentsToLabelUseCase
+import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.SaveLabeledCommentsUseCase
+import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl.ProdGetCommentsToLabelUseCase
+import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl.ProdSaveLabeledCommentsUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdGetTokenFlowUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdRefreshTokenUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdStoreTokenUseCase
@@ -43,4 +47,14 @@ abstract class UseCaseModule {
     abstract fun bindStoreTokenUseCase(
         storeTokenUseCase: ProdStoreTokenUseCase,
     ): StoreTokenUseCase
+
+    @Binds
+    abstract fun bindGetCommentsToLabelUseCase(
+        getCommentsToLabelUseCase: ProdGetCommentsToLabelUseCase,
+    ): GetCommentsToLabelUseCase
+
+    @Binds
+    abstract fun bindSaveLabeledCommentsUseCase(
+        saveLabeledCommentsUseCase: ProdSaveLabeledCommentsUseCase,
+    ): SaveLabeledCommentsUseCase
 }

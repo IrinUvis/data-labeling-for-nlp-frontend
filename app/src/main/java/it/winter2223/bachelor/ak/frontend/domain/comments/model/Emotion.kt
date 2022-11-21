@@ -1,4 +1,4 @@
-package it.winter2223.bachelor.ak.frontend.data.comments.model
+package it.winter2223.bachelor.ak.frontend.domain.comments.model
 
 enum class Emotion {
     Anger,

@@ -22,7 +22,8 @@ class ProdGetTokenFlowUseCase @Inject constructor(
                     it?.let {
                         Token(
                             authToken = it.authToken,
-                            refreshToken = it.refreshToken
+                            refreshToken = it.refreshToken,
+                            userId = it.userId,
                         )
                     }
                 },
