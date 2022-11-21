@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend'
+    namespace 'it.winter2223.bachelor.ak.frontend'
     compileSdk 33
 
     defaultConfig {
-        applicationId "it.winter2223.bachelor.ak.data_labeling_for_nlp_frontend"
+        applicationId "it.winter2223.bachelor.ak.frontend"
         minSdk 23
         targetSdk 33
         versionCode 1
