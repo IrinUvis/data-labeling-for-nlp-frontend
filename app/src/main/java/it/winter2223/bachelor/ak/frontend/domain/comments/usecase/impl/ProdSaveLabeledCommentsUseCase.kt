@@ -1,5 +1,6 @@
 package it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl
 
+import android.util.Log
 import it.winter2223.bachelor.ak.frontend.data.comments.model.dto.CommentEmotionAssignmentInput
 import it.winter2223.bachelor.ak.frontend.data.comments.repository.EmotionAssignmentRepository
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
@@ -11,6 +12,10 @@ import javax.inject.Inject
 class ProdSaveLabeledCommentsUseCase @Inject constructor(
     private val emotionAssignmentRepository: EmotionAssignmentRepository,
 ) : SaveLabeledCommentsUseCase {
+    companion object {
+        private const val TAG = "ProdSaveLabeledCommentsUC"
+    }
+
     override suspend fun invoke(comments: List<Comment>): SaveLabeledCommentsResult {
         return try {
             comments.forEach { comment -> requireNotNull(comment.emotion) }
@@ -31,6 +36,7 @@ class ProdSaveLabeledCommentsUseCase @Inject constructor(
                 },
             )
         } catch (e: IllegalArgumentException) {
+            Log.e(TAG, e.message, e)
             SaveLabeledCommentsResult.Failure.NonLabeledComments
         }
     }

@@ -16,7 +16,7 @@ class NetworkEmotionAssignmentRepository @Inject constructor() : EmotionAssignme
         delay(2000)
         return Result.success(
             List(
-                10
+                @Suppress("MagicNumber") 10
             ) {
                 CommentEmotionAssignmentOutput(
                     assignmentId = UUID.randomUUID(),

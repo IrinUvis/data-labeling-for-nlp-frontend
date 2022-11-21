@@ -14,16 +14,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import it.winter2223.bachelor.ak.frontend.R
-import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
-import it.winter2223.bachelor.ak.frontend.ui.core.helpers.bigPadding
+import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.model.UiEmotion
 import it.winter2223.bachelor.ak.frontend.ui.core.component.HorizontalSpacer
 import it.winter2223.bachelor.ak.frontend.ui.core.component.VerticalSpacer
+import it.winter2223.bachelor.ak.frontend.ui.core.helpers.bigPadding
 
 @Composable
 fun ProgressSection(
     modifier: Modifier = Modifier,
     currentCommentIndex: Int,
-    currentCommentEmotion: Emotion?,
+    currentCommentEmotion: UiEmotion?,
     progress: Float,
     onPreviousButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
@@ -71,7 +71,7 @@ fun PreviousCommentButton(
 fun NextCommentButton(
     modifier: Modifier = Modifier,
     onNextButtonClicked: () -> Unit,
-    emotion: Emotion?,
+    emotion: UiEmotion?,
 ) {
     Button(
         modifier = modifier,

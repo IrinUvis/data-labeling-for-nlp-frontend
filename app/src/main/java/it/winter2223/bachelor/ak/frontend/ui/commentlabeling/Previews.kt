@@ -7,13 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import it.winter2223.bachelor.ak.frontend.R
-import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
-import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.CommentCard
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.CommentLabelingTopBar
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.EmotionSelector
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.ProgressSection
+import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.model.UiComment
+import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.model.UiEmotion
 import it.winter2223.bachelor.ak.frontend.ui.core.component.PreviewThemeWithBackground
+import it.winter2223.bachelor.ak.frontend.ui.core.helpers.UiText
 
 private const val NUMBER_OF_COMMENTS_FOR_PREVIEWS = 5
 
@@ -22,11 +23,11 @@ private const val NUMBER_OF_COMMENTS_FOR_PREVIEWS = 5
 private fun DarkActiveCommentLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         ActiveCommentLabelingContent(
-            viewState = CommentLabelingViewState.Active(
+            viewState = CommentLabelingViewState.Loaded.Active(
                 comments = List(NUMBER_OF_COMMENTS_FOR_PREVIEWS) {
-                    Comment(
-                        text = stringResource(id = R.string.shortPreviewText),
-                        emotion = Emotion.Love,
+                    UiComment(
+                        text = UiText.StringText(stringResource(id = R.string.shortPreviewText)),
+                        emotion = UiEmotion.Love,
                     )
                 },
                 currentCommentIndex = 2,
@@ -43,11 +44,11 @@ private fun DarkActiveCommentLabelingContentPreview() {
 private fun LightActiveCommentLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         ActiveCommentLabelingContent(
-            viewState = CommentLabelingViewState.Active(
+            viewState = CommentLabelingViewState.Loaded.Active(
                 comments = List(NUMBER_OF_COMMENTS_FOR_PREVIEWS) {
-                    Comment(
-                        text = stringResource(id = R.string.shortPreviewText),
-                        emotion = Emotion.Love,
+                    UiComment(
+                        text = UiText.StringText(stringResource(id = R.string.shortPreviewText)),
+                        emotion = UiEmotion.Love,
                     )
                 },
                 currentCommentIndex = 2,
@@ -63,7 +64,9 @@ private fun LightActiveCommentLabelingContentPreview() {
 @Composable
 private fun DarkLoadingCommentLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
-        LoadingCommentLabelingContent()
+        LoadingCommentLabelingContent(
+            text = stringResource(R.string.loadingComments),
+        )
     }
 }
 
@@ -71,7 +74,9 @@ private fun DarkLoadingCommentLabelingContentPreview() {
 @Composable
 private fun LightLoadingCommentLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
-        LoadingCommentLabelingContent()
+        LoadingCommentLabelingContent(
+            text = stringResource(R.string.loadingComments)
+        )
     }
 }
 
@@ -163,7 +168,7 @@ private fun LightCommentCardWithLongTextPreview() {
 private fun DarkEmotionSelectorWithoutEmotionSelectedPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         EmotionSelector(
-            currentComment = Comment(text = stringResource(R.string.shortPreviewText)),
+            selectedEmotion = null,
             onEmotionSelected = { },
         )
     }
@@ -176,10 +181,7 @@ private fun DarkEmotionSelectorWithoutEmotionSelectedPreview() {
 private fun DarkEmotionSelectorWithEmotionSelectedPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         EmotionSelector(
-            currentComment = Comment(
-                text = stringResource(R.string.shortPreviewText),
-                emotion = Emotion.Fear,
-            ),
+            selectedEmotion = UiEmotion.Love,
             onEmotionSelected = { },
         )
     }
@@ -192,7 +194,7 @@ private fun DarkEmotionSelectorWithEmotionSelectedPreview() {
 private fun LightEmotionSelectorWithoutEmotionSelectedPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         EmotionSelector(
-            currentComment = Comment(text = stringResource(R.string.shortPreviewText)),
+            selectedEmotion = null,
             onEmotionSelected = { },
         )
     }
@@ -205,10 +207,7 @@ private fun LightEmotionSelectorWithoutEmotionSelectedPreview() {
 private fun LightEmotionSelectorWithEmotionSelectedPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         EmotionSelector(
-            currentComment = Comment(
-                text = stringResource(R.string.shortPreviewText),
-                emotion = Emotion.Fear,
-            ),
+            selectedEmotion = UiEmotion.Love,
             onEmotionSelected = { },
         )
     }
@@ -240,7 +239,7 @@ private fun DarkProgressSectionForSecondElementWithSelectedEmotionPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         ProgressSection(
             currentCommentIndex = 1,
-            currentCommentEmotion = Emotion.Fear,
+            currentCommentEmotion = UiEmotion.Fear,
             progress = 0.25f,
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },
@@ -274,7 +273,7 @@ private fun LightProgressSectionForSecondElementWithSelectedEmotionPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         ProgressSection(
             currentCommentIndex = 1,
-            currentCommentEmotion = Emotion.Fear,
+            currentCommentEmotion = UiEmotion.Fear,
             progress = 0.25f,
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },

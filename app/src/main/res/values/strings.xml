@@ -23,4 +23,7 @@
     <string name="unknownErrorOccurredErrorMessage">An unknown error has occurred</string>
     <string name="labelCommentsHomeInstructions">Assign emotions to provided comments, in order to train AI, which will be able to recognize emotion from provided text</string>
     <string name="labelComments">Label comments</string>
+    <string name="commentsNotLabeledErrorMessage">Some comments are not labeled</string>
+    <string name="cannotLoadCommentsErrorMessage">Cannot load comments. Try again later</string>
+    <string name="postingComments">Posting comments</string>
 </resources>

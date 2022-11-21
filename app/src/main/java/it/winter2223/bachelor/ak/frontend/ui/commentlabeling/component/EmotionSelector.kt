@@ -12,8 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
-import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
+import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.model.UiEmotion
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.buttonHorizontalPadding
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.buttonVerticalPadding
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.smallPadding
@@ -21,15 +20,15 @@ import it.winter2223.bachelor.ak.frontend.ui.core.helpers.smallPadding
 @Composable
 fun EmotionSelector(
     modifier: Modifier = Modifier,
-    currentComment: Comment,
-    onEmotionSelected: (Emotion) -> Unit,
+    selectedEmotion: UiEmotion?,
+    onEmotionSelected: (UiEmotion) -> Unit,
 ) {
     Column(
         modifier = modifier,
     ) {
-        for (emotion in Emotion.values()) {
+        for (emotion in UiEmotion.values()) {
             EmotionSelectionRadioButton(
-                comment = currentComment,
+                selectedEmotion = selectedEmotion,
                 emotion = emotion,
                 onEmotionSelected = onEmotionSelected,
             )
@@ -40,9 +39,9 @@ fun EmotionSelector(
 @Composable
 fun EmotionSelectionRadioButton(
     modifier: Modifier = Modifier,
-    comment: Comment,
-    emotion: Emotion,
-    onEmotionSelected: (Emotion) -> Unit,
+    selectedEmotion: UiEmotion?,
+    emotion: UiEmotion,
+    onEmotionSelected: (UiEmotion) -> Unit,
 ) {
     Surface(
         modifier = modifier,
@@ -52,7 +51,7 @@ fun EmotionSelectionRadioButton(
         Row(
             modifier = Modifier
                 .selectable(
-                    selected = comment.emotion == emotion,
+                    selected = selectedEmotion == emotion,
                     onClick = { onEmotionSelected(emotion) },
                 )
                 .padding(
@@ -64,7 +63,7 @@ fun EmotionSelectionRadioButton(
         ) {
             RadioButton(
                 modifier = Modifier.padding(horizontal = smallPadding),
-                selected = comment.emotion == emotion,
+                selected = selectedEmotion == emotion,
                 onClick = null,
             )
             Text(text = emotion.name)

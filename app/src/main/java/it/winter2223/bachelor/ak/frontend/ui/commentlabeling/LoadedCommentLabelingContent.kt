@@ -9,20 +9,21 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.CommentCard
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.EmotionSelector
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.ProgressSection
-import it.winter2223.bachelor.ak.frontend.ui.core.helpers.bigPadding
+import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.model.UiEmotion
 import it.winter2223.bachelor.ak.frontend.ui.core.component.VerticalSpacer
+import it.winter2223.bachelor.ak.frontend.ui.core.helpers.bigPadding
+import it.winter2223.bachelor.ak.frontend.ui.core.helpers.getString
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.mediumPadding
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.smallPadding
 
 @Composable
 fun ActiveCommentLabelingContent(
     modifier: Modifier = Modifier,
-    viewState: CommentLabelingViewState.Active,
-    onEmotionSelected: (Emotion) -> Unit,
+    viewState: CommentLabelingViewState.Loaded,
+    onEmotionSelected: (UiEmotion) -> Unit,
     onPreviousButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
@@ -44,7 +45,7 @@ fun ActiveCommentLabelingContent(
         CommentCard(
             modifier = Modifier.weight(1f),
             scrollState = rememberScrollState(),
-            text = viewState.currentComment.text,
+            text = viewState.currentComment.text.getString(),
         )
 
         VerticalSpacer(height = mediumPadding)
@@ -54,7 +55,7 @@ fun ActiveCommentLabelingContent(
                 .weight(2f)
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
-            currentComment = viewState.currentComment,
+            selectedEmotion = viewState.currentComment.emotion,
             onEmotionSelected = onEmotionSelected,
         )
 

@@ -2,6 +2,8 @@ package it.winter2223.bachelor.ak.frontend.ui.core.helpers
 
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 
 sealed class UiText {
     data class StringText(val value: String) : UiText()
@@ -15,3 +17,6 @@ fun UiText.getString(context: Context): String {
         is UiText.ResourceText -> context.getString(this.value)
     }
 }
+
+@Composable
+fun UiText.getString(): String = getString(LocalContext.current)
