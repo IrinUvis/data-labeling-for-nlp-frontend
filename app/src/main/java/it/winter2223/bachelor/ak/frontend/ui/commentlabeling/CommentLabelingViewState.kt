@@ -36,6 +36,14 @@ sealed class CommentLabelingViewState {
             currentCommentIndex = currentCommentIndex,
         )
 
+        data class GoToNextWithUnspecifiableRequested(
+            override val comments: List<UiComment>,
+            override val currentCommentIndex: Int,
+        ) : Loaded(
+            comments = comments,
+            currentCommentIndex = currentCommentIndex,
+        )
+
         data class Active(
             override val comments: List<UiComment>,
             override val currentCommentIndex: Int,

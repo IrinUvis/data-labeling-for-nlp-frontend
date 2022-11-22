@@ -10,4 +10,5 @@ enum class UiEmotion(@StringRes val resourceText: Int) {
     Love(R.string.loveEmotion),
     Sadness(R.string.sadnessEmotion),
     Surprise(R.string.surpriseEmotion),
+    Unspecifiable(R.string.unspecifiableEmotion)
 }

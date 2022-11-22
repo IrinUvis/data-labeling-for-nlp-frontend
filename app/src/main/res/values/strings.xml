@@ -33,4 +33,10 @@
     <string name="loveEmotion">Love</string>
     <string name="joyEmotion">Joy</string>
     <string name="fearEmotion">Fear</string>
+    <string name="unspecifiableEmotion">Unspecifiable</string>
+    <string name="warningIconContentDescription">Warning icon</string>
+    <string name="unspecifiableEmotionDialogTitle">Warning</string>
+    <string name="unspecifiableEmotionDialogSupportiveText">You have chosen option of unspecifiable emotion for this comment. Please do it only if there really is no emotion that fits the given comment.</string>
+    <string name="unspecifiableEmotionDialogConfirmButtonText">Continue</string>
+    <string name="unspecifiableEmotionDialogDismissButtonText">Undo</string>
 </resources>

@@ -23,6 +23,8 @@ fun CommentLabelingContent(
     onPreviousButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
+    onGoToNextComment: () -> Unit,
+    onCloseDialog: () -> Unit,
 ) {
     Scaffold(
         topBar = { CommentLabelingTopBar(onBackButtonClicked = onBackButtonClicked) }
@@ -73,6 +75,8 @@ fun CommentLabelingContent(
                             onEmotionSelected = onEmotionSelected,
                             onPreviousButtonClicked = onPreviousButtonClicked,
                             onNextButtonClicked = onNextButtonClicked,
+                            onGoToNextComment = onGoToNextComment,
+                            onCloseDialog = onCloseDialog,
                         )
                     }
                 }

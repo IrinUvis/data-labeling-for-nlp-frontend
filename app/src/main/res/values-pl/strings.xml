@@ -26,7 +26,7 @@
     <string name="labelComments">Etykietuj komentarze</string>
     <string name="commentsNotLabeledErrorMessage">Niektóre komentarze nie mają przypisanej emocji</string>
     <string name="cannotLoadCommentsErrorMessage">Nie można załadować komentarzy. Spróbuj ponownie później</string>
-    <string name="postingComments">Zapisywanie zetykietowanych komentarzy</string>
+    <string name="postingComments">Zapisywanie komentarzy</string>
     <string name="homeTopBarTitle">Ekran główny</string>
     <string name="angerEmotion">Złość</string>
     <string name="surpriseEmotion">Zaskoczenie</string>
@@ -34,4 +34,10 @@
     <string name="loveEmotion">Miłość</string>
     <string name="joyEmotion">Radość</string>
     <string name="fearEmotion">Strach</string>
+    <string name="unspecifiableEmotion">Nieidentyfikowalny</string>
+    <string name="warningIconContentDescription">Ikona ostrzeżenia</string>
+    <string name="unspecifiableEmotionDialogTitle">Ostrzeżenie</string>
+    <string name="unspecifiableEmotionDialogSupportiveText">Wybrałeś opcję nieidentyfikowalnej emocji dla tego komentarza. Rób tak tylko w sytuacji, w której na prawdę nie ma emocji pasującej do podanego komentarza.</string>
+    <string name="unspecifiableEmotionDialogConfirmButtonText">Zatwierdź</string>
+    <string name="unspecifiableEmotionDialogDismissButtonText">Cofnij</string>
 </resources>

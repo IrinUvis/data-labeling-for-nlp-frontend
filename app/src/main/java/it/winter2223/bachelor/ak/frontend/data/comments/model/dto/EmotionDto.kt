@@ -7,4 +7,5 @@ enum class EmotionDto {
     Love,
     Sadness,
     Surprise,
+    Unspecifiable,
 }

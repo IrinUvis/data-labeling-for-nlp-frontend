@@ -13,11 +13,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import it.winter2223.bachelor.ak.frontend.R
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.model.UiEmotion
 import it.winter2223.bachelor.ak.frontend.ui.core.component.HorizontalSpacer
 import it.winter2223.bachelor.ak.frontend.ui.core.component.VerticalSpacer
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.bigPadding
+import it.winter2223.bachelor.ak.frontend.ui.core.helpers.mediumPadding
 
 @Composable
 fun ProgressSection(
@@ -46,7 +48,7 @@ fun ProgressSection(
             )
         }
 
-        VerticalSpacer(height = bigPadding)
+        VerticalSpacer(height = mediumPadding)
 
         AnimatedLinearProgressIndicator(progress = progress)
     }
@@ -63,7 +65,11 @@ fun PreviousCommentButton(
         onClick = onPreviousButtonClicked,
         enabled = commentIndex != 0,
     ) {
-        Text(text = stringResource(R.string.previousButtonText))
+        Text(
+            text = stringResource(R.string.previousButtonText),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
@@ -78,7 +84,11 @@ fun NextCommentButton(
         onClick = onNextButtonClicked,
         enabled = emotion != null,
     ) {
-        Text(text = stringResource(R.string.nextButtonText))
+        Text(
+            text = stringResource(R.string.nextButtonText),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 

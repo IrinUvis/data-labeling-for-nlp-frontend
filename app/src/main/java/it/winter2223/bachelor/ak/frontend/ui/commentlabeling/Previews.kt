@@ -35,6 +35,8 @@ private fun DarkActiveCommentLabelingContentPreview() {
             onEmotionSelected = { },
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },
+            onGoToNextComment = { },
+            onCloseDialog = { },
         )
     }
 }
@@ -56,6 +58,8 @@ private fun LightActiveCommentLabelingContentPreview() {
             onEmotionSelected = { },
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },
+            onGoToNextComment = { },
+            onCloseDialog = { },
         )
     }
 }

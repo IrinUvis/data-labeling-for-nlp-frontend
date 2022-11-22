@@ -7,4 +7,5 @@ enum class Emotion {
     Love,
     Sadness,
     Surprise,
+    Unspecifiable,
 }
