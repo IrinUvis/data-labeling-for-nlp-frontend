@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Etykietowanie komentarzy</string>
+    <string name="loadingComments">Ładowanie komentarzy</string>
+    <string name="commentLabelingAppBarTitle">Etykietowanie</string>
+    <string name="logOut">Wyloguj się z aplikacji</string>
+    <string name="goBackToPreviousScreenButtonContentDescription">Cofnij się do poprzedniego ekranu</string>
+    <string name="nextButtonText">Następny</string>
+    <string name="previousButtonText">Poprzedni</string>
+    <string name="shortPreviewText">To jest przykładowy tekst</string>
+    <string name="longPreviewText">To jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekstTo jest przykładowy tekst</string>
+    <string name="email">Email</string>
+    <string name="password">Hasło</string>
+    <string name="logIn">Zaloguj się</string>
+    <string name="signUp">Zarejestruj się</string>
+    <string name="emailIconContentDescription">Ikona email</string>
+    <string name="clearIconContentDescription">Ikona wyczyszczenia pola</string>
+    <string name="lockIconContentDescription">Ikona kłódki</string>
+    <string name="wrongCredentialsErrorMessage">Podane dane logowania są niepoprawne</string>
+    <string name="emptyEmailInputErrorMessage">Email nie może być pusty</string>
+    <string name="emptyPasswordInputErrorMessage">Hasło nie może być puste</string>
+    <string name="incorrectEmailFormatErrorMessage">Hasło jest w niepoprawnym formacie</string>
+    <string name="passwordCannotBeLessThanSixCharactersErrorMessage">Hasło musi mieć co najmniej 6 znaków</string>
+    <string name="unknownErrorOccurredErrorMessage">Wystąpił nieznany błąd</string>
+    <string name="labelCommentsHomeInstructions">Przypisuj emocje do podanych komentarzy, w celu nauczenia modelu sztucznej inteligencji, który będzie w stanie rozpoznać emocję wyrażoną polskiego tekstu</string>
+    <string name="labelComments">Etykietuj komentarze</string>
+    <string name="commentsNotLabeledErrorMessage">Niektóre komentarze nie mają przypisanej emocji</string>
+    <string name="cannotLoadCommentsErrorMessage">Nie można załadować komentarzy. Spróbuj ponownie później</string>
+    <string name="postingComments">Zapisywanie zetykietowanych komentarzy</string>
+    <string name="homeTopBarTitle">Ekran główny</string>
+    <string name="angerEmotion">Złość</string>
+    <string name="surpriseEmotion">Zaskoczenie</string>
+    <string name="sadnessEmotion">Smutek</string>
+    <string name="loveEmotion">Miłość</string>
+    <string name="joyEmotion">Radość</string>
+    <string name="fearEmotion">Strach</string>
+</resources>

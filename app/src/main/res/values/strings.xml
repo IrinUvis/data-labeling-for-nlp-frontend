@@ -2,7 +2,7 @@
     <string name="app_name">Comments labeling</string>
     <string name="loadingComments">Loading comments</string>
     <string name="commentLabelingAppBarTitle">Emotion assignment</string>
-    <string name="goToSettingsButtonContentDescription">Go to Settings button</string>
+    <string name="logOut">Log out from the app button</string>
     <string name="goBackToPreviousScreenButtonContentDescription">Go back to previous screen button</string>
     <string name="nextButtonText">Next</string>
     <string name="previousButtonText">Previous</string>
@@ -26,4 +26,11 @@
     <string name="commentsNotLabeledErrorMessage">Some comments are not labeled</string>
     <string name="cannotLoadCommentsErrorMessage">Cannot load comments. Try again later</string>
     <string name="postingComments">Posting comments</string>
+    <string name="homeTopBarTitle">Home</string>
+    <string name="angerEmotion">Anger</string>
+    <string name="surpriseEmotion">Surprise</string>
+    <string name="sadnessEmotion">Sadness</string>
+    <string name="loveEmotion">Love</string>
+    <string name="joyEmotion">Joy</string>
+    <string name="fearEmotion">Fear</string>
 </resources>
