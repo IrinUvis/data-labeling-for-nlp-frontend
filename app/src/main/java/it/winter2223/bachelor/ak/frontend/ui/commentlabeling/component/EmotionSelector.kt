@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.model.UiEmotion
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.buttonHorizontalPadding
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.buttonVerticalPadding
@@ -66,7 +67,7 @@ fun EmotionSelectionRadioButton(
                 selected = selectedEmotion == emotion,
                 onClick = null,
             )
-            Text(text = emotion.name)
+            Text(text = stringResource(emotion.resourceText))
         }
     }
 }

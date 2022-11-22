@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -56,7 +57,10 @@ fun LogInContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val context = LocalContext.current
-            LogInHeadline(text = stringResource(R.string.logIn))
+            LogInHeadline(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.logIn),
+            )
 
             VerticalSpacer(height = extraBigPadding)
 

@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import it.winter2223.bachelor.ak.frontend.R
 import it.winter2223.bachelor.ak.frontend.ui.core.component.HorizontalSpacer
@@ -28,6 +29,10 @@ fun SignUpButton(
                 HorizontalSpacer(width = mediumPadding)
             }
         }
-        Text(text = stringResource(R.string.signUp))
+        Text(
+            text = stringResource(R.string.signUp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }

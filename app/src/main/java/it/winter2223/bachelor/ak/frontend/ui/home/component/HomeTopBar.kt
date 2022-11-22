@@ -16,7 +16,7 @@ fun HomeTopBar(
     onLogOutButtonClicked: () -> Unit,
 ) {
     CenterAlignedTopAppBar(
-        title = { Text(text = "Home") },
+        title = { Text(text = stringResource(R.string.homeTopBarTitle)) },
         actions = {
             LogOutButton(onClick = onLogOutButtonClicked)
         },
@@ -30,7 +30,7 @@ fun LogOutButton(
     IconButton(onClick = onClick) {
         Icon(
             painter = painterResource(id = R.drawable.ic_baseline_logout_24),
-            contentDescription = stringResource(id = R.string.goToSettingsButtonContentDescription),
+            contentDescription = stringResource(id = R.string.logOut),
         )
     }
 }

@@ -45,7 +45,9 @@ fun HomeContent(
                 .fillMaxSize(),
         ) {
             Column {
-                LabelCommentsInstructions()
+                LabelCommentsInstructions(
+                    modifier = Modifier.fillMaxWidth()
+                )
                 LabelCommentsSection(
                     modifier = Modifier
                         .padding(mediumPadding)
