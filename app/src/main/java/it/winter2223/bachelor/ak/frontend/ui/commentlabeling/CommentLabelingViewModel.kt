@@ -90,6 +90,29 @@ class CommentLabelingViewModel @Inject constructor(
         }
     }
 
+    fun checkForUnspecifiableEmotionAndGoToNextComment() {
+        (_viewState.value as? CommentLabelingViewState.Loaded)?.let {
+            val selectedCommentUnspecifiable = it.currentComment.emotion == UiEmotion.Unspecifiable
+            if (selectedCommentUnspecifiable) {
+                _viewState.value = CommentLabelingViewState.Loaded.GoToNextWithUnspecifiableRequested(
+                    comments = it.comments,
+                    currentCommentIndex = it.currentCommentIndex,
+                )
+            } else {
+                goToNextComment()
+            }
+        }
+    }
+
+    fun closeDialog() {
+        (_viewState.value as? CommentLabelingViewState.Loaded.GoToNextWithUnspecifiableRequested)?.let {
+            _viewState.value = CommentLabelingViewState.Loaded.Active(
+                comments = it.comments,
+                currentCommentIndex = it.currentCommentIndex,
+            )
+        }
+    }
+
     private suspend fun loadComments(quantity: Int) {
         _viewState.value = CommentLabelingViewState.Loading(
             text = UiText.ResourceText(R.string.loadingComments)

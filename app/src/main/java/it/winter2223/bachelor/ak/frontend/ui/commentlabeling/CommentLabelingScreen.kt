@@ -15,7 +15,9 @@ fun CommentLabelingScreen(
         viewState = viewState.value,
         onEmotionSelected = viewModel::onEmotionSelected,
         onPreviousButtonClicked = viewModel::goToPreviousComment,
-        onNextButtonClicked = viewModel::goToNextComment,
+        onNextButtonClicked = viewModel::checkForUnspecifiableEmotionAndGoToNextComment,
         onBackButtonClicked = navigateUp,
+        onGoToNextComment = viewModel::goToNextComment,
+        onCloseDialog = viewModel::closeDialog,
     )
 }

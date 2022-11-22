@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.CommentCard
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.EmotionSelector
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.ProgressSection
+import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.UnspecifiableEmotionDialog
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.model.UiEmotion
 import it.winter2223.bachelor.ak.frontend.ui.core.component.VerticalSpacer
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.bigPadding
@@ -26,11 +27,20 @@ fun ActiveCommentLabelingContent(
     onEmotionSelected: (UiEmotion) -> Unit,
     onPreviousButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
+    onGoToNextComment: () -> Unit,
+    onCloseDialog: () -> Unit,
 ) {
     BackHandler(
         enabled = viewState.currentCommentIndex != 0,
         onBack = onPreviousButtonClicked,
     )
+
+    if (viewState is CommentLabelingViewState.Loaded.GoToNextWithUnspecifiableRequested) {
+        UnspecifiableEmotionDialog(
+            onCloseDialog = onCloseDialog,
+            onGoToNextComment = onGoToNextComment,
+        )
+    }
 
     Column(
         modifier = modifier

@@ -1,6 +1,7 @@
 package it.winter2223.bachelor.ak.frontend.ui.commentlabeling
 
-import androidx.compose.animation.Crossfade
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.smallPadding
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun LoadingCommentLabelingContent(
     modifier: Modifier = Modifier,
@@ -30,7 +32,7 @@ fun LoadingCommentLabelingContent(
                 .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Crossfade(targetState = text) { targetState ->
+            AnimatedContent(targetState = text) { targetState ->
                 Text(
                     text = targetState,
                     style = MaterialTheme.typography.titleMedium,
