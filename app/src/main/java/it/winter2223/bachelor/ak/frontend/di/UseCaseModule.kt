@@ -15,6 +15,10 @@ import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.GetCommentsToL
 import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.SaveLabeledCommentsUseCase
 import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl.ProdGetCommentsToLabelUseCase
 import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl.ProdSaveLabeledCommentsUseCase
+import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.GetThemeFlowUseCase
+import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.SavePreferredThemeUseCase
+import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.impl.ProdGetThemeFlowUseCase
+import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.impl.ProdSavePreferredThemeUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdGetTokenFlowUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdRefreshTokenUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdStoreTokenUseCase
@@ -47,6 +51,16 @@ abstract class UseCaseModule {
     abstract fun bindStoreTokenUseCase(
         storeTokenUseCase: ProdStoreTokenUseCase,
     ): StoreTokenUseCase
+
+    @Binds
+    abstract fun bindSavePreferredThemeUseCase(
+        savePreferredThemeUseCase: ProdSavePreferredThemeUseCase,
+    ): SavePreferredThemeUseCase
+
+    @Binds
+    abstract fun getThemeFlowUseCase(
+        getThemeFlowUseCase: ProdGetThemeFlowUseCase,
+    ): GetThemeFlowUseCase
 
     @Binds
     abstract fun bindGetCommentsToLabelUseCase(

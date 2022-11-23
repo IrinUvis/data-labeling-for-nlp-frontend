@@ -1,7 +1,7 @@
 package it.winter2223.bachelor.ak.frontend.ui.settings
 
 import it.winter2223.bachelor.ak.frontend.ui.settings.model.NotificationState
-import it.winter2223.bachelor.ak.frontend.ui.settings.model.UiTheme
+import it.winter2223.bachelor.ak.frontend.ui.core.model.UiTheme
 
 sealed class SettingsViewState(
     open val selectedTheme: UiTheme?,
@@ -22,7 +22,7 @@ sealed class SettingsViewState(
         data class Active(
             override val selectedTheme: UiTheme,
             override val notificationState: NotificationState,
-        ): Loaded(
+        ) : Loaded(
             selectedTheme = selectedTheme,
             notificationState = notificationState,
         )
@@ -31,7 +31,15 @@ sealed class SettingsViewState(
             override val selectedTheme: UiTheme,
             override val notificationState: NotificationState,
             val pickedTheme: UiTheme,
-        ): Loaded(
+        ) : Loaded(
+            selectedTheme = selectedTheme,
+            notificationState = notificationState,
+        )
+
+        data class SavePreferredThemeFailure(
+            override val selectedTheme: UiTheme,
+            override val notificationState: NotificationState,
+        ) : Loaded(
             selectedTheme = selectedTheme,
             notificationState = notificationState,
         )

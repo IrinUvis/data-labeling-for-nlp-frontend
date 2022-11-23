@@ -3,6 +3,7 @@ package it.winter2223.bachelor.ak.frontend.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import it.winter2223.bachelor.ak.frontend.ui.core.model.UiTheme
 import it.winter2223.bachelor.ak.frontend.ui.core.theme.AppTheme
 import it.winter2223.bachelor.ak.frontend.ui.navigation.AppNavHost
 import it.winter2223.bachelor.ak.frontend.ui.splash.SplashViewModel
@@ -42,7 +44,17 @@ class MainActivity : ComponentActivity() {
 fun DataLabelingForNlp(
     splashViewModel: SplashViewModel,
 ) {
-    AppTheme {
+    val splashState = splashViewModel.viewState.value
+
+    val darkTheme = when ((splashState as? SplashViewState.Completed)?.theme ?: UiTheme.System) {
+        UiTheme.Light -> false
+        UiTheme.Dark -> true
+        UiTheme.System -> isSystemInDarkTheme()
+    }
+
+    AppTheme(
+        darkTheme = darkTheme
+    ) {
         Surface(
             color = MaterialTheme.colorScheme.background,
         ) {

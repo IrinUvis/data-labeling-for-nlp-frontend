@@ -15,6 +15,7 @@ class ProdGetTokenFlowUseCase @Inject constructor(
     companion object {
         private const val TAG = "ProdGetTokenFlowUC"
     }
+
     override suspend fun invoke(): GetTokenFlowResult {
         return try {
             GetTokenFlowResult.Success(

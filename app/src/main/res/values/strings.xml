@@ -50,4 +50,5 @@
     <string name="themeSelectionDialogTitle">Pick theme</string>
     <string name="themeSelectionDialogConfirmButtonText">Cancel</string>
     <string name="themeToggleText">Theme</string>
+    <string name="cannotSaveThemeErrorMessage">An error has occurred when changing theme. Try again later</string>
 </resources>

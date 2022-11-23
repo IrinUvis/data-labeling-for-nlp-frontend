@@ -14,8 +14,12 @@ fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel(),
     navigateToAppropriateStartingDestination: () -> Unit,
 ) {
-    LaunchedEffect(viewModel.viewState) {
-        navigateToAppropriateStartingDestination()
+    val viewState = viewModel.viewState.value
+
+    if (viewState is SplashViewState.Completed) {
+        LaunchedEffect(viewState.loggedIn) {
+            navigateToAppropriateStartingDestination()
+        }
     }
 
     Box(

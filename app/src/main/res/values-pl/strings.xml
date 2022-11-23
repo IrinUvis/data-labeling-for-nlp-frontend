@@ -51,4 +51,6 @@
     <string name="themeSelectionDialogTitle">Wybierz motyw</string>
     <string name="themeSelectionDialogConfirmButtonText">Anuluj</string>
     <string name="themeToggleText">Motyw</string>
+    <string name="cannotSaveThemeErrorMessage">Podczas zmiany motywu wystąpił błąd. Spróbuj ponownie później</string>
+
 </resources>
