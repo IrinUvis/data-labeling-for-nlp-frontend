@@ -51,4 +51,6 @@
     <string name="themeSelectionDialogConfirmButtonText">Cancel</string>
     <string name="themeToggleText">Theme</string>
     <string name="cannotSaveThemeErrorMessage">An error has occurred when changing theme. Try again later</string>
+    <string name="notificationsSettingsLabel">Notifications</string>
+    <string name="getDailyRemindersSettingsOption">Get daily reminders</string>
 </resources>

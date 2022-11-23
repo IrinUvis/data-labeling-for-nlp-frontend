@@ -39,7 +39,7 @@ buildscript {
         // https://developer.android.com/jetpack/androidx/releases/navigation
         navigationComposeVersion = "2.5.3"
 
-        //
+        // https://developer.android.com/jetpack/androidx/releases/core
         splashScreenVersion = "1.0.0"
 
         // https://developer.android.com/jetpack/androidx/releases/test

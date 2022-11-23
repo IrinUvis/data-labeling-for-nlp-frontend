@@ -3,7 +3,6 @@ package it.winter2223.bachelor.ak.frontend.ui.settings
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -19,11 +18,11 @@ import it.winter2223.bachelor.ak.frontend.ui.core.component.NavigateUpButton
 import it.winter2223.bachelor.ak.frontend.ui.core.component.VerticalSpacer
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.mediumPadding
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.smallPadding
-import it.winter2223.bachelor.ak.frontend.ui.settings.component.LogOutButton
-import it.winter2223.bachelor.ak.frontend.ui.settings.component.SectionLabel
-import it.winter2223.bachelor.ak.frontend.ui.settings.component.ThemeSelectionDialog
-import it.winter2223.bachelor.ak.frontend.ui.settings.component.ThemeToggle
 import it.winter2223.bachelor.ak.frontend.ui.core.model.UiTheme
+import it.winter2223.bachelor.ak.frontend.ui.settings.component.AuthenticationSettingsSection
+import it.winter2223.bachelor.ak.frontend.ui.settings.component.DisplaySettingsSection
+import it.winter2223.bachelor.ak.frontend.ui.settings.component.NotificationsSettingsSection
+import it.winter2223.bachelor.ak.frontend.ui.settings.component.ThemeSelectionDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +32,7 @@ fun SettingsContent(
     onNavigateToLogin: () -> Unit,
     onThemeButtonClicked: () -> Unit,
     onThemeSelected: (UiTheme) -> Unit,
-//    onNotificationToggled: () -> Unit,
+    onNotificationToggled: (Boolean) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -75,6 +74,7 @@ fun SettingsContent(
             viewState = viewState,
             onThemeButtonClicked = onThemeButtonClicked,
             onNavigateToLogin = onNavigateToLogin,
+            onNotificationToggled = onNotificationToggled,
         )
     }
 }
@@ -85,47 +85,28 @@ private fun ScaffoldBody(
     viewState: SettingsViewState,
     onThemeButtonClicked: () -> Unit,
     onNavigateToLogin: () -> Unit,
+    onNotificationToggled: (Boolean) -> Unit,
 ) {
     Column(
         modifier = modifier,
     ) {
-        SectionLabel(
-            modifier = Modifier.padding(start = smallPadding),
-            text = stringResource(R.string.displayOptionsSettingsLabel)
-        )
-
-        VerticalSpacer(height = smallPadding)
-
-        ThemeToggle(
-            modifier = Modifier
-                .fillMaxWidth(),
+        DisplaySettingsSection(
             isLoaded = viewState is SettingsViewState.Loaded,
             selectedTheme = viewState.selectedTheme,
-            onClick = onThemeButtonClicked,
+            onThemeButtonClicked = onThemeButtonClicked,
         )
 
         VerticalSpacer(height = smallPadding)
 
-        SectionLabel(
-            modifier = Modifier.padding(start = smallPadding),
-            text = stringResource(R.string.AuthenticationOptionsSettingsLabel)
+        NotificationsSettingsSection(
+            viewState = viewState,
+            onNotificationToggled = onNotificationToggled,
         )
 
         VerticalSpacer(height = smallPadding)
 
-        LogOutButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = smallPadding),
-            onNavigateToLogin = onNavigateToLogin
+        AuthenticationSettingsSection(
+            onNavigateToLogin = onNavigateToLogin,
         )
     }
 }
-
-
-
-
-
-
-
-

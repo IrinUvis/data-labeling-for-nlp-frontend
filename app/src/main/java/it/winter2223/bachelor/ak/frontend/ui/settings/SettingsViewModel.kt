@@ -1,8 +1,15 @@
 package it.winter2223.bachelor.ak.frontend.ui.settings
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import it.winter2223.bachelor.ak.frontend.domain.theme.model.GetThemeFlowResult
 import it.winter2223.bachelor.ak.frontend.domain.theme.model.SavePreferredThemeResult
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.GetThemeFlowUseCase
@@ -11,15 +18,16 @@ import it.winter2223.bachelor.ak.frontend.domain.token.usecase.ClearTokenUseCase
 import it.winter2223.bachelor.ak.frontend.ui.core.model.UiTheme
 import it.winter2223.bachelor.ak.frontend.ui.core.model.toDomainTheme
 import it.winter2223.bachelor.ak.frontend.ui.core.model.toUiTheme
-import it.winter2223.bachelor.ak.frontend.ui.settings.model.NotificationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    @ApplicationContext private val context: Context, // should be save according to https://stackoverflow.com/questions/66216839/inject-context-with-hilt-this-field-leaks-a-context-object
     private val clearTokenUseCase: ClearTokenUseCase,
     private val savePreferredThemeUseCase: SavePreferredThemeUseCase,
     private val getThemeFlowUseCase: GetThemeFlowUseCase,
@@ -30,7 +38,7 @@ class SettingsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val theme = when(val getThemeFlowResult = getThemeFlowUseCase()) {
+            val theme = when (val getThemeFlowResult = getThemeFlowUseCase()) {
                 is GetThemeFlowResult.Success ->
                     getThemeFlowResult.themeFlow.first().toUiTheme()
                 is GetThemeFlowResult.Failure ->
@@ -38,7 +46,7 @@ class SettingsViewModel @Inject constructor(
             }
             _viewState.value = SettingsViewState.Loaded.Active(
                 selectedTheme = theme,
-                notificationState = NotificationState.Disabled,
+                notificationsTurnOn = false,
             )
         }
     }
@@ -47,21 +55,19 @@ class SettingsViewModel @Inject constructor(
         (_viewState.value as? SettingsViewState.Loaded)?.let {
             _viewState.value = SettingsViewState.Loaded.ThemeSelectionDialog(
                 selectedTheme = it.selectedTheme,
-                notificationState = it.notificationState,
-                pickedTheme = it.selectedTheme,
+                notificationsTurnOn = it.notificationsTurnOn,
             )
         }
     }
 
     fun changeTheme(selectedTheme: UiTheme) {
-        // invoke use case to save the theme
         viewModelScope.launch {
             when (savePreferredThemeUseCase(selectedTheme.toDomainTheme())) {
                 is SavePreferredThemeResult.Success -> {
                     (_viewState.value as? SettingsViewState.Loaded)?.let {
                         _viewState.value = SettingsViewState.Loaded.Active(
                             selectedTheme = selectedTheme,
-                            notificationState = it.notificationState,
+                            notificationsTurnOn = it.notificationsTurnOn,
                         )
                     }
                 }
@@ -69,7 +75,7 @@ class SettingsViewModel @Inject constructor(
                     (_viewState.value as? SettingsViewState.Loaded)?.let {
                         _viewState.value = SettingsViewState.Loaded.SavePreferredThemeFailure(
                             selectedTheme = it.selectedTheme,
-                            notificationState = it.notificationState,
+                            notificationsTurnOn = it.notificationsTurnOn,
                         )
                     }
                 }
@@ -77,23 +83,34 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun toggleNotifications() {
-        // invoke use case
+    fun toggleNotifications(checked: Boolean) {
+        // check permissions
+        (_viewState.value as? SettingsViewState.Loaded)?.let { state ->
+            if (!checked) {
+                _viewState.value = SettingsViewState.Loaded.Active(
+                    selectedTheme = state.selectedTheme,
+                    notificationsTurnOn = false
+                )
+            } else {
+                val hasNotificationPermission =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        ContextCompat.checkSelfPermission(
+                            context,
+                            Manifest.permission.POST_NOTIFICATIONS
+                        ) == PackageManager.PERMISSION_GRANTED
+                    } else true
 
-        (_viewState.value as? SettingsViewState.Loaded)?.let {
-            val changedNotificationState =
-                if (it.notificationState is NotificationState.Disabled) {
-                    NotificationState.Enabled(
-                        hour = 0,
-                        minute = 0,
+                if (hasNotificationPermission) {
+                    _viewState.value = SettingsViewState.Loaded.Active(
+                        selectedTheme = state.selectedTheme,
+                        notificationsTurnOn = true
                     )
                 } else {
-                    NotificationState.Disabled
+                    _viewState.value = SettingsViewState.Loaded.AskForNotificationPermissionDialog(
+                        selectedTheme = state.selectedTheme,
+                    )
                 }
-            _viewState.value = SettingsViewState.Loaded.Active(
-                selectedTheme = it.selectedTheme,
-                notificationState = changedNotificationState
-            )
+            }
         }
     }
 

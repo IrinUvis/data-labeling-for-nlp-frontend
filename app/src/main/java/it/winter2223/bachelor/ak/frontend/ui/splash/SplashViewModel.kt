@@ -68,14 +68,6 @@ class SplashViewModel @Inject constructor(
                     UiTheme.System
                 }
             }
-
-//            val tokenSaved = when (val getTokenResult = getTokenFlowUseCase()) {
-//                is GetTokenFlowResult.Success -> {
-//                    val token = getTokenResult.tokenFlow.first()
-//                    token != null
-//                }
-//                is GetTokenFlowResult.Failure -> false
-//            }
         }
     }
 }
