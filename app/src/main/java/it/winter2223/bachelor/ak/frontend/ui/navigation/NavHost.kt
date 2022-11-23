@@ -27,6 +27,9 @@ fun AppNavHost(
         homeScreen(
             navController = navController,
         )
+        settingsScreen(
+            navController = navController,
+        )
         commentLabelingScreen(
             navController = navController,
         )

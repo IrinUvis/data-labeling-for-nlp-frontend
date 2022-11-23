@@ -22,14 +22,14 @@ private const val MAX_COMMENT_QUANTITY = 20
 @Composable
 fun HomeContent(
     viewState: HomeViewState.Loaded,
-    onLogOutButtonClicked: () -> Unit,
+    onSettingsButtonClicked: () -> Unit,
     onGoToCommentLabelingClicked: () -> Unit,
     onNumberOfCommentsToLabelUpdated: (Int) -> Unit,
 ) {
     Scaffold(
         topBar = {
             HomeTopBar(
-                onLogOutButtonClicked = onLogOutButtonClicked,
+                onSettingsButtonClicked = onSettingsButtonClicked,
             )
         }
     ) { paddingValues ->

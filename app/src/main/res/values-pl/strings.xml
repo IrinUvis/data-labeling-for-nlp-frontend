@@ -3,7 +3,7 @@
     <string name="app_name">Etykietowanie komentarzy</string>
     <string name="loadingComments">Ładowanie komentarzy</string>
     <string name="commentLabelingAppBarTitle">Etykietowanie</string>
-    <string name="logOut">Wyloguj się z aplikacji</string>
+    <string name="logOutIconContentDescription">Wyloguj się z aplikacji</string>
     <string name="goBackToPreviousScreenButtonContentDescription">Cofnij się do poprzedniego ekranu</string>
     <string name="nextButtonText">Następny</string>
     <string name="previousButtonText">Poprzedni</string>
@@ -40,4 +40,15 @@
     <string name="unspecifiableEmotionDialogSupportiveText">Wybrałeś opcję nieidentyfikowalnej emocji dla tego komentarza. Rób tak tylko w sytuacji, w której na prawdę nie ma emocji pasującej do podanego komentarza.</string>
     <string name="unspecifiableEmotionDialogConfirmButtonText">Zatwierdź</string>
     <string name="unspecifiableEmotionDialogDismissButtonText">Cofnij</string>
+    <string name="settingsTopAppBarTitle">Ustawienia</string>
+    <string name="displayOptionsSettingsLabel">Opcje wyświetlania</string>
+    <string name="lightThemeEnumText">Jasny</string>
+    <string name="darkThemeEnumText">Ciemny</string>
+    <string name="systemDefaultThemeEnumText">Systemowy</string>
+    <string name="goToSettingsButtonContentDescription">Przejdź do ustawień</string>
+    <string name="AuthenticationOptionsSettingsLabel">Autentykacja</string>
+    <string name="logOutSettingsButtonText">Wyloguj się z aplikacji</string>
+    <string name="themeSelectionDialogTitle">Wybierz motyw</string>
+    <string name="themeSelectionDialogConfirmButtonText">Anuluj</string>
+    <string name="themeToggleText">Motyw</string>
 </resources>

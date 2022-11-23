@@ -1,36 +1,37 @@
 package it.winter2223.bachelor.ak.frontend.ui.home.component
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import it.winter2223.bachelor.ak.frontend.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopBar(
-    onLogOutButtonClicked: () -> Unit,
+    onSettingsButtonClicked: () -> Unit,
 ) {
     CenterAlignedTopAppBar(
         title = { Text(text = stringResource(R.string.homeTopBarTitle)) },
         actions = {
-            LogOutButton(onClick = onLogOutButtonClicked)
+            GoToSettingsButton(onClick = onSettingsButtonClicked)
         },
     )
 }
 
 @Composable
-fun LogOutButton(
+fun GoToSettingsButton(
     onClick: () -> Unit,
 ) {
     IconButton(onClick = onClick) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_baseline_logout_24),
-            contentDescription = stringResource(id = R.string.logOut),
+            imageVector = Icons.Default.Settings,
+            contentDescription = stringResource(R.string.goToSettingsButtonContentDescription),
         )
     }
 }
