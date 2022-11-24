@@ -12,12 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -57,27 +55,9 @@ fun NotificationsSettingsSection(
     }
 
     if (viewState is SettingsViewState.Loaded.AfterPermissionDeniedDialog) {
-        AlertDialog(
-            onDismissRequest = { onNotificationToggled(false) },
-            title = { Text(text = stringResource(R.string.afterPermissionDeniedDialogTitle)) },
-            text = { Text(text = stringResource(R.string.afterPermissionDeniedDialogText)) },
-            dismissButton = {
-                TextButton(
-                    onClick = { onNotificationToggled(false) },
-                ) {
-                    Text(text = stringResource(R.string.afterPermissionDeniedDialogDismissButtonText))
-                }
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        onGoToSettingsClicked()
-                        onNotificationToggled(false)
-                    },
-                ) {
-                    Text(text = stringResource(R.string.afterPermissionDeniedDialogConfirmButtonText))
-                }
-            },
+        AfterPermissionDeniedDialog(
+            onNotificationToggled = onNotificationToggled,
+            onGoToSettingsClicked = onGoToSettingsClicked,
         )
     }
 
@@ -103,24 +83,25 @@ fun NotificationsSettingsSection(
 
             HorizontalSpacer(width = mediumPadding)
 
-            val icon: (@Composable () -> Unit)? =
-                if (viewState.notificationsTurnOn) {
-                    {
-                        Icon(
-                            modifier = Modifier.size(SwitchDefaults.IconSize),
-                            imageVector = Icons.Default.Check,
-                            contentDescription = null,
-                        )
-                    }
-                } else {
-                    null
-                }
-
             Switch(
                 checked = viewState.notificationsTurnOn,
-                thumbContent = icon,
+                thumbContent = { IconForSwitch(notificationsTurnOn = viewState.notificationsTurnOn) },
                 onCheckedChange = onNotificationToggled,
             )
         }
+    }
+}
+
+
+@Composable
+private fun IconForSwitch(
+    notificationsTurnOn: Boolean,
+) {
+    if (notificationsTurnOn) {
+        Icon(
+            modifier = Modifier.size(SwitchDefaults.IconSize),
+            imageVector = Icons.Default.Check,
+            contentDescription = null,
+        )
     }
 }
