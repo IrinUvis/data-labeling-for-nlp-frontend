@@ -53,4 +53,8 @@
     <string name="cannotSaveThemeErrorMessage">An error has occurred when changing theme. Try again later</string>
     <string name="notificationsSettingsLabel">Notifications</string>
     <string name="getDailyRemindersSettingsOption">Get daily reminders</string>
+    <string name="afterPermissionDeniedDialogTitle">Permission required</string>
+    <string name="afterPermissionDeniedDialogText">In order to access reminders it is required that you give the app permission to send you notifications. Only after you turn these on in the app\'s settings you can turn the reminders on.</string>
+    <string name="afterPermissionDeniedDialogDismissButtonText">Deny</string>
+    <string name="afterPermissionDeniedDialogConfirmButtonText">Go to settings</string>
 </resources>

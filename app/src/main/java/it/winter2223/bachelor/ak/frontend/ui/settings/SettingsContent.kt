@@ -32,6 +32,8 @@ fun SettingsContent(
     onNavigateToLogin: () -> Unit,
     onThemeButtonClicked: () -> Unit,
     onThemeSelected: (UiTheme) -> Unit,
+    onPostNotificationsPermissionDenied: () -> Unit,
+    onGoToSettingsClicked: () -> Unit,
     onNotificationToggled: (Boolean) -> Unit,
 ) {
     Scaffold(
@@ -75,6 +77,8 @@ fun SettingsContent(
             onThemeButtonClicked = onThemeButtonClicked,
             onNavigateToLogin = onNavigateToLogin,
             onNotificationToggled = onNotificationToggled,
+            onPostNotificationsPermissionDenied = onPostNotificationsPermissionDenied,
+            onGoToSettingsClicked = onGoToSettingsClicked,
         )
     }
 }
@@ -86,6 +90,8 @@ private fun ScaffoldBody(
     onThemeButtonClicked: () -> Unit,
     onNavigateToLogin: () -> Unit,
     onNotificationToggled: (Boolean) -> Unit,
+    onGoToSettingsClicked: () -> Unit,
+    onPostNotificationsPermissionDenied: () -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -101,6 +107,8 @@ private fun ScaffoldBody(
         NotificationsSettingsSection(
             viewState = viewState,
             onNotificationToggled = onNotificationToggled,
+            onPostNotificationsPermissionDenied = onPostNotificationsPermissionDenied,
+            onGoToSettingsClicked = onGoToSettingsClicked,
         )
 
         VerticalSpacer(height = smallPadding)

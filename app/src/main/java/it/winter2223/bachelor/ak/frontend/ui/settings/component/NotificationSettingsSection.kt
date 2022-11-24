@@ -12,10 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -32,12 +34,16 @@ import it.winter2223.bachelor.ak.frontend.ui.settings.SettingsViewState
 fun NotificationsSettingsSection(
     viewState: SettingsViewState,
     onNotificationToggled: (Boolean) -> Unit,
+    onPostNotificationsPermissionDenied: () -> Unit,
+    onGoToSettingsClicked: () -> Unit,
 ) {
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
             if (isGranted) {
                 onNotificationToggled(true)
+            } else {
+                onPostNotificationsPermissionDenied()
             }
         }
     )
@@ -48,6 +54,31 @@ fun NotificationsSettingsSection(
                 launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
+    }
+
+    if (viewState is SettingsViewState.Loaded.AfterPermissionDeniedDialog) {
+        AlertDialog(
+            onDismissRequest = { onNotificationToggled(false) },
+            title = { Text(text = stringResource(R.string.afterPermissionDeniedDialogTitle)) },
+            text = { Text(text = stringResource(R.string.afterPermissionDeniedDialogText)) },
+            dismissButton = {
+                TextButton(
+                    onClick = { onNotificationToggled(false) },
+                ) {
+                    Text(text = stringResource(R.string.afterPermissionDeniedDialogDismissButtonText))
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onGoToSettingsClicked()
+                        onNotificationToggled(false)
+                    },
+                ) {
+                    Text(text = stringResource(R.string.afterPermissionDeniedDialogConfirmButtonText))
+                }
+            },
+        )
     }
 
     Column {

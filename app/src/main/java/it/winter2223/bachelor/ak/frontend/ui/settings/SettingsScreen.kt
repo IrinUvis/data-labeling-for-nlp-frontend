@@ -21,6 +21,8 @@ fun SettingsScreen(
         },
         onThemeButtonClicked = viewModel::openThemeSelectionDialog,
         onThemeSelected = viewModel::changeTheme,
-        onNotificationToggled = viewModel::toggleNotifications
+        onPostNotificationsPermissionDenied = viewModel::postNotificationsDenied,
+        onNotificationToggled = viewModel::toggleNotifications,
+        onGoToSettingsClicked = viewModel::goToSettings,
     )
 }

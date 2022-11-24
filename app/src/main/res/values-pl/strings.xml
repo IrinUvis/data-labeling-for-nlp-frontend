@@ -52,5 +52,11 @@
     <string name="themeSelectionDialogConfirmButtonText">Anuluj</string>
     <string name="themeToggleText">Motyw</string>
     <string name="cannotSaveThemeErrorMessage">Podczas zmiany motywu wystąpił błąd. Spróbuj ponownie później</string>
+    <string name="notificationsSettingsLabel">Powiadomienia</string>
+    <string name="getDailyRemindersSettingsOption">Otrzymuj codzienne przypomnienia</string>
+    <string name="afterPermissionDeniedDialogTitle">Wymagane uprawnienie</string>
+    <string name="afterPermissionDeniedDialogText">Aby włączyć przypomnienia, wymagane jest uprawnienie aplikacji do wysyłania powiadomień. Dopiero po nadaniu uprawnienia do wysyłania powiadomień w ustawieniach aplikacji, będzie można włączyć codzienne przypomnienia.</string>
+    <string name="afterPermissionDeniedDialogDismissButtonText">Odmów</string>
+    <string name="afterPermissionDeniedDialogConfirmButtonText">Ustawienia</string>
 
 </resources>

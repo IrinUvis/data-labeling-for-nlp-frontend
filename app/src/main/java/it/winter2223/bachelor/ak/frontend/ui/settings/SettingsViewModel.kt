@@ -3,13 +3,18 @@ package it.winter2223.bachelor.ak.frontend.ui.settings
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import it.winter2223.bachelor.ak.frontend.BuildConfig
 import it.winter2223.bachelor.ak.frontend.domain.theme.model.GetThemeFlowResult
 import it.winter2223.bachelor.ak.frontend.domain.theme.model.SavePreferredThemeResult
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.GetThemeFlowUseCase
@@ -23,6 +28,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @SuppressLint("StaticFieldLeak")
 @HiltViewModel
@@ -92,13 +98,7 @@ class SettingsViewModel @Inject constructor(
                     notificationsTurnOn = false
                 )
             } else {
-                val hasNotificationPermission =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        ContextCompat.checkSelfPermission(
-                            context,
-                            Manifest.permission.POST_NOTIFICATIONS
-                        ) == PackageManager.PERMISSION_GRANTED
-                    } else true
+                val hasNotificationPermission = hasPostNotificationsPermission()
 
                 if (hasNotificationPermission) {
                     _viewState.value = SettingsViewState.Loaded.Active(
@@ -106,12 +106,38 @@ class SettingsViewModel @Inject constructor(
                         notificationsTurnOn = true
                     )
                 } else {
+                    Log.d("NOTIF", "before viewstate change")
                     _viewState.value = SettingsViewState.Loaded.AskForNotificationPermissionDialog(
                         selectedTheme = state.selectedTheme,
                     )
                 }
             }
         }
+    }
+
+    fun goToSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        val uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
+        intent.data = uri
+        context.startActivity(intent)
+    }
+
+    fun postNotificationsDenied() {
+        (_viewState.value as? SettingsViewState.Loaded)?.let { state ->
+            _viewState.value = SettingsViewState.Loaded.AfterPermissionDeniedDialog(
+                selectedTheme = state.selectedTheme,
+            )
+        }
+    }
+
+    private fun hasPostNotificationsPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        } else true
     }
 
     fun logOut() {

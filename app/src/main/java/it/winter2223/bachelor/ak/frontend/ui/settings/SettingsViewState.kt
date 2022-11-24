@@ -41,6 +41,13 @@ sealed class SettingsViewState(
             notificationsTurnOn = false,
         )
 
+        data class AfterPermissionDeniedDialog(
+            override val selectedTheme: UiTheme,
+        ) : Loaded(
+            selectedTheme = selectedTheme,
+            notificationsTurnOn = false,
+        )
+
         data class SavePreferredThemeFailure(
             override val selectedTheme: UiTheme,
             override val notificationsTurnOn: Boolean,
