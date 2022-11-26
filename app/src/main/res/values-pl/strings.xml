@@ -58,5 +58,7 @@
     <string name="afterPermissionDeniedDialogText">Aby włączyć przypomnienia, wymagane jest uprawnienie aplikacji do wysyłania powiadomień. Dopiero po nadaniu uprawnienia do wysyłania powiadomień w ustawieniach aplikacji, będzie można włączyć codzienne przypomnienia.</string>
     <string name="afterPermissionDeniedDialogDismissButtonText">Odmów</string>
     <string name="afterPermissionDeniedDialogConfirmButtonText">Ustawienia</string>
-
+    <string name="commentLabelingRemindersChannelName">Przypomnienia o etykietowaniu</string>
+    <string name="commentLabelingReminderNotificationText">Będziemy wdzięczni za wszelką pomoc w etykietowaniu komentarzy</string>
+    <string name="commentLabelingReminderNotificationTitle">Przypomnienie o etykietowaniu</string>
 </resources>

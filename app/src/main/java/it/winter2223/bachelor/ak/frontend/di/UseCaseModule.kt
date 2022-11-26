@@ -15,6 +15,12 @@ import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.GetCommentsToL
 import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.SaveLabeledCommentsUseCase
 import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl.ProdGetCommentsToLabelUseCase
 import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl.ProdSaveLabeledCommentsUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.CancelCommentLabelingRemindersUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.GetCommentLabelingReminderStatusUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.ScheduleCommentLabelingRemindersUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdCancelCommentLabelingRemindersUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdGetCommentLabelingReminderStatusUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdScheduleCommentLabelingRemindersUseCase
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.GetThemeFlowUseCase
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.SavePreferredThemeUseCase
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.impl.ProdGetThemeFlowUseCase
@@ -23,6 +29,7 @@ import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdGetToken
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdRefreshTokenUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdStoreTokenUseCase
 
+@Suppress("TooManyFunctions")
 @InstallIn(SingletonComponent::class)
 @Module
 abstract class UseCaseModule {
@@ -71,4 +78,19 @@ abstract class UseCaseModule {
     abstract fun bindSaveLabeledCommentsUseCase(
         saveLabeledCommentsUseCase: ProdSaveLabeledCommentsUseCase,
     ): SaveLabeledCommentsUseCase
+
+    @Binds
+    abstract fun getCancelCommentLabelingRemindersUseCase(
+        cancelCommentLabelingRemindersUseCase: ProdCancelCommentLabelingRemindersUseCase,
+    ): CancelCommentLabelingRemindersUseCase
+
+    @Binds
+    abstract fun bindGetCommentLabelingReminderStatusUseCase(
+        getCommentLabelingReminderStatusUseCase: ProdGetCommentLabelingReminderStatusUseCase,
+    ): GetCommentLabelingReminderStatusUseCase
+
+    @Binds
+    abstract fun bindScheduleCommentLabelingRemindersUseCase(
+        scheduleCommentLabelingRemindersUseCase: ProdScheduleCommentLabelingRemindersUseCase,
+    ): ScheduleCommentLabelingRemindersUseCase
 }
