@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import it.winter2223.bachelor.ak.frontend.R
 import it.winter2223.bachelor.ak.frontend.ui.core.component.HorizontalSpacer
 import it.winter2223.bachelor.ak.frontend.ui.core.component.VerticalSpacer
@@ -50,6 +51,10 @@ private fun LogOutButton(
             contentDescription = stringResource(R.string.logOutIconContentDescription),
         )
         HorizontalSpacer(width = smallPadding)
-        Text(text = stringResource(R.string.logOutSettingsButtonText))
+        Text(
+            text = stringResource(R.string.logOutSettingsButtonText),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }

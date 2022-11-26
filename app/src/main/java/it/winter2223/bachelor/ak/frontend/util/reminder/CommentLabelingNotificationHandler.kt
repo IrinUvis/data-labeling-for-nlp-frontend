@@ -25,8 +25,6 @@ object CommentLabelingNotificationHandler {
         val pendingIntent = PendingIntent.getActivity(context, 0, runAppIntent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
-        createNotificationChannel(context)
-
         val builder = NotificationCompat.Builder(context, REMINDERS_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(context.getString(R.string.commentLabelingReminderNotificationTitle))

@@ -61,4 +61,5 @@
     <string name="commentLabelingRemindersChannelName">Przypomnienia o etykietowaniu</string>
     <string name="commentLabelingReminderNotificationText">Będziemy wdzięczni za wszelką pomoc w etykietowaniu komentarzy</string>
     <string name="commentLabelingReminderNotificationTitle">Przypomnienie o etykietowaniu</string>
+    <string name="timeSelectorButtonText">Ustaw</string>
 </resources>

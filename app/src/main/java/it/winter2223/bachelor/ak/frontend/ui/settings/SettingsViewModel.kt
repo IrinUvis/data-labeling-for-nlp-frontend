@@ -23,6 +23,7 @@ import it.winter2223.bachelor.ak.frontend.util.reminder.CommentLabelingNotificat
 import it.winter2223.bachelor.ak.frontend.ui.core.model.UiTheme
 import it.winter2223.bachelor.ak.frontend.ui.core.model.toDomainTheme
 import it.winter2223.bachelor.ak.frontend.ui.core.model.toUiTheme
+import it.winter2223.bachelor.ak.frontend.ui.settings.model.RemindersState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -67,7 +68,9 @@ class SettingsViewModel @Inject constructor(
 
             _viewState.value = SettingsViewState.Loaded.Active(
                 selectedTheme = theme,
-                notificationsTurnOn = notificationsTurnOn,
+                remindersState = RemindersState(
+                    turnOn = notificationsTurnOn,
+                ),
             )
 
         }
@@ -77,7 +80,7 @@ class SettingsViewModel @Inject constructor(
         (_viewState.value as? SettingsViewState.Loaded)?.let {
             _viewState.value = SettingsViewState.Loaded.ThemeSelectionDialog(
                 selectedTheme = it.selectedTheme,
-                notificationsTurnOn = it.notificationsTurnOn,
+                remindersState = it.remindersState,
             )
         }
     }
@@ -89,7 +92,7 @@ class SettingsViewModel @Inject constructor(
                     (_viewState.value as? SettingsViewState.Loaded)?.let {
                         _viewState.value = SettingsViewState.Loaded.Active(
                             selectedTheme = selectedTheme,
-                            notificationsTurnOn = it.notificationsTurnOn,
+                            remindersState = it.remindersState,
                         )
                     }
                 }
@@ -97,7 +100,7 @@ class SettingsViewModel @Inject constructor(
                     (_viewState.value as? SettingsViewState.Loaded)?.let {
                         _viewState.value = SettingsViewState.Loaded.SavePreferredThemeFailure(
                             selectedTheme = it.selectedTheme,
-                            notificationsTurnOn = it.notificationsTurnOn,
+                            remindersState = it.remindersState,
                         )
                     }
                 }
@@ -111,7 +114,9 @@ class SettingsViewModel @Inject constructor(
                 cancelCommentLabelingRemindersUseCase()
                 _viewState.value = SettingsViewState.Loaded.Active(
                     selectedTheme = state.selectedTheme,
-                    notificationsTurnOn = false
+                    remindersState = RemindersState(
+                        turnOn = false,
+                    )
                 )
             } else {
                 val hasNotificationPermission = canSendNotifications(context)
@@ -120,7 +125,9 @@ class SettingsViewModel @Inject constructor(
                     scheduleCommentLabelingRemindersUseCase(STARTING_HOUR_OF_DAY, STARTING_MINUTE)
                     _viewState.value = SettingsViewState.Loaded.Active(
                         selectedTheme = state.selectedTheme,
-                        notificationsTurnOn = true
+                        remindersState = RemindersState(
+                            turnOn = true,
+                        )
                     )
                 } else {
                     _viewState.value = SettingsViewState.Loaded.AskForNotificationPermissionDialog(
@@ -143,6 +150,19 @@ class SettingsViewModel @Inject constructor(
         (_viewState.value as? SettingsViewState.Loaded)?.let { state ->
             _viewState.value = SettingsViewState.Loaded.AfterPermissionDeniedDialog(
                 selectedTheme = state.selectedTheme,
+            )
+        }
+    }
+
+    fun setTime(hourOfDay: Int, minute: Int) {
+        (_viewState.value as? SettingsViewState.Loaded)?.let { state ->
+            _viewState.value = SettingsViewState.Loaded.Active(
+                selectedTheme = state.selectedTheme,
+                remindersState = RemindersState(
+                    turnOn = state.remindersState.turnOn,
+                    hourOfDay = hourOfDay,
+                    minute = minute,
+                )
             )
         }
     }

@@ -4,6 +4,7 @@ import android.Manifest
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,27 +13,46 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import it.winter2223.bachelor.ak.frontend.R
 import it.winter2223.bachelor.ak.frontend.ui.core.component.HorizontalSpacer
+import it.winter2223.bachelor.ak.frontend.ui.core.component.NumberPicker
 import it.winter2223.bachelor.ak.frontend.ui.core.component.VerticalSpacer
+import it.winter2223.bachelor.ak.frontend.ui.core.helpers.bigPadding
+import it.winter2223.bachelor.ak.frontend.ui.core.helpers.extraSmallPadding
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.mediumPadding
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.smallPadding
 import it.winter2223.bachelor.ak.frontend.ui.settings.SettingsViewState
+import it.winter2223.bachelor.ak.frontend.ui.settings.model.RemindersState
+
+private const val MIN_HOUR = 0
+private const val MAX_HOUR = 23
+private const val MIN_MINUTE = 0
+private const val MAX_MINUTE = 59
+private const val DIGIT_LOWER_BOUNDARY = 0
+private const val DIGIT_UPPER_BOUNDARY = 9
 
 @Composable
 fun NotificationsSettingsSection(
     viewState: SettingsViewState,
     onNotificationToggled: (Boolean) -> Unit,
     onPostNotificationsPermissionDenied: () -> Unit,
+    onReminderTimeSet: (Int, Int) -> Unit,
     onGoToSettingsClicked: () -> Unit,
 ) {
     val launcher = rememberLauncherForActivityResult(
@@ -84,14 +104,80 @@ fun NotificationsSettingsSection(
             HorizontalSpacer(width = mediumPadding)
 
             Switch(
-                checked = viewState.notificationsTurnOn,
-                thumbContent = { IconForSwitch(notificationsTurnOn = viewState.notificationsTurnOn) },
+                checked = viewState.remindersState.turnOn,
+                thumbContent = { IconForSwitch(notificationsTurnOn = viewState.remindersState.turnOn) },
                 onCheckedChange = onNotificationToggled,
+            )
+        }
+
+        AnimatedVisibility(visible = viewState.remindersState.turnOn) {
+            VerticalSpacer(height = smallPadding)
+
+            TimePicker(
+                remindersState = viewState.remindersState,
+                onReminderTimeSet = onReminderTimeSet,
             )
         }
     }
 }
 
+@Composable
+private fun TimePicker(
+    remindersState: RemindersState,
+    onReminderTimeSet: (Int, Int) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = smallPadding),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        var hourOfDay by rememberSaveable {
+            mutableStateOf(remindersState.hourOfDay)
+        }
+        var minute by rememberSaveable {
+            mutableStateOf(remindersState.minute)
+        }
+
+        NumberPicker(
+            value = hourOfDay,
+            label = { it.toDoubleCharString() },
+            onValueChange = { hourOfDay = it },
+            range = MIN_HOUR..MAX_HOUR,
+        )
+        HorizontalSpacer(width = extraSmallPadding)
+        Text(text = ":", style = MaterialTheme.typography.titleLarge)
+        HorizontalSpacer(width = extraSmallPadding)
+        NumberPicker(
+            value = minute,
+            label = { it.toDoubleCharString() },
+            onValueChange = { minute = it },
+            range = MIN_MINUTE..MAX_MINUTE,
+        )
+        HorizontalSpacer(width = bigPadding)
+        Button(
+            onClick = { onReminderTimeSet(hourOfDay, minute) },
+            enabled = !(hourOfDay == remindersState.hourOfDay
+                    && minute == remindersState.minute),
+        )
+        {
+            Text(
+                text = stringResource(R.string.timeSelectorButtonText),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
+}
+
+private fun Int.toDoubleCharString(): String {
+    return if (this in DIGIT_LOWER_BOUNDARY..DIGIT_UPPER_BOUNDARY) {
+        "0$this"
+    } else {
+        toString()
+    }
+}
 
 @Composable
 private fun IconForSwitch(

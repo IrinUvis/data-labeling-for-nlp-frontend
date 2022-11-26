@@ -34,6 +34,7 @@ fun SettingsContent(
     onThemeSelected: (UiTheme) -> Unit,
     onPostNotificationsPermissionDenied: () -> Unit,
     onGoToSettingsClicked: () -> Unit,
+    onReminderTimeSet: (Int, Int) -> Unit,
     onNotificationToggled: (Boolean) -> Unit,
 ) {
     Scaffold(
@@ -78,6 +79,7 @@ fun SettingsContent(
             onNavigateToLogin = onNavigateToLogin,
             onNotificationToggled = onNotificationToggled,
             onPostNotificationsPermissionDenied = onPostNotificationsPermissionDenied,
+            onReminderTimeSet = onReminderTimeSet,
             onGoToSettingsClicked = onGoToSettingsClicked,
         )
     }
@@ -91,6 +93,7 @@ private fun ScaffoldBody(
     onNavigateToLogin: () -> Unit,
     onNotificationToggled: (Boolean) -> Unit,
     onGoToSettingsClicked: () -> Unit,
+    onReminderTimeSet: (Int, Int) -> Unit,
     onPostNotificationsPermissionDenied: () -> Unit,
 ) {
     Column(
@@ -104,10 +107,12 @@ private fun ScaffoldBody(
 
         VerticalSpacer(height = smallPadding)
 
+
         NotificationsSettingsSection(
             viewState = viewState,
             onNotificationToggled = onNotificationToggled,
             onPostNotificationsPermissionDenied = onPostNotificationsPermissionDenied,
+            onReminderTimeSet = onReminderTimeSet,
             onGoToSettingsClicked = onGoToSettingsClicked,
         )
 
