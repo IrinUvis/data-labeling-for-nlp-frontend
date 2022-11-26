@@ -21,10 +21,6 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -52,7 +48,8 @@ fun NotificationsSettingsSection(
     viewState: SettingsViewState,
     onNotificationToggled: (Boolean) -> Unit,
     onPostNotificationsPermissionDenied: () -> Unit,
-    onReminderTimeSet: (Int, Int) -> Unit,
+    onReminderTimeSet: () -> Unit,
+    onSelectedTimeChanged: (Int, Int) -> Unit,
     onGoToSettingsClicked: () -> Unit,
 ) {
     val launcher = rememberLauncherForActivityResult(
@@ -116,6 +113,7 @@ fun NotificationsSettingsSection(
             TimePicker(
                 remindersState = viewState.remindersState,
                 onReminderTimeSet = onReminderTimeSet,
+                onSelectedTimeChanged = onSelectedTimeChanged,
             )
         }
     }
@@ -124,7 +122,8 @@ fun NotificationsSettingsSection(
 @Composable
 private fun TimePicker(
     remindersState: RemindersState,
-    onReminderTimeSet: (Int, Int) -> Unit,
+    onReminderTimeSet: () -> Unit,
+    onSelectedTimeChanged: (Int, Int) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -133,33 +132,26 @@ private fun TimePicker(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        var hourOfDay by rememberSaveable {
-            mutableStateOf(remindersState.hourOfDay)
-        }
-        var minute by rememberSaveable {
-            mutableStateOf(remindersState.minute)
-        }
-
         NumberPicker(
-            value = hourOfDay,
+            value = remindersState.selectedHourOfDay,
             label = { it.toDoubleCharString() },
-            onValueChange = { hourOfDay = it },
+            onValueChange = { onSelectedTimeChanged(it, remindersState.selectedMinute) },
             range = MIN_HOUR..MAX_HOUR,
         )
         HorizontalSpacer(width = extraSmallPadding)
         Text(text = ":", style = MaterialTheme.typography.titleLarge)
         HorizontalSpacer(width = extraSmallPadding)
         NumberPicker(
-            value = minute,
+            value = remindersState.selectedMinute,
             label = { it.toDoubleCharString() },
-            onValueChange = { minute = it },
+            onValueChange = { onSelectedTimeChanged(remindersState.selectedHourOfDay, it) },
             range = MIN_MINUTE..MAX_MINUTE,
         )
         HorizontalSpacer(width = bigPadding)
         Button(
-            onClick = { onReminderTimeSet(hourOfDay, minute) },
-            enabled = !(hourOfDay == remindersState.hourOfDay
-                    && minute == remindersState.minute),
+            onClick = onReminderTimeSet,
+            enabled = !(remindersState.selectedHourOfDay == remindersState.scheduledHourOfDay
+                    && remindersState.selectedMinute == remindersState.scheduledMinute),
         )
         {
             Text(

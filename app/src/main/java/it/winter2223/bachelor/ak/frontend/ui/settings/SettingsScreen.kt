@@ -23,7 +23,8 @@ fun SettingsScreen(
         onThemeSelected = viewModel::changeTheme,
         onPostNotificationsPermissionDenied = viewModel::postNotificationsDenied,
         onNotificationToggled = viewModel::toggleNotifications,
-        onReminderTimeSet = viewModel::setTime,
+        onReminderTimeSet = viewModel::scheduleForTime,
+        onSelectedTimeChanged = viewModel::setTime,
         onGoToSettingsClicked = viewModel::goToSettings,
     )
 }

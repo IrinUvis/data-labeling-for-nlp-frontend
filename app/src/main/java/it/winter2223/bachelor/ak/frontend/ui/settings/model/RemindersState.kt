@@ -5,6 +5,8 @@ private const val DEFAULT_MINUTE_OF_REMINDERS = 0
 
 data class RemindersState(
     val turnOn: Boolean,
-    val hourOfDay: Int = DEFAULT_HOUR_OF_REMINDERS,
-    val minute: Int = DEFAULT_MINUTE_OF_REMINDERS,
+    val scheduledHourOfDay: Int = DEFAULT_HOUR_OF_REMINDERS,
+    val scheduledMinute: Int = DEFAULT_MINUTE_OF_REMINDERS,
+    val selectedHourOfDay: Int = scheduledHourOfDay,
+    val selectedMinute: Int = scheduledMinute,
 )
