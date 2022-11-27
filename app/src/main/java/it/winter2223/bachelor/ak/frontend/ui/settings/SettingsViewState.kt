@@ -2,6 +2,7 @@ package it.winter2223.bachelor.ak.frontend.ui.settings
 
 import it.winter2223.bachelor.ak.frontend.ui.core.model.UiTheme
 import it.winter2223.bachelor.ak.frontend.ui.settings.model.RemindersState
+import it.winter2223.bachelor.ak.frontend.ui.settings.model.UiReminderTime
 
 sealed class SettingsViewState(
     open val selectedTheme: UiTheme?,
@@ -11,6 +12,7 @@ sealed class SettingsViewState(
         selectedTheme = null,
         remindersState = RemindersState(
             turnOn = false,
+            selectedReminderTime = UiReminderTime()
         ),
     )
 
@@ -39,19 +41,23 @@ sealed class SettingsViewState(
 
         data class AskForNotificationPermissionDialog(
             override val selectedTheme: UiTheme,
-        ) : Loaded(
+            val selectedReminderTime: UiReminderTime,
+            ) : Loaded(
             selectedTheme = selectedTheme,
             remindersState = RemindersState(
                 turnOn = false,
+                selectedReminderTime = selectedReminderTime
             ),
         )
 
         data class AfterPermissionDeniedDialog(
             override val selectedTheme: UiTheme,
+            val selectedReminderTime: UiReminderTime,
         ) : Loaded(
             selectedTheme = selectedTheme,
             remindersState = RemindersState(
                 turnOn = false,
+                selectedReminderTime = selectedReminderTime,
             ),
         )
 

@@ -11,9 +11,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import it.winter2223.bachelor.ak.frontend.BuildConfig
 import it.winter2223.bachelor.ak.frontend.domain.reminder.model.GetCommentLabelingReminderStatusResult
+import it.winter2223.bachelor.ak.frontend.domain.reminder.model.GetReminderTimeFlowResult
+import it.winter2223.bachelor.ak.frontend.domain.reminder.model.ReminderTime
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.CancelCommentLabelingRemindersUseCase
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.GetCommentLabelingReminderStatusUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.GetReminderTimeFlowUseCase
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.ScheduleCommentLabelingRemindersUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.StoreReminderTimeUseCase
 import it.winter2223.bachelor.ak.frontend.domain.theme.model.GetThemeFlowResult
 import it.winter2223.bachelor.ak.frontend.domain.theme.model.SavePreferredThemeResult
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.GetThemeFlowUseCase
@@ -24,6 +28,8 @@ import it.winter2223.bachelor.ak.frontend.ui.core.model.UiTheme
 import it.winter2223.bachelor.ak.frontend.ui.core.model.toDomainTheme
 import it.winter2223.bachelor.ak.frontend.ui.core.model.toUiTheme
 import it.winter2223.bachelor.ak.frontend.ui.settings.model.RemindersState
+import it.winter2223.bachelor.ak.frontend.ui.settings.model.UiReminderTime
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -41,6 +47,8 @@ class SettingsViewModel @Inject constructor(
     private val getCommentLabelingReminderStatusUseCase: GetCommentLabelingReminderStatusUseCase,
     private val scheduleCommentLabelingRemindersUseCase: ScheduleCommentLabelingRemindersUseCase,
     private val cancelCommentLabelingRemindersUseCase: CancelCommentLabelingRemindersUseCase,
+    private val storeReminderTimeUseCase: StoreReminderTimeUseCase,
+    private val getReminderTimeFlowUseCase: GetReminderTimeFlowUseCase,
 ) : ViewModel() {
     private val _viewState: MutableStateFlow<SettingsViewState> =
         MutableStateFlow(SettingsViewState.Loading)
@@ -48,11 +56,23 @@ class SettingsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val theme = when (val getThemeFlowResult = getThemeFlowUseCase()) {
-                is GetThemeFlowResult.Success ->
-                    getThemeFlowResult.themeFlow.first().toUiTheme()
-                is GetThemeFlowResult.Failure ->
-                    UiTheme.System
+            val theme = async {
+                when (val getThemeFlowResult = getThemeFlowUseCase()) {
+                    is GetThemeFlowResult.Success ->
+                        getThemeFlowResult.themeFlow.first().toUiTheme()
+                    is GetThemeFlowResult.Failure ->
+                        UiTheme.System
+                }
+            }
+
+            val reminderTime = async {
+                when (val getReminderTimeFlowResult = getReminderTimeFlowUseCase()) {
+                    is GetReminderTimeFlowResult.Success -> {
+                        getReminderTimeFlowResult.reminderTimeFlow.first()?.toUiReminderTime()
+                            ?: UiReminderTime()
+                    }
+                    is GetReminderTimeFlowResult.Failure -> UiReminderTime()
+                }
             }
 
             val notificationsTurnOn =
@@ -62,9 +82,10 @@ class SettingsViewModel @Inject constructor(
                 }
 
             _viewState.value = SettingsViewState.Loaded.Active(
-                selectedTheme = theme,
+                selectedTheme = theme.await(),
                 remindersState = RemindersState(
                     turnOn = notificationsTurnOn,
+                    selectedReminderTime = reminderTime.await()
                 ),
             )
 
@@ -111,33 +132,25 @@ class SettingsViewModel @Inject constructor(
                     selectedTheme = state.selectedTheme,
                     remindersState = RemindersState(
                         turnOn = false,
-                        scheduledHourOfDay = state.remindersState.scheduledHourOfDay,
-                        scheduledMinute = state.remindersState.scheduledMinute,
-                        selectedHourOfDay = state.remindersState.selectedHourOfDay,
-                        selectedMinute = state.remindersState.selectedMinute,
+                        selectedReminderTime = state.remindersState.selectedReminderTime,
                     )
                 )
             } else {
                 val hasNotificationPermission = canSendNotifications(context)
 
                 if (hasNotificationPermission) {
-                    scheduleCommentLabelingRemindersUseCase(
-                        hourOfDay = state.remindersState.scheduledHourOfDay,
-                        minute = state.remindersState.scheduledMinute,
-                    )
+                    scheduleReminders()
                     _viewState.value = SettingsViewState.Loaded.Active(
                         selectedTheme = state.selectedTheme,
                         remindersState = RemindersState(
                             turnOn = true,
-                            scheduledHourOfDay = state.remindersState.scheduledHourOfDay,
-                            scheduledMinute = state.remindersState.scheduledMinute,
-                            selectedHourOfDay = state.remindersState.selectedHourOfDay,
-                            selectedMinute = state.remindersState.selectedMinute,
+                            selectedReminderTime = state.remindersState.selectedReminderTime,
                         )
                     )
                 } else {
                     _viewState.value = SettingsViewState.Loaded.AskForNotificationPermissionDialog(
                         selectedTheme = state.selectedTheme,
+                        selectedReminderTime = state.remindersState.selectedReminderTime,
                     )
                 }
             }
@@ -156,39 +169,27 @@ class SettingsViewModel @Inject constructor(
         (_viewState.value as? SettingsViewState.Loaded)?.let { state ->
             _viewState.value = SettingsViewState.Loaded.AfterPermissionDeniedDialog(
                 selectedTheme = state.selectedTheme,
+                selectedReminderTime = state.remindersState.selectedReminderTime,
             )
         }
     }
 
-    fun scheduleForTime() {
+    fun scheduleReminders() {
         (_viewState.value as? SettingsViewState.Loaded)?.let { state ->
-            scheduleCommentLabelingRemindersUseCase(
-                hourOfDay = state.remindersState.selectedHourOfDay,
-                minute = state.remindersState.selectedMinute,
-            )
-            _viewState.value = SettingsViewState.Loaded.Active(
-                selectedTheme = state.selectedTheme,
-                remindersState = RemindersState(
-                    turnOn = state.remindersState.turnOn,
-                    scheduledHourOfDay = state.remindersState.selectedHourOfDay,
-                    scheduledMinute = state.remindersState.selectedMinute,
-                    selectedHourOfDay = state.remindersState.selectedHourOfDay,
-                    selectedMinute = state.remindersState.selectedMinute
-                )
-            )
+            scheduleCommentLabelingRemindersUseCase(state.remindersState.selectedReminderTime.toDomainReminderTime())
+            viewModelScope.launch {
+                storeReminderTimeUseCase(state.remindersState.selectedReminderTime.toDomainReminderTime())
+            }
         }
     }
 
-    fun setTime(hourOfDay: Int, minute: Int) {
+    fun setTime(reminderTime: UiReminderTime) {
         (_viewState.value as? SettingsViewState.Loaded)?.let { state ->
             _viewState.value = SettingsViewState.Loaded.Active(
                 selectedTheme = state.selectedTheme,
                 remindersState = RemindersState(
                     turnOn = state.remindersState.turnOn,
-                    scheduledHourOfDay = state.remindersState.scheduledHourOfDay,
-                    scheduledMinute = state.remindersState.scheduledMinute,
-                    selectedHourOfDay = hourOfDay,
-                    selectedMinute = minute
+                    selectedReminderTime = reminderTime,
                 )
             )
         }
@@ -200,3 +201,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 }
+
+fun ReminderTime.toUiReminderTime() = UiReminderTime(hour, minute)
+
+fun UiReminderTime.toDomainReminderTime() = ReminderTime(hourOfDay, minute)

@@ -17,10 +17,14 @@ import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl.ProdGetCo
 import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl.ProdSaveLabeledCommentsUseCase
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.CancelCommentLabelingRemindersUseCase
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.GetCommentLabelingReminderStatusUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.GetReminderTimeFlowUseCase
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.ScheduleCommentLabelingRemindersUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.StoreReminderTimeUseCase
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdCancelCommentLabelingRemindersUseCase
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdGetCommentLabelingReminderStatusUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdGetReminderTimeFlowUseCase
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdScheduleCommentLabelingRemindersUseCase
+import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdStoreReminderTimeUseCase
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.GetThemeFlowUseCase
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.SavePreferredThemeUseCase
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.impl.ProdGetThemeFlowUseCase
@@ -93,4 +97,14 @@ abstract class UseCaseModule {
     abstract fun bindScheduleCommentLabelingRemindersUseCase(
         scheduleCommentLabelingRemindersUseCase: ProdScheduleCommentLabelingRemindersUseCase,
     ): ScheduleCommentLabelingRemindersUseCase
+
+    @Binds
+    abstract fun bindGetReminderTimeFlowUseCase(
+        getReminderTimeFlowUseCase: ProdGetReminderTimeFlowUseCase
+    ): GetReminderTimeFlowUseCase
+
+    @Binds
+    abstract fun bindStoreReminderTimeUseCase(
+        storeReminderTimeUseCase: ProdStoreReminderTimeUseCase
+    ): StoreReminderTimeUseCase
 }

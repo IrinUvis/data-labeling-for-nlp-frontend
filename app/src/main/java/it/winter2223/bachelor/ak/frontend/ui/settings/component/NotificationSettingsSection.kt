@@ -35,6 +35,7 @@ import it.winter2223.bachelor.ak.frontend.ui.core.helpers.mediumPadding
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.smallPadding
 import it.winter2223.bachelor.ak.frontend.ui.settings.SettingsViewState
 import it.winter2223.bachelor.ak.frontend.ui.settings.model.RemindersState
+import it.winter2223.bachelor.ak.frontend.ui.settings.model.UiReminderTime
 
 private const val MIN_HOUR = 0
 private const val MAX_HOUR = 23
@@ -49,7 +50,7 @@ fun NotificationsSettingsSection(
     onNotificationToggled: (Boolean) -> Unit,
     onPostNotificationsPermissionDenied: () -> Unit,
     onReminderTimeSet: () -> Unit,
-    onSelectedTimeChanged: (Int, Int) -> Unit,
+    onSelectedTimeChanged: (UiReminderTime) -> Unit,
     onGoToSettingsClicked: () -> Unit,
 ) {
     val launcher = rememberLauncherForActivityResult(
@@ -123,7 +124,7 @@ fun NotificationsSettingsSection(
 private fun TimePicker(
     remindersState: RemindersState,
     onReminderTimeSet: () -> Unit,
-    onSelectedTimeChanged: (Int, Int) -> Unit,
+    onSelectedTimeChanged: (UiReminderTime) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -133,25 +134,39 @@ private fun TimePicker(
         horizontalArrangement = Arrangement.Center,
     ) {
         NumberPicker(
-            value = remindersState.selectedHourOfDay,
+            value = remindersState.selectedReminderTime.hourOfDay,
             label = { it.toDoubleCharString() },
-            onValueChange = { onSelectedTimeChanged(it, remindersState.selectedMinute) },
+            onValueChange = { hour ->
+                onSelectedTimeChanged(
+                    UiReminderTime(
+                        hour,
+                        remindersState.selectedReminderTime.minute,
+                    ),
+                )
+            },
             range = MIN_HOUR..MAX_HOUR,
         )
         HorizontalSpacer(width = extraSmallPadding)
         Text(text = ":", style = MaterialTheme.typography.titleLarge)
         HorizontalSpacer(width = extraSmallPadding)
         NumberPicker(
-            value = remindersState.selectedMinute,
+            value = remindersState.selectedReminderTime.minute,
             label = { it.toDoubleCharString() },
-            onValueChange = { onSelectedTimeChanged(remindersState.selectedHourOfDay, it) },
+            onValueChange = { minute ->
+                onSelectedTimeChanged(
+                    UiReminderTime(
+                        remindersState.selectedReminderTime.hourOfDay,
+                        minute
+                    )
+                )
+            },
             range = MIN_MINUTE..MAX_MINUTE,
         )
         HorizontalSpacer(width = bigPadding)
         Button(
             onClick = onReminderTimeSet,
-            enabled = !(remindersState.selectedHourOfDay == remindersState.scheduledHourOfDay
-                    && remindersState.selectedMinute == remindersState.scheduledMinute),
+//            enabled = !(remindersState.selectedReminderTime.hourOfDay == remindersState.scheduledHourOfDay
+//                    && remindersState.selectedMinute == remindersState.scheduledMinute),
         )
         {
             Text(

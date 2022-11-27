@@ -6,6 +6,7 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import it.winter2223.bachelor.ak.frontend.data.reminder.worker.CommentLabelingReminderWorker
+import it.winter2223.bachelor.ak.frontend.domain.reminder.model.ReminderTime
 import it.winter2223.bachelor.ak.frontend.domain.reminder.model.ScheduleCommentLabelingRemindersResult
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.ScheduleCommentLabelingRemindersUseCase
 import java.util.Calendar
@@ -17,13 +18,13 @@ private const val HOURS_PER_DAY = 24L
 class ProdScheduleCommentLabelingRemindersUseCase @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : ScheduleCommentLabelingRemindersUseCase {
-    override fun invoke(hourOfDay: Int, minute: Int): ScheduleCommentLabelingRemindersResult {
+    override fun invoke(reminderTime: ReminderTime): ScheduleCommentLabelingRemindersResult {
         val workManager = WorkManager.getInstance(context)
 
         val now = Calendar.getInstance()
         val target = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, hourOfDay)
-            set(Calendar.MINUTE, minute)
+            set(Calendar.HOUR_OF_DAY, reminderTime.hour)
+            set(Calendar.MINUTE, reminderTime.minute)
         }
 
         if (target.before(now)) {

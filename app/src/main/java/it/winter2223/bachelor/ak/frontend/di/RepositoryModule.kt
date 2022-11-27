@@ -11,6 +11,8 @@ import it.winter2223.bachelor.ak.frontend.data.authentication.repository.impl.De
 import it.winter2223.bachelor.ak.frontend.data.authentication.repository.LogInRepository
 import it.winter2223.bachelor.ak.frontend.data.comments.repository.EmotionAssignmentRepository
 import it.winter2223.bachelor.ak.frontend.data.comments.repository.impl.NetworkEmotionAssignmentRepository
+import it.winter2223.bachelor.ak.frontend.data.reminder.repository.ReminderTimeRepository
+import it.winter2223.bachelor.ak.frontend.data.reminder.repository.impl.DataStoreReminderTimeRepository
 import it.winter2223.bachelor.ak.frontend.data.theme.repository.ThemeRepository
 import it.winter2223.bachelor.ak.frontend.data.theme.repository.impl.DataStoreThemeRepository
 import it.winter2223.bachelor.ak.frontend.data.token.repository.TokenRepository
@@ -43,4 +45,9 @@ abstract class RepositoryModule {
     abstract fun bindLoginRepository(
         logInRepository: DemoLogInRepository
     ): LogInRepository
+
+    @Binds
+    abstract fun bindReminderTimeRepository(
+        reminderTimeRepository: DataStoreReminderTimeRepository
+    ): ReminderTimeRepository
 }

@@ -23,6 +23,7 @@ import it.winter2223.bachelor.ak.frontend.ui.settings.component.AuthenticationSe
 import it.winter2223.bachelor.ak.frontend.ui.settings.component.DisplaySettingsSection
 import it.winter2223.bachelor.ak.frontend.ui.settings.component.NotificationsSettingsSection
 import it.winter2223.bachelor.ak.frontend.ui.settings.component.ThemeSelectionDialog
+import it.winter2223.bachelor.ak.frontend.ui.settings.model.UiReminderTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +36,7 @@ fun SettingsContent(
     onPostNotificationsPermissionDenied: () -> Unit,
     onGoToSettingsClicked: () -> Unit,
     onReminderTimeSet: () -> Unit,
-    onSelectedTimeChanged: (Int, Int) -> Unit,
+    onSelectedTimeChanged: (UiReminderTime) -> Unit,
     onNotificationToggled: (Boolean) -> Unit,
 ) {
     Scaffold(
@@ -96,7 +97,7 @@ private fun ScaffoldBody(
     onNotificationToggled: (Boolean) -> Unit,
     onGoToSettingsClicked: () -> Unit,
     onReminderTimeSet: () -> Unit,
-    onSelectedTimeChanged: (Int, Int) -> Unit,
+    onSelectedTimeChanged: (UiReminderTime) -> Unit,
     onPostNotificationsPermissionDenied: () -> Unit,
 ) {
     Column(
