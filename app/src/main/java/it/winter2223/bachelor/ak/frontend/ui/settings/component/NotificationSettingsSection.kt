@@ -126,6 +126,7 @@ private fun TimePicker(
     onReminderTimeSet: () -> Unit,
     onSelectedTimeChanged: (UiReminderTime) -> Unit,
 ) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -165,8 +166,8 @@ private fun TimePicker(
         HorizontalSpacer(width = bigPadding)
         Button(
             onClick = onReminderTimeSet,
-//            enabled = !(remindersState.selectedReminderTime.hourOfDay == remindersState.scheduledHourOfDay
-//                    && remindersState.selectedMinute == remindersState.scheduledMinute),
+            enabled = !(remindersState.selectedReminderTime.hourOfDay == remindersState.scheduledReminderTime.hourOfDay
+                    && remindersState.selectedReminderTime.minute == remindersState.scheduledReminderTime.minute),
         )
         {
             Text(

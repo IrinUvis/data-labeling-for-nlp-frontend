@@ -85,7 +85,8 @@ class SettingsViewModel @Inject constructor(
                 selectedTheme = theme.await(),
                 remindersState = RemindersState(
                     turnOn = notificationsTurnOn,
-                    selectedReminderTime = reminderTime.await()
+                    scheduledReminderTime = reminderTime.await(),
+                    selectedReminderTime = reminderTime.await(),
                 ),
             )
 
@@ -132,7 +133,8 @@ class SettingsViewModel @Inject constructor(
                     selectedTheme = state.selectedTheme,
                     remindersState = RemindersState(
                         turnOn = false,
-                        selectedReminderTime = state.remindersState.selectedReminderTime,
+                        scheduledReminderTime = state.remindersState.scheduledReminderTime,
+                        selectedReminderTime = state.remindersState.scheduledReminderTime,
                     )
                 )
             } else {
@@ -140,17 +142,10 @@ class SettingsViewModel @Inject constructor(
 
                 if (hasNotificationPermission) {
                     scheduleReminders()
-                    _viewState.value = SettingsViewState.Loaded.Active(
-                        selectedTheme = state.selectedTheme,
-                        remindersState = RemindersState(
-                            turnOn = true,
-                            selectedReminderTime = state.remindersState.selectedReminderTime,
-                        )
-                    )
                 } else {
                     _viewState.value = SettingsViewState.Loaded.AskForNotificationPermissionDialog(
                         selectedTheme = state.selectedTheme,
-                        selectedReminderTime = state.remindersState.selectedReminderTime,
+                        reminderTimes = state.remindersState.scheduledReminderTime,
                     )
                 }
             }
@@ -169,13 +164,21 @@ class SettingsViewModel @Inject constructor(
         (_viewState.value as? SettingsViewState.Loaded)?.let { state ->
             _viewState.value = SettingsViewState.Loaded.AfterPermissionDeniedDialog(
                 selectedTheme = state.selectedTheme,
-                selectedReminderTime = state.remindersState.selectedReminderTime,
+                reminderTimes = state.remindersState.scheduledReminderTime,
             )
         }
     }
 
     fun scheduleReminders() {
         (_viewState.value as? SettingsViewState.Loaded)?.let { state ->
+            _viewState.value = SettingsViewState.Loaded.Active(
+                selectedTheme = state.selectedTheme,
+                remindersState = RemindersState(
+                    turnOn = true,
+                    scheduledReminderTime = state.remindersState.selectedReminderTime,
+                    selectedReminderTime = state.remindersState.selectedReminderTime
+                )
+            )
             scheduleCommentLabelingRemindersUseCase(state.remindersState.selectedReminderTime.toDomainReminderTime())
             viewModelScope.launch {
                 storeReminderTimeUseCase(state.remindersState.selectedReminderTime.toDomainReminderTime())
@@ -189,6 +192,7 @@ class SettingsViewModel @Inject constructor(
                 selectedTheme = state.selectedTheme,
                 remindersState = RemindersState(
                     turnOn = state.remindersState.turnOn,
+                    scheduledReminderTime = state.remindersState.scheduledReminderTime,
                     selectedReminderTime = reminderTime,
                 )
             )

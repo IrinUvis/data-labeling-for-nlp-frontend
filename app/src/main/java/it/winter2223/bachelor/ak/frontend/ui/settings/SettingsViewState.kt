@@ -12,7 +12,8 @@ sealed class SettingsViewState(
         selectedTheme = null,
         remindersState = RemindersState(
             turnOn = false,
-            selectedReminderTime = UiReminderTime()
+            scheduledReminderTime = UiReminderTime(),
+            selectedReminderTime = UiReminderTime(),
         ),
     )
 
@@ -41,23 +42,25 @@ sealed class SettingsViewState(
 
         data class AskForNotificationPermissionDialog(
             override val selectedTheme: UiTheme,
-            val selectedReminderTime: UiReminderTime,
+            val reminderTimes: UiReminderTime,
             ) : Loaded(
             selectedTheme = selectedTheme,
             remindersState = RemindersState(
                 turnOn = false,
-                selectedReminderTime = selectedReminderTime
+                scheduledReminderTime = reminderTimes,
+                selectedReminderTime = reminderTimes,
             ),
         )
 
         data class AfterPermissionDeniedDialog(
             override val selectedTheme: UiTheme,
-            val selectedReminderTime: UiReminderTime,
+            val reminderTimes: UiReminderTime,
         ) : Loaded(
             selectedTheme = selectedTheme,
             remindersState = RemindersState(
                 turnOn = false,
-                selectedReminderTime = selectedReminderTime,
+                scheduledReminderTime = reminderTimes,
+                selectedReminderTime = reminderTimes,
             ),
         )
 
