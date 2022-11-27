@@ -10,9 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val clearTokenUseCase: ClearTokenUseCase,
-) : ViewModel() {
+class HomeViewModel @Inject constructor() : ViewModel() {
     companion object {
         private const val INITIAL_NUMBER_OF_COMMENTS = 10
     }
@@ -29,11 +27,5 @@ class HomeViewModel @Inject constructor(
         _viewState.value = HomeViewState.Loaded(
             numberOfCommentsToLabel = newNumber
         )
-    }
-
-    fun logOut() {
-        viewModelScope.launch {
-            clearTokenUseCase()
-        }
     }
 }

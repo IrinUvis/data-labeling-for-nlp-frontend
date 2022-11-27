@@ -15,12 +15,8 @@ fun NavGraphBuilder.homeScreen(
 ) {
     composable(HomeDestination.route) {
         HomeScreen(
-            navigateToLogIn = {
-                navController.navigateToLogIn {
-                    popUpTo(HomeDestination.route) {
-                        inclusive = true
-                    }
-                }
+            navigateToSettings = {
+                navController.navigateToSettings()
             },
             navigateToCommentLabeling = { quantity ->
                 navController.navigateToCommentLabeling(quantity)

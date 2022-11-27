@@ -15,6 +15,7 @@ class ProdStoreTokenUseCase @Inject constructor(
     companion object {
         private const val TAG = "ProdStoreTokenUC"
     }
+
     override suspend fun invoke(token: Token): StoreTokenResult {
         return try {
             tokenRepository.storeToken(

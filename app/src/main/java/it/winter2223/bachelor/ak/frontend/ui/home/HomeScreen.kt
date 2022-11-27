@@ -7,7 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    navigateToLogIn: () -> Unit,
+    navigateToSettings: () -> Unit,
     navigateToCommentLabeling: (Int) -> Unit,
 ) {
     val viewState = viewModel.viewState.collectAsState()
@@ -16,9 +16,8 @@ fun HomeScreen(
         is HomeViewState.Loaded -> {
             HomeContent(
                 viewState = stateValue,
-                onLogOutButtonClicked = {
-                    viewModel.logOut()
-                    navigateToLogIn()
+                onSettingsButtonClicked = {
+                    navigateToSettings()
                 },
                 onGoToCommentLabelingClicked = {
                     navigateToCommentLabeling(stateValue.numberOfCommentsToLabel)

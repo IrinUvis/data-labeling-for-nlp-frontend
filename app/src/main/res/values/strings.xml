@@ -2,7 +2,7 @@
     <string name="app_name">Comments labeling</string>
     <string name="loadingComments">Loading comments</string>
     <string name="commentLabelingAppBarTitle">Emotion assignment</string>
-    <string name="logOut">Log out from the app button</string>
+    <string name="logOutIconContentDescription">Log out from the app button</string>
     <string name="goBackToPreviousScreenButtonContentDescription">Go back to previous screen button</string>
     <string name="nextButtonText">Next</string>
     <string name="previousButtonText">Previous</string>
@@ -39,4 +39,26 @@
     <string name="unspecifiableEmotionDialogSupportiveText">You have chosen option of unspecifiable emotion for this comment. Please do it only if there really is no emotion that fits the given comment.</string>
     <string name="unspecifiableEmotionDialogConfirmButtonText">Continue</string>
     <string name="unspecifiableEmotionDialogDismissButtonText">Undo</string>
+    <string name="settingsTopAppBarTitle">Settings</string>
+    <string name="displayOptionsSettingsLabel">Display options</string>
+    <string name="lightThemeEnumText">Light</string>
+    <string name="darkThemeEnumText">Dark</string>
+    <string name="systemDefaultThemeEnumText">System default</string>
+    <string name="goToSettingsButtonContentDescription">Go to Settings button</string>
+    <string name="AuthenticationOptionsSettingsLabel">Authentication</string>
+    <string name="logOutSettingsButtonText">Log out of the app</string>
+    <string name="themeSelectionDialogTitle">Pick theme</string>
+    <string name="themeSelectionDialogConfirmButtonText">Cancel</string>
+    <string name="themeToggleText">Theme</string>
+    <string name="cannotSaveThemeErrorMessage">An error has occurred when changing theme. Try again later</string>
+    <string name="notificationsSettingsLabel">Notifications</string>
+    <string name="getDailyRemindersSettingsOption">Get daily reminders</string>
+    <string name="afterPermissionDeniedDialogTitle">Permission required</string>
+    <string name="afterPermissionDeniedDialogText">In order to access reminders it is required that you give the app permission to send you notifications. Only after you turn these on in the app\'s settings you can turn the reminders on.</string>
+    <string name="afterPermissionDeniedDialogDismissButtonText">Deny</string>
+    <string name="afterPermissionDeniedDialogConfirmButtonText">Go to settings</string>
+    <string name="commentLabelingRemindersChannelName">Comment labeling reminders</string>
+    <string name="commentLabelingReminderNotificationText">We would greatly appreciate the help with labeling the comments</string>
+    <string name="commentLabelingReminderNotificationTitle">Daily labeling reminder</string>
+    <string name="timeSelectorButtonText">Set</string>
 </resources>
