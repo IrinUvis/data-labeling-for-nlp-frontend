@@ -3,10 +3,10 @@ package it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.impl
 import android.util.Patterns
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.AuthenticationActivity
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.Credentials
-import it.winter2223.bachelor.ak.frontend.data.authentication.model.exception.WrongCredentialsException
+import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.exception.WrongCredentialsException
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.LogInResult
-import it.winter2223.bachelor.ak.frontend.data.authentication.model.dto.UserInput
-import it.winter2223.bachelor.ak.frontend.data.authentication.repository.LogInRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.UserInput
+import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.LogInRepository
 import it.winter2223.bachelor.ak.frontend.domain.token.model.StoreTokenResult
 import it.winter2223.bachelor.ak.frontend.domain.token.model.Token
 import it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.CredentialsLogInOrSignUpUseCase

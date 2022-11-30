@@ -1,7 +1,7 @@
 package it.winter2223.bachelor.ak.frontend.domain.theme.usecase.impl
 
 import android.util.Log
-import it.winter2223.bachelor.ak.frontend.data.theme.repository.ThemeRepository
+import it.winter2223.bachelor.ak.frontend.data.local.theme.repository.ThemeRepository
 import it.winter2223.bachelor.ak.frontend.domain.theme.model.GetThemeFlowResult
 import it.winter2223.bachelor.ak.frontend.domain.theme.model.Theme
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.GetThemeFlowUseCase

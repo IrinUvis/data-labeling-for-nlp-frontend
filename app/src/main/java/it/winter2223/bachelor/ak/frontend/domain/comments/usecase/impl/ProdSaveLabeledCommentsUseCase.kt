@@ -1,8 +1,8 @@
 package it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl
 
 import android.util.Log
-import it.winter2223.bachelor.ak.frontend.data.comments.model.dto.CommentEmotionAssignmentInput
-import it.winter2223.bachelor.ak.frontend.data.comments.repository.EmotionAssignmentRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentInput
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.EmotionAssignmentRepository
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.SaveLabeledCommentsResult

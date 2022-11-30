@@ -1,6 +1,6 @@
 package it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl
 
-import it.winter2223.bachelor.ak.frontend.data.comments.repository.CommentRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.repository.CommentRepository
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.GetCommentsToLabelResult
 import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.GetCommentsToLabelUseCase

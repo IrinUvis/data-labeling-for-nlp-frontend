@@ -1,7 +1,7 @@
 package it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl
 
 import android.util.Log
-import it.winter2223.bachelor.ak.frontend.data.reminder.repository.ReminderTimeRepository
+import it.winter2223.bachelor.ak.frontend.data.local.reminder.repository.ReminderTimeRepository
 import it.winter2223.bachelor.ak.frontend.domain.reminder.model.GetReminderTimeFlowResult
 import it.winter2223.bachelor.ak.frontend.domain.reminder.model.ReminderTime
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.GetReminderTimeFlowUseCase
