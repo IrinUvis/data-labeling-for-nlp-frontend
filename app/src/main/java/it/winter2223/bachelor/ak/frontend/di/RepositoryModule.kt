@@ -7,7 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.repository.CommentRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.repository.impl.NetworkCommentRepository
 import it.winter2223.bachelor.ak.frontend.data.local.token.repository.impl.DataStoreTokenRepository
-import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.impl.DemoLogInRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.impl.NetworkLogInRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.LogInRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.EmotionAssignmentRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.impl.NetworkEmotionAssignmentRepository
@@ -43,7 +43,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindLoginRepository(
-        logInRepository: DemoLogInRepository
+        logInRepository: NetworkLogInRepository
     ): LogInRepository
 
     @Binds
