@@ -1,11 +1,19 @@
 package it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.dto
 
-import it.winter2223.bachelor.ak.frontend.data.remote.comment.model.dto.EmotionDto
-import java.util.UUID
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CommentEmotionAssignmentOutput(
-    val assignmentId: UUID,
+    @SerialName("assignmentId")
+    val assignmentId: String,
+
+    @SerialName("userId")
     val userId: String,
+
+    @SerialName("commentId")
     val commentId: String,
+
+    @SerialName("emotionDto")
     val emotionDto: EmotionDto,
 )

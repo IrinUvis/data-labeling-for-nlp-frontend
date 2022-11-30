@@ -50,7 +50,7 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
             onSuccess = {
                 val storeTokenResult = storeTokenUseCase(
                     Token(
-                        authToken = it.idToken,
+                        authToken = it.authToken,
                         refreshToken = it.refreshToken,
                         userId = it.userId,
                     )

@@ -19,7 +19,7 @@ class ProdRefreshTokenUseCase(
             onSuccess = { tokenOutput ->
                 val storeTokenResult = storeTokenUseCase(
                     Token(
-                        authToken = tokenOutput.idToken,
+                        authToken = tokenOutput.authToken,
                         refreshToken = tokenOutput.refreshToken,
                         userId = tokenOutput.userId,
                     ),
