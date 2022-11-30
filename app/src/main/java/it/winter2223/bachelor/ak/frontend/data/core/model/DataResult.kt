@@ -1,9 +1,9 @@
 package it.winter2223.bachelor.ak.frontend.data.core.model
 
-sealed class DataResult<out T, out E> {
+sealed class DataResult<out T, out E : Throwable> {
     data class Success<out T>(val value: T) : DataResult<T, Nothing>()
 
-    data class Failure<out E>(val throwable: E) : DataResult<Nothing, E>()
+    data class Failure<out E : Throwable>(val throwable: E) : DataResult<Nothing, E>()
 
     inline fun <R> fold(
         onSuccess: (T) -> R,

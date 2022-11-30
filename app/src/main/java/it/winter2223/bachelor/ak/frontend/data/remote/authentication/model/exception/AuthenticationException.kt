@@ -2,30 +2,30 @@ package it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.exce
 
 import io.ktor.client.plugins.ResponseException
 
-sealed class AuthenticationException : Throwable() {
-    object InvalidEmailAddress : AuthenticationException()
+sealed class AuthenticationException(override val message: String?) : Throwable(message) {
+    data class InvalidEmailAddress(override val message: String) : AuthenticationException(message)
 
-    object InvalidPassword : AuthenticationException()
+    data class InvalidPassword(override val message: String) : AuthenticationException(message)
 
-    object SigningUpFailed : AuthenticationException()
+    data class SigningUpFailed(override val message: String) : AuthenticationException(message)
 
-    object SigningInFailed : AuthenticationException()
+    data class SigningInFailed(override val message: String) : AuthenticationException(message)
 
-    object TokenRefreshingFailed : AuthenticationException()
+    data class TokenRefreshingFailed(override val message: String) : AuthenticationException(message)
 
-    object SettingUserClaimsFailed : AuthenticationException()
+    data class SettingUserClaimsFailed(override val message: String) : AuthenticationException(message)
 
-    object Unknown : AuthenticationException()
+    data class Unknown(override val message: String?) : AuthenticationException(message)
 }
 
 fun ResponseException.toAuthenticationException(): AuthenticationException {
-    return when (this.message) {
-        "Email address is invalid" -> AuthenticationException.InvalidEmailAddress
-        "Password must be at least 6 characters" -> AuthenticationException.InvalidPassword
-        "Failed to sign up" -> AuthenticationException.SigningUpFailed
-        "Failed to sign in" -> AuthenticationException.SigningInFailed
-        "Failed to refresh token" -> AuthenticationException.TokenRefreshingFailed
-        "Failed to set user claims" -> AuthenticationException.SettingUserClaimsFailed
-        else -> AuthenticationException.Unknown
+    return when (val message = this.message) {
+        "Email address is invalid" -> AuthenticationException.InvalidEmailAddress(message)
+        "Password must be at least 6 characters" -> AuthenticationException.InvalidPassword(message)
+        "Failed to sign up" -> AuthenticationException.SigningUpFailed(message)
+        "Failed to sign in" -> AuthenticationException.SigningInFailed(message)
+        "Failed to refresh token" -> AuthenticationException.TokenRefreshingFailed(message)
+        "Failed to set user claims" -> AuthenticationException.SettingUserClaimsFailed(message)
+        else -> AuthenticationException.Unknown(message)
     }
 }
