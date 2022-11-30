@@ -2,7 +2,7 @@ package it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl
 
 import android.util.Log
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentInput
-import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.EmotionAssignmentRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.SaveLabeledCommentsResult
@@ -10,7 +10,7 @@ import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.SaveLabeledCom
 import javax.inject.Inject
 
 class ProdSaveLabeledCommentsUseCase @Inject constructor(
-    private val emotionAssignmentRepository: EmotionAssignmentRepository,
+    private val commentEmotionAssignmentRepository: CommentEmotionAssignmentRepository,
 ) : SaveLabeledCommentsUseCase {
     companion object {
         private const val TAG = "ProdSaveLabeledCommentsUC"
@@ -26,7 +26,7 @@ class ProdSaveLabeledCommentsUseCase @Inject constructor(
                     emotion = it.emotion!!.toUppercaseString(),
                 )
             }
-            val postedComments = emotionAssignmentRepository.postCommentEmotionAssignment(inputs)
+            val postedComments = commentEmotionAssignmentRepository.postCommentEmotionAssignment(inputs)
             postedComments.fold(
                 onSuccess = {
                     SaveLabeledCommentsResult.Success

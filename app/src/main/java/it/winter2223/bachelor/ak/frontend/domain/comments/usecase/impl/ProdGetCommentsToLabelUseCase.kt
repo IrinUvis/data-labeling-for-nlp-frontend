@@ -10,7 +10,10 @@ class ProdGetCommentsToLabelUseCase @Inject constructor(
     private val commentsRepository: CommentRepository,
 ) : GetCommentsToLabelUseCase {
     override suspend fun invoke(quantity: Int): GetCommentsToLabelResult {
-        val comments = commentsRepository.fetchComments(quantity = quantity)
+        val comments = commentsRepository.fetchComments(
+            userId = "", // TODO: get it from data store
+            commentsNumber = quantity,
+        )
 
         return comments.fold(
             onSuccess = { commentDtos ->

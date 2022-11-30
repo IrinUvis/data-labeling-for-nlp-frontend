@@ -9,8 +9,8 @@ import it.winter2223.bachelor.ak.frontend.data.remote.comment.repository.impl.Ne
 import it.winter2223.bachelor.ak.frontend.data.local.token.repository.impl.DataStoreTokenRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.impl.NetworkAuthenticationRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.AuthenticationRepository
-import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.EmotionAssignmentRepository
-import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.impl.NetworkEmotionAssignmentRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.impl.NetworkCommentEmotionAssignmentRepository
 import it.winter2223.bachelor.ak.frontend.data.local.reminder.repository.ReminderTimeRepository
 import it.winter2223.bachelor.ak.frontend.data.local.reminder.repository.impl.DataStoreReminderTimeRepository
 import it.winter2223.bachelor.ak.frontend.data.local.theme.repository.ThemeRepository
@@ -28,8 +28,8 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindEmotionAssignmentRepository(
-        emotionAssignmentRepository: NetworkEmotionAssignmentRepository,
-    ): EmotionAssignmentRepository
+        emotionAssignmentRepository: NetworkCommentEmotionAssignmentRepository,
+    ): CommentEmotionAssignmentRepository
 
     @Binds
     abstract fun bindTokenRepository(

@@ -3,9 +3,7 @@ package it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository
 import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.RedirectResponseException
-import io.ktor.client.plugins.ServerResponseException
+import io.ktor.client.plugins.ResponseException
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import it.winter2223.bachelor.ak.frontend.data.core.model.DataResult
@@ -34,13 +32,7 @@ class NetworkAuthenticationRepository @Inject constructor(
             }
             val userOutput = response.body<UserOutput>()
             DataResult.Success(userOutput)
-        } catch (e: RedirectResponseException) {
-            Log.e(TAG, "logIn: response status is ${e.response.status}", e)
-            DataResult.Failure(e.toAuthenticationException())
-        } catch (e: ClientRequestException) {
-            Log.e(TAG, "logIn: response status is ${e.response.status}", e)
-            DataResult.Failure(e.toAuthenticationException())
-        } catch (e: ServerResponseException) {
+        } catch (e: ResponseException) {
             Log.e(TAG, "logIn: response status is ${e.response.status}", e)
             DataResult.Failure(e.toAuthenticationException())
         }
@@ -53,13 +45,7 @@ class NetworkAuthenticationRepository @Inject constructor(
             }
             val userOutput = response.body<UserOutput>()
             DataResult.Success(userOutput)
-        } catch (e: RedirectResponseException) {
-            Log.e(TAG, "signUp: response status is ${e.response.status}", e)
-            DataResult.Failure(e.toAuthenticationException())
-        } catch (e: ClientRequestException) {
-            Log.e(TAG, "signUp: response status is ${e.response.status}", e)
-            DataResult.Failure(e.toAuthenticationException())
-        } catch (e: ServerResponseException) {
+        } catch (e: ResponseException) {
             Log.e(TAG, "signUp: response status is ${e.response.status}", e)
             DataResult.Failure(e.toAuthenticationException())
         }
@@ -73,13 +59,7 @@ class NetworkAuthenticationRepository @Inject constructor(
             }
             val refreshTokenOutput = response.body<RefreshTokenOutput>()
             DataResult.Success(refreshTokenOutput)
-        } catch (e: RedirectResponseException) {
-            Log.e(TAG, "signUp: response status is ${e.response.status}", e)
-            DataResult.Failure(e.toAuthenticationException())
-        } catch (e: ClientRequestException) {
-            Log.e(TAG, "signUp: response status is ${e.response.status}", e)
-            DataResult.Failure(e.toAuthenticationException())
-        } catch (e: ServerResponseException) {
+        } catch (e: ResponseException) {
             Log.e(TAG, "signUp: response status is ${e.response.status}", e)
             DataResult.Failure(e.toAuthenticationException())
         }
