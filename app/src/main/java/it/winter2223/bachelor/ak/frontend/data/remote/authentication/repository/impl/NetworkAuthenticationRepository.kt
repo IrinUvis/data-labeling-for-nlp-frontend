@@ -8,76 +8,80 @@ import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import it.winter2223.bachelor.ak.frontend.data.core.model.DataResult
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.RefreshTokenInput
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.RefreshTokenOutput
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.UserInput
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.UserOutput
-import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.LogInRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.exception.AuthenticationException
+import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.exception.toAuthenticationException
+import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.AuthenticationRepository
 import it.winter2223.bachelor.ak.frontend.di.BASE_URL
 import javax.inject.Inject
 
-class NetworkLogInRepository @Inject constructor(
+class NetworkAuthenticationRepository @Inject constructor(
     private val httpClient: HttpClient,
-) : LogInRepository {
+) : AuthenticationRepository {
     companion object {
         private const val TAG = "DemoLogInRepo"
         private const val URL = "$BASE_URL/auth"
     }
 
-    override suspend fun logIn(userInput: UserInput): Result<UserOutput> {
+    override suspend fun logIn(userInput: UserInput): DataResult<UserOutput, AuthenticationException> {
         return try {
             val response = httpClient.post("$URL/user") {
                 setBody(userInput)
             }
             val userOutput = response.body<UserOutput>()
-            Result.success(userOutput)
+            DataResult.Success(userOutput)
         } catch (e: RedirectResponseException) {
             Log.e(TAG, "logIn: response status is ${e.response.status}", e)
-            Result.failure(e)
+            DataResult.Failure(e.toAuthenticationException())
         } catch (e: ClientRequestException) {
             Log.e(TAG, "logIn: response status is ${e.response.status}", e)
-            Result.failure(e)
+            DataResult.Failure(e.toAuthenticationException())
         } catch (e: ServerResponseException) {
             Log.e(TAG, "logIn: response status is ${e.response.status}", e)
-            Result.failure(e)
+            DataResult.Failure(e.toAuthenticationException())
         }
     }
 
-    override suspend fun signUp(userInput: UserInput): Result<UserOutput> {
+    override suspend fun signUp(userInput: UserInput): DataResult<UserOutput, AuthenticationException> {
         return try {
             val response = httpClient.post(URL) {
                 setBody(userInput)
             }
             val userOutput = response.body<UserOutput>()
-            Result.success(userOutput)
+            DataResult.Success(userOutput)
         } catch (e: RedirectResponseException) {
             Log.e(TAG, "signUp: response status is ${e.response.status}", e)
-            Result.failure(e)
+            DataResult.Failure(e.toAuthenticationException())
         } catch (e: ClientRequestException) {
             Log.e(TAG, "signUp: response status is ${e.response.status}", e)
-            Result.failure(e)
+            DataResult.Failure(e.toAuthenticationException())
         } catch (e: ServerResponseException) {
             Log.e(TAG, "signUp: response status is ${e.response.status}", e)
-            Result.failure(e)
+            DataResult.Failure(e.toAuthenticationException())
         }
     }
 
-    override suspend fun refreshToken(refreshTokenInput: RefreshTokenInput): Result<RefreshTokenOutput> {
+    override suspend fun refreshToken(refreshTokenInput: RefreshTokenInput):
+            DataResult<RefreshTokenOutput, AuthenticationException> {
         return try {
             val response = httpClient.post("$URL/token") {
                 setBody(refreshTokenInput)
             }
-            val userOutput = response.body<RefreshTokenOutput>()
-            Result.success(userOutput)
+            val refreshTokenOutput = response.body<RefreshTokenOutput>()
+            DataResult.Success(refreshTokenOutput)
         } catch (e: RedirectResponseException) {
-            Log.e(TAG, "refreshToken: response status is ${e.response.status}", e)
-            Result.failure(e)
+            Log.e(TAG, "signUp: response status is ${e.response.status}", e)
+            DataResult.Failure(e.toAuthenticationException())
         } catch (e: ClientRequestException) {
-            Log.e(TAG, "refreshToken: response status is ${e.response.status}", e)
-            Result.failure(e)
+            Log.e(TAG, "signUp: response status is ${e.response.status}", e)
+            DataResult.Failure(e.toAuthenticationException())
         } catch (e: ServerResponseException) {
-            Log.e(TAG, "refreshToken: response status is ${e.response.status}", e)
-            Result.failure(e)
+            Log.e(TAG, "signUp: response status is ${e.response.status}", e)
+            DataResult.Failure(e.toAuthenticationException())
         }
     }
 }

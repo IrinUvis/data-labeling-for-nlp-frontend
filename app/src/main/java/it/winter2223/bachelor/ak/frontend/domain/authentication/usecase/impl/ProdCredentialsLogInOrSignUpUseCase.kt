@@ -3,10 +3,10 @@ package it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.impl
 import android.util.Patterns
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.AuthenticationActivity
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.Credentials
-import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.exception.WrongCredentialsException
+import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.exception.AuthenticationException
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.LogInResult
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.UserInput
-import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.LogInRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.AuthenticationRepository
 import it.winter2223.bachelor.ak.frontend.domain.token.model.StoreTokenResult
 import it.winter2223.bachelor.ak.frontend.domain.token.model.Token
 import it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.CredentialsLogInOrSignUpUseCase
@@ -14,7 +14,7 @@ import it.winter2223.bachelor.ak.frontend.domain.token.usecase.StoreTokenUseCase
 import javax.inject.Inject
 
 class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
-    private val logInRepository: LogInRepository,
+    private val authenticationRepository: AuthenticationRepository,
     private val storeTokenUseCase: StoreTokenUseCase,
 ) : CredentialsLogInOrSignUpUseCase {
     companion object {
@@ -32,13 +32,13 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
         }
 
         val repoResult = when (authenticationActivity) {
-            AuthenticationActivity.LogIn -> logInRepository.logIn(
+            AuthenticationActivity.LogIn -> authenticationRepository.logIn(
                 UserInput(
                     credentials.email,
                     credentials.password,
                 ),
             )
-            AuthenticationActivity.SignUp -> logInRepository.signUp(
+            AuthenticationActivity.SignUp -> authenticationRepository.signUp(
                 UserInput(
                     credentials.email,
                     credentials.password,
@@ -47,12 +47,12 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
         }
 
         return repoResult.fold(
-            onSuccess = {
+            onSuccess = { userOutput ->
                 val storeTokenResult = storeTokenUseCase(
                     Token(
-                        authToken = it.authToken,
-                        refreshToken = it.refreshToken,
-                        userId = it.userId,
+                        authToken = userOutput.authToken,
+                        refreshToken = userOutput.refreshToken,
+                        userId = userOutput.userId,
                     )
                 )
                 when (storeTokenResult) {
@@ -60,8 +60,8 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
                     is StoreTokenResult.Failure -> LogInResult.Failure.DataStore
                 }
             },
-            onFailure = { throwable ->
-                logInResultForThrowable(throwable)
+            onFailure = { authenticationException ->
+                logInResultForAuthenticationException(authenticationException)
             }
         )
     }
@@ -88,10 +88,23 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
         }
     }
 
-    private fun logInResultForThrowable(throwable: Throwable): LogInResult.Failure {
-        return when (throwable) {
-            is WrongCredentialsException -> {
+    private fun logInResultForAuthenticationException(exception: AuthenticationException): LogInResult.Failure {
+        return when (exception) {
+            is AuthenticationException.SigningInFailed -> {
                 LogInResult.Failure.WrongCredentials
+            }
+            is AuthenticationException.SigningUpFailed -> {
+                LogInResult.Failure.WrongCredentials
+            }
+            is AuthenticationException.InvalidEmailAddress -> {
+                LogInResult.Failure.InvalidCredentials(
+                    badEmailFormat = true
+                )
+            }
+            is AuthenticationException.InvalidPassword -> {
+                LogInResult.Failure.InvalidCredentials(
+                    passwordLessThanSixCharacters = true
+                )
             }
             else -> {
                 LogInResult.Failure.Unknown
