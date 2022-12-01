@@ -8,6 +8,7 @@ import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.ResponseException
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
@@ -33,11 +34,11 @@ import javax.inject.Singleton
 
 const val BASE_URL = "http://10.0.2.2:8080/api/v1"
 
-private const val TAG = "HttpClient"
-
 @InstallIn(SingletonComponent::class)
 @Module
 object ApiModule {
+    private const val TAG = "HttpClient"
+    private const val REQUEST_TIMEOUT_MILLIS = 3000L
 
     @Singleton
     @Provides
@@ -53,6 +54,9 @@ object ApiModule {
                     }
                 }
                 level = LogLevel.ALL
+            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = REQUEST_TIMEOUT_MILLIS
             }
             install(ContentNegotiation) {
                 json(
