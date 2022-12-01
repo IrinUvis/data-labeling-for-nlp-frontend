@@ -6,6 +6,8 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.ResponseException
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.utils.io.errors.IOException
 import it.winter2223.bachelor.ak.frontend.data.core.model.DataResult
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.RefreshTokenInput
@@ -23,13 +25,14 @@ class NetworkAuthenticationRepository @Inject constructor(
     private val httpClient: HttpClient,
 ) : AuthenticationRepository {
     companion object {
-        private const val TAG = "DemoLogInRepo"
+        private const val TAG = "NetworkAuthRepo"
         private const val URL = "$BASE_URL/auth"
     }
 
     override suspend fun logIn(userInput: UserInput): DataResult<UserOutput, ApiException> {
         return try {
             val response = httpClient.post("$URL/user") {
+                contentType(ContentType.Application.Json)
                 setBody(userInput)
             }
             val userOutput = response.body<UserOutput>()
@@ -38,7 +41,7 @@ class NetworkAuthenticationRepository @Inject constructor(
             Log.e(TAG, "logIn: response status is ${e.response.status}", e)
             DataResult.Failure(e.toAuthenticationException())
         } catch (e: IOException) {
-            Log.e(TAG, "logIn: No network", e)
+            Log.e(TAG, "logIn: Network error", e)
             DataResult.Failure(NetworkException(e.message, e.cause))
         }
     }
@@ -46,6 +49,7 @@ class NetworkAuthenticationRepository @Inject constructor(
     override suspend fun signUp(userInput: UserInput): DataResult<UserOutput, ApiException> {
         return try {
             val response = httpClient.post(URL) {
+                contentType(ContentType.Application.Json)
                 setBody(userInput)
             }
             val userOutput = response.body<UserOutput>()
@@ -54,7 +58,7 @@ class NetworkAuthenticationRepository @Inject constructor(
             Log.e(TAG, "signUp: response status is ${e.response.status}", e)
             DataResult.Failure(e.toAuthenticationException())
         } catch (e: IOException) {
-            Log.e(TAG, "signUp: No network", e)
+            Log.e(TAG, "signUp: Network error", e)
             DataResult.Failure(NetworkException(e.message, e.cause))
         }
     }
@@ -63,6 +67,7 @@ class NetworkAuthenticationRepository @Inject constructor(
             DataResult<RefreshTokenOutput, ApiException> {
         return try {
             val response = httpClient.post("$URL/token") {
+                contentType(ContentType.Application.Json)
                 setBody(refreshTokenInput)
             }
             val refreshTokenOutput = response.body<RefreshTokenOutput>()
@@ -71,7 +76,7 @@ class NetworkAuthenticationRepository @Inject constructor(
             Log.e(TAG, "refreshToken: response status is ${e.response.status}", e)
             DataResult.Failure(e.toAuthenticationException())
         } catch (e: IOException) {
-            Log.e(TAG, "refreshToken: No network", e)
+            Log.e(TAG, "refreshToken: Network error", e)
             DataResult.Failure(NetworkException(e.message, e.cause))
         }
     }
