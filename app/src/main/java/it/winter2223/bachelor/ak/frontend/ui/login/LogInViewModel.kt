@@ -131,6 +131,10 @@ class LogInViewModel @Inject constructor(
                 credentials = logInCredentials,
                 errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
             )
+            is LogInResult.Failure.NoInternet -> LogInViewState.SubmissionError(
+                credentials = logInCredentials,
+                errorMessage = UiText.ResourceText(R.string.noInternetAccessErrorMessage)
+            )
             is LogInResult.Success -> LogInViewState.Completed
         }
     }

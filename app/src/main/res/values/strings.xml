@@ -61,4 +61,5 @@
     <string name="commentLabelingReminderNotificationText">We would greatly appreciate the help with labeling the comments</string>
     <string name="commentLabelingReminderNotificationTitle">Daily labeling reminder</string>
     <string name="timeSelectorButtonText">Set</string>
+    <string name="noInternetAccessErrorMessage">You don\'t seem to have access to internet</string>
 </resources>

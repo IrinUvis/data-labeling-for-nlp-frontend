@@ -7,6 +7,8 @@ import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.excep
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.LogInResult
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.UserInput
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.AuthenticationRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
 import it.winter2223.bachelor.ak.frontend.domain.token.model.StoreTokenResult
 import it.winter2223.bachelor.ak.frontend.domain.token.model.Token
 import it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.CredentialsLogInOrSignUpUseCase
@@ -60,8 +62,8 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
                     is StoreTokenResult.Failure -> LogInResult.Failure.DataStore
                 }
             },
-            onFailure = { authenticationException ->
-                logInResultForAuthenticationException(authenticationException)
+            onFailure = { apiException ->
+                logInResultForApiException(apiException)
             }
         )
     }
@@ -88,14 +90,11 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
         }
     }
 
-    private fun logInResultForAuthenticationException(exception: AuthenticationException): LogInResult.Failure {
+    private fun logInResultForApiException(exception: ApiException): LogInResult.Failure {
         return when (exception) {
-            is AuthenticationException.SigningInFailed -> {
-                LogInResult.Failure.WrongCredentials
-            }
-            is AuthenticationException.SigningUpFailed -> {
-                LogInResult.Failure.WrongCredentials
-            }
+            is NetworkException -> LogInResult.Failure.NoInternet
+            is AuthenticationException.SigningInFailed -> LogInResult.Failure.WrongCredentials
+            is AuthenticationException.SigningUpFailed -> LogInResult.Failure.WrongCredentials
             is AuthenticationException.InvalidEmailAddress -> {
                 LogInResult.Failure.InvalidCredentials(
                     badEmailFormat = true
@@ -106,9 +105,7 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
                     passwordLessThanSixCharacters = true
                 )
             }
-            else -> {
-                LogInResult.Failure.Unknown
-            }
+            else -> LogInResult.Failure.Unknown
         }
     }
 }

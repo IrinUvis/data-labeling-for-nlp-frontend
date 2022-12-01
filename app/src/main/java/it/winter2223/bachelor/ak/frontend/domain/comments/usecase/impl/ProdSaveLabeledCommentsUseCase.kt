@@ -2,7 +2,9 @@ package it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl
 
 import android.util.Log
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentInput
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.exception.CommentEmotionAssignmentException
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.SaveLabeledCommentsResult
@@ -31,8 +33,18 @@ class ProdSaveLabeledCommentsUseCase @Inject constructor(
                 onSuccess = {
                     SaveLabeledCommentsResult.Success
                 },
-                onFailure = {
-                    SaveLabeledCommentsResult.Failure.Unknown
+                onFailure = { apiException ->
+                    when(apiException) {
+                        is NetworkException -> {
+                            SaveLabeledCommentsResult.Failure.Unknown
+                        }
+                        is CommentEmotionAssignmentException -> {
+                            SaveLabeledCommentsResult.Failure.Unknown
+                        }
+                        else -> {
+                            SaveLabeledCommentsResult.Failure.Unknown
+                        }
+                    }
                 },
             )
         } catch (e: IllegalArgumentException) {

@@ -1,6 +1,8 @@
 package it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl
 
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.model.exception.CommentException
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.repository.CommentRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.GetCommentsToLabelResult
 import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.GetCommentsToLabelUseCase
@@ -25,8 +27,19 @@ class ProdGetCommentsToLabelUseCase @Inject constructor(
                     }
                 )
             },
-            onFailure = {
-                GetCommentsToLabelResult.Failure
+            onFailure = { apiException ->
+                // TODO: Handle errors differently
+                when (apiException) {
+                    is NetworkException -> {
+                        GetCommentsToLabelResult.Failure
+                    }
+                    is CommentException -> {
+                        GetCommentsToLabelResult.Failure
+                    }
+                    else -> {
+                        GetCommentsToLabelResult.Failure
+                    }
+                }
             }
         )
     }

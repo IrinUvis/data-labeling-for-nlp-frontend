@@ -1,8 +1,9 @@
 package it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.exception
 
 import io.ktor.client.plugins.ResponseException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 
-sealed class CommentEmotionAssignmentException(override val message: String?) : Throwable(message) {
+sealed class CommentEmotionAssignmentException(override val message: String?) : ApiException(message, null) {
     data class AssignmentAlreadyExists(override val message: String) : CommentEmotionAssignmentException(message)
 
     data class WrongEmotion(override val message: String) : CommentEmotionAssignmentException(message)

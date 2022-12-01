@@ -1,8 +1,9 @@
 package it.winter2223.bachelor.ak.frontend.data.remote.comment.model.exception
 
 import io.ktor.client.plugins.ResponseException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 
-sealed class CommentException(override val message: String?) : Throwable(message) {
+sealed class CommentException(override val message: String?) : ApiException(message, null) {
     data class NoCommentWithEnteredId(override val message: String) : CommentException(message)
 
     data class CommentsNumberIsNotInteger(override val message: String) : CommentException(message)
@@ -27,7 +28,8 @@ fun ResponseException.toCommentException(): CommentException {
             CommentException.CommentsNumberOutOfRange(message)
         "Null comment object cannot be compare" -> CommentException.CannotCompareNullComment(message)
         "Error while fetching You Tube videos list" -> CommentException.VideosFetchingError(message)
-        "Error while fetching You Tube comments list" -> CommentException.CommentsFetchingError(message)
+        "Error while fetching You Tube comments list" -> CommentException.CommentsFetchingError(
+            message)
         else -> CommentException.Unknown(message)
     }
 }

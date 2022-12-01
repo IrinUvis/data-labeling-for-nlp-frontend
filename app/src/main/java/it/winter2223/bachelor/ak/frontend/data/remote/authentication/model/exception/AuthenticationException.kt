@@ -1,8 +1,9 @@
 package it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.exception
 
 import io.ktor.client.plugins.ResponseException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 
-sealed class AuthenticationException(override val message: String?) : Throwable(message) {
+sealed class AuthenticationException(override val message: String?) : ApiException(message, null) {
     data class InvalidEmailAddress(override val message: String) : AuthenticationException(message)
 
     data class InvalidPassword(override val message: String) : AuthenticationException(message)
