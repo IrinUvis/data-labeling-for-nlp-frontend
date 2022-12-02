@@ -10,8 +10,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.utils.io.errors.IOException
 import it.winter2223.bachelor.ak.frontend.data.core.model.DataResult
-import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.RefreshTokenInput
-import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.RefreshTokenOutput
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.UserInput
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.UserOutput
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.exception.toAuthenticationException
@@ -59,24 +57,6 @@ class NetworkAuthenticationRepository @Inject constructor(
             DataResult.Failure(e.toAuthenticationException())
         } catch (e: IOException) {
             Log.e(TAG, "signUp: Network error", e)
-            DataResult.Failure(NetworkException(e.message, e.cause))
-        }
-    }
-
-    override suspend fun refreshToken(refreshTokenInput: RefreshTokenInput):
-            DataResult<RefreshTokenOutput, ApiException> {
-        return try {
-            val response = httpClient.post("$URL/token") {
-                contentType(ContentType.Application.Json)
-                setBody(refreshTokenInput)
-            }
-            val refreshTokenOutput = response.body<RefreshTokenOutput>()
-            DataResult.Success(refreshTokenOutput)
-        } catch (e: ResponseException) {
-            Log.e(TAG, "refreshToken: response status is ${e.response.status}", e)
-            DataResult.Failure(e.toAuthenticationException())
-        } catch (e: IOException) {
-            Log.e(TAG, "refreshToken: Network error", e)
             DataResult.Failure(NetworkException(e.message, e.cause))
         }
     }
