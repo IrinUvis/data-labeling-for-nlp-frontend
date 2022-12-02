@@ -7,7 +7,6 @@ import dagger.hilt.components.SingletonComponent
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.ClearTokenUseCase
 import it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.CredentialsLogInOrSignUpUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.GetTokenFlowUseCase
-import it.winter2223.bachelor.ak.frontend.domain.token.usecase.RefreshTokenUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.StoreTokenUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdClearTokenUseCase
 import it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.impl.ProdCredentialsLogInOrSignUpUseCase
@@ -30,7 +29,6 @@ import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.SavePreferredThem
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.impl.ProdGetThemeFlowUseCase
 import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.impl.ProdSavePreferredThemeUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdGetTokenFlowUseCase
-import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdRefreshTokenUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdStoreTokenUseCase
 
 @Suppress("TooManyFunctions")
@@ -52,11 +50,6 @@ abstract class UseCaseModule {
     abstract fun bindGetTokenFlowUseCase(
         getTokenFlowUseCase: ProdGetTokenFlowUseCase,
     ): GetTokenFlowUseCase
-
-    @Binds
-    abstract fun bindRefreshTokenUseCase(
-        refreshTokenUseCase: ProdRefreshTokenUseCase,
-    ): RefreshTokenUseCase
 
     @Binds
     abstract fun bindStoreTokenUseCase(
