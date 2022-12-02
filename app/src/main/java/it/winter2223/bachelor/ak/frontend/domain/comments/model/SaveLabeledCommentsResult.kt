@@ -6,6 +6,16 @@ sealed class SaveLabeledCommentsResult {
     sealed class Failure : SaveLabeledCommentsResult() {
         object NonLabeledComments : Failure()
 
+        object WrongEmotionParsing : Failure()
+
+        object AlreadyAssignedByThisUser : Failure()
+
+        object Network : Failure()
+
         object Unknown : Failure()
+
+        object NoToken : Failure()
+
+        object ReadingToken : Failure()
     }
 }

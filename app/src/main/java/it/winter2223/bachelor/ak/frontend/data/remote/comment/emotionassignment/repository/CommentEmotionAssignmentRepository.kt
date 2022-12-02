@@ -6,7 +6,7 @@ import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 
 interface CommentEmotionAssignmentRepository {
-    suspend fun postCommentEmotionAssignment(
+    suspend fun postCommentEmotionAssignments(
         commentEmotionAssignmentInputs: List<CommentEmotionAssignmentInput>
     ) : DataResult<List<CommentEmotionAssignmentOutput>, ApiException>
 }

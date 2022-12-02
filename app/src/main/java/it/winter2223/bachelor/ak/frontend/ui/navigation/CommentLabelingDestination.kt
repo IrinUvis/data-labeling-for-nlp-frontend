@@ -23,6 +23,13 @@ fun NavGraphBuilder.commentLabelingScreen(
     ) {
         CommentLabelingScreen(
             navigateUp = { navController.navigateUp() },
+            navigateToLogIn = {
+                navController.navigateToLogIn {
+                    popUpTo(CommentLabelingDestination.route) {
+                        inclusive = true
+                    }
+                }
+            }
         )
     }
 }

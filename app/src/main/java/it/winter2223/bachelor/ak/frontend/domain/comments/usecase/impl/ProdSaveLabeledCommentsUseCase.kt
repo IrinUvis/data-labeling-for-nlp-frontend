@@ -4,6 +4,7 @@ import android.util.Log
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentInput
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.exception.CommentEmotionAssignmentException
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
@@ -25,44 +26,49 @@ class ProdSaveLabeledCommentsUseCase @Inject constructor(
     override suspend fun invoke(comments: List<Comment>): SaveLabeledCommentsResult {
         return try {
             comments.forEach { comment -> requireNotNull(comment.emotion) }
-            val userId = when (val tokenFlowResult = getTokenFlowUseCase()) {
+            when (val tokenFlowResult = getTokenFlowUseCase()) {
                 is GetTokenFlowResult.Success -> {
                     val token = tokenFlowResult.tokenFlow.first()
-                    token?.userId ?: return SaveLabeledCommentsResult.Failure.Unknown // TODO: Handle errors differently
+                    token?.userId?.let { userId ->
+                        val inputs = comments.map {
+                            CommentEmotionAssignmentInput(
+                                userId = userId,
+                                commentId = it.id,
+                                emotion = it.emotion!!.toUppercaseString(),
+                            )
+                        }
+
+                        val postedAssignmentsResult =
+                            commentEmotionAssignmentRepository.postCommentEmotionAssignments(inputs)
+
+                        postedAssignmentsResult.fold(
+                            onSuccess = {
+                                SaveLabeledCommentsResult.Success
+                            },
+                            onFailure = { apiException ->
+                                saveLabeledCommentsResultForApiException(apiException)
+                            },
+                        )
+
+                    } ?: SaveLabeledCommentsResult.Failure.NoToken
                 }
                 is GetTokenFlowResult.Failure -> {
-                    return SaveLabeledCommentsResult.Failure.Unknown // TODO: Handle errors differently
+                    SaveLabeledCommentsResult.Failure.ReadingToken
                 }
             }
-            val inputs = comments.map {
-                CommentEmotionAssignmentInput(
-                    userId = userId,
-                    commentId = it.id,
-                    emotion = it.emotion!!.toUppercaseString(),
-                )
-            }
-            val postedComments = commentEmotionAssignmentRepository.postCommentEmotionAssignment(inputs)
-            postedComments.fold(
-                onSuccess = {
-                    SaveLabeledCommentsResult.Success
-                },
-                onFailure = { apiException ->
-                    when(apiException) {
-                        is NetworkException -> {
-                            SaveLabeledCommentsResult.Failure.Unknown
-                        }
-                        is CommentEmotionAssignmentException -> {
-                            SaveLabeledCommentsResult.Failure.Unknown
-                        }
-                        else -> {
-                            SaveLabeledCommentsResult.Failure.Unknown
-                        }
-                    }
-                },
-            )
         } catch (e: IllegalArgumentException) {
             Log.e(TAG, e.message, e)
             SaveLabeledCommentsResult.Failure.NonLabeledComments
+        }
+    }
+
+    private fun saveLabeledCommentsResultForApiException(apiException: ApiException): SaveLabeledCommentsResult {
+        return when (apiException) {
+            is NetworkException -> SaveLabeledCommentsResult.Failure.Network
+            is CommentEmotionAssignmentException.WrongEmotion -> SaveLabeledCommentsResult.Failure.WrongEmotionParsing
+            is CommentEmotionAssignmentException.AssignmentAlreadyExists ->
+                SaveLabeledCommentsResult.Failure.AlreadyAssignedByThisUser
+            else -> SaveLabeledCommentsResult.Failure.Unknown
         }
     }
 }

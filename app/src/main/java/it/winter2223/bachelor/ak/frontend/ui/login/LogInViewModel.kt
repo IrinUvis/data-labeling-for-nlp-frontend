@@ -96,6 +96,11 @@ class LogInViewModel @Inject constructor(
         result: LogInResult,
     ) {
         _viewState.value = when (result) {
+            is LogInResult.Success -> LogInViewState.Completed
+            is LogInResult.Failure.Network -> LogInViewState.SubmissionError(
+                credentials = logInCredentials,
+                errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
+            )
             is LogInResult.Failure.InvalidCredentials -> {
                 var emailInputErrorMessage: UiText? = null
                 var passwordInputErrorMessage: UiText? = null
@@ -125,17 +130,12 @@ class LogInViewModel @Inject constructor(
             )
             is LogInResult.Failure.DataStore -> LogInViewState.SubmissionError(
                 credentials = logInCredentials,
-                errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
+                errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
             )
             is LogInResult.Failure.Unknown -> LogInViewState.SubmissionError(
                 credentials = logInCredentials,
                 errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
             )
-            is LogInResult.Failure.Network -> LogInViewState.SubmissionError(
-                credentials = logInCredentials,
-                errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
-            )
-            is LogInResult.Success -> LogInViewState.Completed
         }
     }
 }

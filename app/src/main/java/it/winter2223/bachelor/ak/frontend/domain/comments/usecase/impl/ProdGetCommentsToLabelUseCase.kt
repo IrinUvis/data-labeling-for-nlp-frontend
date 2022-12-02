@@ -2,6 +2,7 @@ package it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl
 
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.model.exception.CommentException
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.repository.CommentRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.GetCommentsToLabelResult
@@ -16,46 +17,48 @@ class ProdGetCommentsToLabelUseCase @Inject constructor(
     private val getTokenFlowUseCase: GetTokenFlowUseCase,
 ) : GetCommentsToLabelUseCase {
     override suspend fun invoke(quantity: Int): GetCommentsToLabelResult {
-        val userId = when (val tokenFlowResult = getTokenFlowUseCase()) {
+        return when (val tokenFlowResult = getTokenFlowUseCase()) {
             is GetTokenFlowResult.Success -> {
                 val token = tokenFlowResult.tokenFlow.first()
-                token?.userId ?: return GetCommentsToLabelResult.Failure
+                token?.userId?.let { userId ->
+                    val commentsResult = commentsRepository.fetchComments(
+                        userId = userId,
+                        commentsNumber = quantity,
+                    )
+
+                    commentsResult.fold(
+                        onSuccess = { commentDtos ->
+                            if (commentDtos.isNotEmpty()) {
+                                GetCommentsToLabelResult.Success(
+                                    comments = commentDtos.map { dto ->
+                                        Comment(
+                                            id = dto.commentId,
+                                            text = dto.content,
+                                        )
+                                    }
+                                )
+                            } else {
+                                GetCommentsToLabelResult.Failure.NoComments
+                            }
+                        },
+                        onFailure = { apiException ->
+                            getCommentsToLabelResultForApiException(apiException)
+                        }
+                    )
+                } ?: GetCommentsToLabelResult.Failure.NoToken
             }
             is GetTokenFlowResult.Failure -> {
-                return GetCommentsToLabelResult.Failure // TODO: Handle errors differently
+                GetCommentsToLabelResult.Failure.ReadingToken
             }
         }
+    }
 
-        val comments = commentsRepository.fetchComments(
-            userId = userId,
-            commentsNumber = quantity,
-        )
-
-        return comments.fold(
-            onSuccess = { commentDtos ->
-                GetCommentsToLabelResult.Success(
-                    comments = commentDtos.map { dto ->
-                        Comment(
-                            id = dto.commentId,
-                            text = dto.content,
-                        )
-                    }
-                )
-            },
-            onFailure = { apiException ->
-                // TODO: Handle errors differently
-                when (apiException) {
-                    is NetworkException -> {
-                        GetCommentsToLabelResult.Failure
-                    }
-                    is CommentException -> {
-                        GetCommentsToLabelResult.Failure
-                    }
-                    else -> {
-                        GetCommentsToLabelResult.Failure
-                    }
-                }
-            }
-        )
+    private fun getCommentsToLabelResultForApiException(apiException: ApiException): GetCommentsToLabelResult {
+        return when (apiException) {
+            is NetworkException -> GetCommentsToLabelResult.Failure.Network
+            is CommentException.CommentsNumberOutOfRange ->
+                GetCommentsToLabelResult.Failure.CommentsNumberOutOfRange
+            else -> GetCommentsToLabelResult.Failure.Unknown
+        }
     }
 }

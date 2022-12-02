@@ -63,4 +63,6 @@
     <string name="commentLabelingReminderNotificationTitle">Przypomnienie o etykietowaniu</string>
     <string name="timeSelectorButtonText">Ustaw</string>
     <string name="networkErrorMessage">Nie można połączyć się z serwerem</string>
+    <string name="unexpectedErrorOccurredErrorMessage">Wystąpił nieoczekiwany błąd</string>
+    <string name="noMoreCommentsToLabelError">Nie ma w tej chwili więcej komentarzy dla Ciebie do zetykietowania. Spróbuj ponownie później</string>
 </resources>

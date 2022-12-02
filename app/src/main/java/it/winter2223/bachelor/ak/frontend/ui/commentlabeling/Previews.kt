@@ -86,6 +86,28 @@ private fun LightLoadingCommentLabelingContentPreview() {
     }
 }
 
+@Preview
+@Composable
+private fun DarkLoadingErrorCommentLabelingContentPreview() {
+    PreviewThemeWithBackground(darkTheme = true) {
+        LoadingErrorCommentLabelingContent(
+            errorMessage = stringResource(R.string.shortPreviewText),
+            onRetryLoading = { }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun LightLoadingErrorCommentLabelingContentPreview() {
+    PreviewThemeWithBackground(darkTheme = false) {
+        LoadingErrorCommentLabelingContent(
+            errorMessage = stringResource(R.string.shortPreviewText),
+            onRetryLoading = { }
+        )
+    }
+}
+
 @Preview(name = "Dark themed Top app bar", showBackground = true)
 @Composable
 private fun DarkCommentLabelingTopBarPreview() {

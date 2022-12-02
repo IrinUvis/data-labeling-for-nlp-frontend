@@ -9,6 +9,7 @@ sealed class CommentLabelingViewState {
         get() {
             return when (this) {
                 is Loading -> CommentLabelingScreenType.Loading
+                is AuthError -> CommentLabelingScreenType.AuthError
                 is CommentLoadingError -> CommentLabelingScreenType.CommentLoadingError
                 is Loaded -> CommentLabelingScreenType.Loaded
             }
@@ -18,7 +19,11 @@ sealed class CommentLabelingViewState {
         val text: UiText,
     ) : CommentLabelingViewState()
 
-    object CommentLoadingError : CommentLabelingViewState()
+    data class CommentLoadingError(
+        val errorMessage: UiText,
+    ) : CommentLabelingViewState()
+
+    object AuthError : CommentLabelingViewState()
 
     sealed class Loaded(
         open val comments: List<UiComment>,
@@ -56,6 +61,7 @@ sealed class CommentLabelingViewState {
 
 enum class CommentLabelingScreenType {
     Loading,
+    AuthError,
     CommentLoadingError,
     Loaded,
 }

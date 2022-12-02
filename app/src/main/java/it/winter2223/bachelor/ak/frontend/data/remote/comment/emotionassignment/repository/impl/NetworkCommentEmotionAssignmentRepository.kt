@@ -27,7 +27,7 @@ class NetworkCommentEmotionAssignmentRepository @Inject constructor(
         private const val URL = "$BASE_URL/assignment"
     }
 
-    override suspend fun postCommentEmotionAssignment(
+    override suspend fun postCommentEmotionAssignments(
         commentEmotionAssignmentInputs: List<CommentEmotionAssignmentInput>,
     ): DataResult<List<CommentEmotionAssignmentOutput>, ApiException> {
         return try {
