@@ -9,10 +9,14 @@ import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.SaveLabeledCommentsResult
 import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.SaveLabeledCommentsUseCase
+import it.winter2223.bachelor.ak.frontend.domain.token.model.GetTokenFlowResult
+import it.winter2223.bachelor.ak.frontend.domain.token.usecase.GetTokenFlowUseCase
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class ProdSaveLabeledCommentsUseCase @Inject constructor(
     private val commentEmotionAssignmentRepository: CommentEmotionAssignmentRepository,
+    private val getTokenFlowUseCase: GetTokenFlowUseCase,
 ) : SaveLabeledCommentsUseCase {
     companion object {
         private const val TAG = "ProdSaveLabeledCommentsUC"
@@ -21,10 +25,19 @@ class ProdSaveLabeledCommentsUseCase @Inject constructor(
     override suspend fun invoke(comments: List<Comment>): SaveLabeledCommentsResult {
         return try {
             comments.forEach { comment -> requireNotNull(comment.emotion) }
+            val userId = when (val tokenFlowResult = getTokenFlowUseCase()) {
+                is GetTokenFlowResult.Success -> {
+                    val token = tokenFlowResult.tokenFlow.first()
+                    token?.userId ?: return SaveLabeledCommentsResult.Failure.Unknown // TODO: Handle errors differently
+                }
+                is GetTokenFlowResult.Failure -> {
+                    return SaveLabeledCommentsResult.Failure.Unknown // TODO: Handle errors differently
+                }
+            }
             val inputs = comments.map {
                 CommentEmotionAssignmentInput(
-                    userId = "whatever",
-                    commentId = "whatever",
+                    userId = userId,
+                    commentId = it.id,
                     emotion = it.emotion!!.toUppercaseString(),
                 )
             }

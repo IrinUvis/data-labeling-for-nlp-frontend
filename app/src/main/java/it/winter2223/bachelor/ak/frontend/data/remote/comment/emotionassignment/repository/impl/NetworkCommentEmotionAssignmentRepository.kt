@@ -6,6 +6,8 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.ResponseException
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.utils.io.errors.IOException
 import it.winter2223.bachelor.ak.frontend.data.core.model.DataResult
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentInput
@@ -30,6 +32,7 @@ class NetworkCommentEmotionAssignmentRepository @Inject constructor(
     ): DataResult<List<CommentEmotionAssignmentOutput>, ApiException> {
         return try {
             val response = httpClient.post(URL) {
+                contentType(ContentType.Application.Json)
                 setBody(commentEmotionAssignmentInputs)
             }
             val commentEmotionAssignmentOutputs = response.body<List<CommentEmotionAssignmentOutput>>()

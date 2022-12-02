@@ -172,6 +172,7 @@ fun List<UiComment>.withChangedEmotionAtIndex(
 ): List<UiComment> {
     val newList = this.toMutableList()
     newList[index] = UiComment(
+        id = this[index].id,
         text = this[index].text,
         emotion = emotion,
     )
@@ -179,7 +180,14 @@ fun List<UiComment>.withChangedEmotionAtIndex(
 }
 
 fun UiComment.toDomainComment() =
-    Comment(text = text.value, emotion = emotion?.name?.let { Emotion.valueOf(it) })
+    Comment(
+        id = id,
+        text = text.value,
+        emotion = emotion?.name?.let { Emotion.valueOf(it) },
+    )
 
-fun Comment.toUiComment() = UiComment(text = UiText.StringText(text),
-    emotion = emotion?.name?.let { UiEmotion.valueOf(it) })
+fun Comment.toUiComment() = UiComment(
+    id = id,
+    text = UiText.StringText(text),
+    emotion = emotion?.name?.let { UiEmotion.valueOf(it) },
+)

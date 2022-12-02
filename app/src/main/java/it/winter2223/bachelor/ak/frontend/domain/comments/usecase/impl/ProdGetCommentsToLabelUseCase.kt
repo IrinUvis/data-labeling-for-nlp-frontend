@@ -6,14 +6,28 @@ import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkExc
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.GetCommentsToLabelResult
 import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.GetCommentsToLabelUseCase
+import it.winter2223.bachelor.ak.frontend.domain.token.model.GetTokenFlowResult
+import it.winter2223.bachelor.ak.frontend.domain.token.usecase.GetTokenFlowUseCase
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class ProdGetCommentsToLabelUseCase @Inject constructor(
     private val commentsRepository: CommentRepository,
+    private val getTokenFlowUseCase: GetTokenFlowUseCase,
 ) : GetCommentsToLabelUseCase {
     override suspend fun invoke(quantity: Int): GetCommentsToLabelResult {
+        val userId = when (val tokenFlowResult = getTokenFlowUseCase()) {
+            is GetTokenFlowResult.Success -> {
+                val token = tokenFlowResult.tokenFlow.first()
+                token?.userId ?: return GetCommentsToLabelResult.Failure
+            }
+            is GetTokenFlowResult.Failure -> {
+                return GetCommentsToLabelResult.Failure // TODO: Handle errors differently
+            }
+        }
+
         val comments = commentsRepository.fetchComments(
-            userId = "", // TODO: get it from data store
+            userId = userId,
             commentsNumber = quantity,
         )
 
@@ -22,6 +36,7 @@ class ProdGetCommentsToLabelUseCase @Inject constructor(
                 GetCommentsToLabelResult.Success(
                     comments = commentDtos.map { dto ->
                         Comment(
+                            id = dto.commentId,
                             text = dto.content,
                         )
                     }
