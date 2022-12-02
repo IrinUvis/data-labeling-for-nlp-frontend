@@ -18,6 +18,6 @@ sealed class LogInResult {
 
         object WrongCredentials : Failure()
 
-        object NoInternet : Failure()
+        object Network : Failure()
     }
 }

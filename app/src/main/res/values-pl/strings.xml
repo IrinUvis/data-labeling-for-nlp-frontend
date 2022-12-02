@@ -62,5 +62,5 @@
     <string name="commentLabelingReminderNotificationText">Będziemy wdzięczni za wszelką pomoc w etykietowaniu komentarzy</string>
     <string name="commentLabelingReminderNotificationTitle">Przypomnienie o etykietowaniu</string>
     <string name="timeSelectorButtonText">Ustaw</string>
-    <string name="noInternetAccessErrorMessage">Wygląda na to, że nie masz dostępu do internetu</string>
+    <string name="networkErrorMessage">Nie można połączyć się z serwerem</string>
 </resources>

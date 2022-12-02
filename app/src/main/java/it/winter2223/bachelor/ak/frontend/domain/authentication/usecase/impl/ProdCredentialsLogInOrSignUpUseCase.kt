@@ -92,7 +92,7 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
 
     private fun logInResultForApiException(exception: ApiException): LogInResult.Failure {
         return when (exception) {
-            is NetworkException -> LogInResult.Failure.NoInternet
+            is NetworkException -> LogInResult.Failure.Network
             is AuthenticationException.SigningInFailed -> LogInResult.Failure.WrongCredentials
             is AuthenticationException.SigningUpFailed -> LogInResult.Failure.WrongCredentials
             is AuthenticationException.InvalidEmailAddress -> {
