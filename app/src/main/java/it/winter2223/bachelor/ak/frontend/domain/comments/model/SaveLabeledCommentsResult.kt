@@ -17,5 +17,7 @@ sealed class SaveLabeledCommentsResult {
         object NoToken : Failure()
 
         object ReadingToken : Failure()
+
+        object UnauthorizedUser : SaveLabeledCommentsResult()
     }
 }

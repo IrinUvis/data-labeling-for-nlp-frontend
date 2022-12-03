@@ -14,6 +14,7 @@ import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.model.UiEmotion
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.getString
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.mediumPadding
 
+@Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommentLabelingContent(
@@ -47,7 +48,14 @@ fun CommentLabelingContent(
                 }
                 CommentLabelingScreenType.AuthError -> {
                     LaunchedEffect(viewState) {
-                        onNavigateToLogIn()
+                        if (viewState is CommentLabelingViewState.AuthError) {
+                            Toast.makeText(
+                                context,
+                                viewState.errorMessage.getString(context),
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                            onNavigateToLogIn()
+                        }
                     }
                 }
                 CommentLabelingScreenType.CommentLoadingError -> {

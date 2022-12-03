@@ -64,4 +64,5 @@
     <string name="networkErrorMessage">Can\'t connect to the server</string>
     <string name="unexpectedErrorOccurredErrorMessage">An unexpected error has occurred</string>
     <string name="noMoreCommentsToLabelError">There are no more comments for you to label. Try again later.</string>
+    <string name="logInAndTryAgainErrorMessage">Please log in and try again</string>
 </resources>

@@ -23,7 +23,9 @@ sealed class CommentLabelingViewState {
         val errorMessage: UiText,
     ) : CommentLabelingViewState()
 
-    object AuthError : CommentLabelingViewState()
+    data class AuthError(
+        val errorMessage: UiText,
+    ) : CommentLabelingViewState()
 
     sealed class Loaded(
         open val comments: List<UiComment>,

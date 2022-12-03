@@ -156,9 +156,12 @@ class CommentLabelingViewModel @Inject constructor(
             }
             is SaveLabeledCommentsResult.Failure.NoToken,
             is SaveLabeledCommentsResult.Failure.ReadingToken,
+            is SaveLabeledCommentsResult.Failure.UnauthorizedUser,
             -> {
                 Log.e(TAG, "User can't be authorized. Logging in is required")
-                CommentLabelingViewState.AuthError
+                CommentLabelingViewState.AuthError(
+                    errorMessage = UiText.ResourceText(R.string.logInAndTryAgainErrorMessage)
+                )
             }
             is SaveLabeledCommentsResult.Failure.Network -> {
                 Log.e(TAG, "Posting comments failed because the server is not accessible")
@@ -169,7 +172,8 @@ class CommentLabelingViewModel @Inject constructor(
                 )
             }
             is SaveLabeledCommentsResult.Failure.NonLabeledComments -> {
-                Log.e(TAG, "Posting comments failed because some comments did not have emotions assigned")
+                Log.e(TAG,
+                    "Posting comments failed because some comments did not have emotions assigned")
                 CommentLabelingViewState.Loaded.CommentPostingError(
                     comments = comments,
                     currentCommentIndex = comments.lastIndex,
@@ -214,9 +218,12 @@ class CommentLabelingViewModel @Inject constructor(
             }
             is GetCommentsToLabelResult.Failure.NoToken,
             is GetCommentsToLabelResult.Failure.ReadingToken,
+            is GetCommentsToLabelResult.Failure.UnauthorizedUser,
             -> {
                 Log.e(TAG, "User can't be authorized. Logging in is required")
-                CommentLabelingViewState.AuthError
+                CommentLabelingViewState.AuthError(
+                    errorMessage = UiText.ResourceText(R.string.logInAndTryAgainErrorMessage)
+                )
             }
             is GetCommentsToLabelResult.Failure.Network -> {
                 Log.e(TAG, "Loading comments failed because the server is not accessible")
@@ -225,13 +232,15 @@ class CommentLabelingViewModel @Inject constructor(
                 )
             }
             is GetCommentsToLabelResult.Failure.NoComments -> {
-                Log.e(TAG, "Loading comments failed because there are no comments for this user to label")
+                Log.e(TAG,
+                    "Loading comments failed because there are no comments for this user to label")
                 CommentLabelingViewState.CommentLoadingError(
                     errorMessage = UiText.ResourceText(R.string.noMoreCommentsToLabelError)
                 )
             }
             is GetCommentsToLabelResult.Failure.CommentsNumberOutOfRange -> {
-                Log.e(TAG, "Loading comments failed because there are no comments for this user to label")
+                Log.e(TAG,
+                    "Loading comments failed because there are no comments for this user to label")
                 CommentLabelingViewState.CommentLoadingError(
                     errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
                 )

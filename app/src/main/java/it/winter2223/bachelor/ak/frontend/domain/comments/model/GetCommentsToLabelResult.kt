@@ -6,6 +6,8 @@ sealed class GetCommentsToLabelResult {
     sealed class Failure : GetCommentsToLabelResult() {
         object Network : Failure()
 
+        object UnauthorizedUser : Failure()
+
         object NoComments : Failure()
 
         object CommentsNumberOutOfRange : Failure()

@@ -7,6 +7,7 @@ import io.ktor.client.plugins.ResponseException
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.utils.io.errors.IOException
 import it.winter2223.bachelor.ak.frontend.data.core.model.DataResult
@@ -16,6 +17,7 @@ import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.UnauthorizedException
 import it.winter2223.bachelor.ak.frontend.di.BASE_URL
 import javax.inject.Inject
 
@@ -35,11 +37,20 @@ class NetworkCommentEmotionAssignmentRepository @Inject constructor(
                 contentType(ContentType.Application.Json)
                 setBody(commentEmotionAssignmentInputs)
             }
-            val commentEmotionAssignmentOutputs = response.body<List<CommentEmotionAssignmentOutput>>()
+            val commentEmotionAssignmentOutputs =
+                response.body<List<CommentEmotionAssignmentOutput>>()
             DataResult.Success(commentEmotionAssignmentOutputs)
         } catch (e: ResponseException) {
             Log.e(TAG, "postCommentEmotionAssignment: response status is ${e.response.status}", e)
-            DataResult.Failure(e.toCommentEmotionAssignmentException())
+            when (e.response.status) {
+                HttpStatusCode.Unauthorized -> DataResult.Failure(
+                    UnauthorizedException(
+                        e.message,
+                        e.cause,
+                    ),
+                )
+                else -> DataResult.Failure(e.toCommentEmotionAssignmentException())
+            }
         } catch (e: IOException) {
             Log.e(TAG, "postCommentEmotionAssignment: No network", e)
             DataResult.Failure(NetworkException(e.message, e.cause))
