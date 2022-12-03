@@ -78,6 +78,9 @@ object ApiModule {
                     refreshTokens {
                         refreshToken(tokenRepository)
                     }
+                    // Always send the request without auth token first and only if it returns 401
+                    // refreshTokens and perform request again. Very important
+                    sendWithoutRequest { false }
                 }
             }
 
@@ -111,11 +114,7 @@ object ApiModule {
                     refreshToken = refreshTokenOutput.refreshToken,
                 )
             } catch (e: ResponseException) {
-                Log.e(
-                    TAG,
-                    "refreshToken callback: response status is ${e.response.status}",
-                    e,
-                )
+                Log.e(TAG, "refreshToken callback: response status is ${e.response.status}", e)
                 tokenRepository.clearToken()
                 null
             } catch (e: IOException) {
