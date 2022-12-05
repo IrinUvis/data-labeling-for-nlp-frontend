@@ -4,18 +4,18 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import it.winter2223.bachelor.ak.frontend.data.comments.repository.CommentRepository
-import it.winter2223.bachelor.ak.frontend.data.comments.repository.impl.NetworkCommentRepository
-import it.winter2223.bachelor.ak.frontend.data.token.repository.impl.DataStoreTokenRepository
-import it.winter2223.bachelor.ak.frontend.data.authentication.repository.impl.DemoLogInRepository
-import it.winter2223.bachelor.ak.frontend.data.authentication.repository.LogInRepository
-import it.winter2223.bachelor.ak.frontend.data.comments.repository.EmotionAssignmentRepository
-import it.winter2223.bachelor.ak.frontend.data.comments.repository.impl.NetworkEmotionAssignmentRepository
-import it.winter2223.bachelor.ak.frontend.data.reminder.repository.ReminderTimeRepository
-import it.winter2223.bachelor.ak.frontend.data.reminder.repository.impl.DataStoreReminderTimeRepository
-import it.winter2223.bachelor.ak.frontend.data.theme.repository.ThemeRepository
-import it.winter2223.bachelor.ak.frontend.data.theme.repository.impl.DataStoreThemeRepository
-import it.winter2223.bachelor.ak.frontend.data.token.repository.TokenRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.repository.CommentRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.repository.impl.NetworkCommentRepository
+import it.winter2223.bachelor.ak.frontend.data.local.token.repository.impl.DataStoreTokenRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.impl.NetworkAuthenticationRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.AuthenticationRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
+import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.impl.NetworkCommentEmotionAssignmentRepository
+import it.winter2223.bachelor.ak.frontend.data.local.reminder.repository.ReminderTimeRepository
+import it.winter2223.bachelor.ak.frontend.data.local.reminder.repository.impl.DataStoreReminderTimeRepository
+import it.winter2223.bachelor.ak.frontend.data.local.theme.repository.ThemeRepository
+import it.winter2223.bachelor.ak.frontend.data.local.theme.repository.impl.DataStoreThemeRepository
+import it.winter2223.bachelor.ak.frontend.data.local.token.repository.TokenRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -28,8 +28,8 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindEmotionAssignmentRepository(
-        emotionAssignmentRepository: NetworkEmotionAssignmentRepository,
-    ): EmotionAssignmentRepository
+        emotionAssignmentRepository: NetworkCommentEmotionAssignmentRepository,
+    ): CommentEmotionAssignmentRepository
 
     @Binds
     abstract fun bindTokenRepository(
@@ -43,8 +43,8 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindLoginRepository(
-        logInRepository: DemoLogInRepository
-    ): LogInRepository
+        logInRepository: NetworkAuthenticationRepository
+    ): AuthenticationRepository
 
     @Binds
     abstract fun bindReminderTimeRepository(

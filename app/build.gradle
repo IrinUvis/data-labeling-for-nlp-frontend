@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.21'
 }
 
 android {
@@ -62,6 +63,13 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
     implementation "androidx.core:core-splashscreen:$splashScreenVersion"
+    implementation "io.ktor:ktor-client-core:$ktorVersion"
+    implementation "io.ktor:ktor-client-android:$ktorVersion"
+    implementation "io.ktor:ktor-client-logging:$ktorVersion"
+    implementation "io.ktor:ktor-client-auth:$ktorVersion"
+    implementation "io.ktor:ktor-client-content-negotiation:$ktorVersion"
+    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"

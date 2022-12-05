@@ -9,12 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import it.winter2223.bachelor.ak.frontend.R
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.component.CommentLabelingTopBar
 import it.winter2223.bachelor.ak.frontend.ui.commentlabeling.model.UiEmotion
 import it.winter2223.bachelor.ak.frontend.ui.core.helpers.getString
+import it.winter2223.bachelor.ak.frontend.ui.core.helpers.mediumPadding
 
+@Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommentLabelingContent(
@@ -25,6 +25,8 @@ fun CommentLabelingContent(
     onBackButtonClicked: () -> Unit,
     onGoToNextComment: () -> Unit,
     onCloseDialog: () -> Unit,
+    onRetryLoading: () -> Unit,
+    onNavigateToLogIn: () -> Unit,
 ) {
     Scaffold(
         topBar = { CommentLabelingTopBar(onBackButtonClicked = onBackButtonClicked) }
@@ -39,27 +41,34 @@ fun CommentLabelingContent(
                 CommentLabelingScreenType.Loading -> {
                     (viewState as? CommentLabelingViewState.Loading)?.let { state ->
                         LoadingCommentLabelingContent(
+                            modifier = Modifier.padding(mediumPadding),
                             text = state.text.getString(),
                         )
                     }
                 }
-                CommentLabelingScreenType.CommentLoadingError -> {
+                CommentLabelingScreenType.AuthError -> {
                     LaunchedEffect(viewState) {
-                        Toast.makeText(
-                            context,
-                            R.string.cannotLoadCommentsErrorMessage,
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                        onBackButtonClicked()
+                        if (viewState is CommentLabelingViewState.AuthError) {
+                            Toast.makeText(
+                                context,
+                                viewState.errorMessage.getString(context),
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                            onNavigateToLogIn()
+                        }
                     }
-
-                    LoadingCommentLabelingContent(
-                        text = stringResource(id = R.string.loadingComments)
-                    )
+                }
+                CommentLabelingScreenType.CommentLoadingError -> {
+                    (viewState as? CommentLabelingViewState.CommentLoadingError)?.let { state ->
+                        LoadingErrorCommentLabelingContent(
+                            modifier = Modifier.padding(mediumPadding),
+                            errorMessage = state.errorMessage.getString(),
+                            onRetryLoading = onRetryLoading,
+                        )
+                    }
                 }
                 CommentLabelingScreenType.Loaded -> {
                     (viewState as? CommentLabelingViewState.Loaded)?.let { state ->
-
                         LaunchedEffect(viewState) {
                             if (state is CommentLabelingViewState.Loaded.CommentPostingError) {
                                 Toast.makeText(

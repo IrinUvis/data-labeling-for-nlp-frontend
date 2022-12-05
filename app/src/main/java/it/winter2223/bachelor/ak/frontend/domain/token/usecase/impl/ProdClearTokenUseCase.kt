@@ -1,7 +1,7 @@
 package it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl
 
 import android.util.Log
-import it.winter2223.bachelor.ak.frontend.data.token.repository.TokenRepository
+import it.winter2223.bachelor.ak.frontend.data.local.token.repository.TokenRepository
 import it.winter2223.bachelor.ak.frontend.domain.token.model.ClearTokenResult
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.ClearTokenUseCase
 import java.io.IOException

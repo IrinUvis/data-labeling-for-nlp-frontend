@@ -26,6 +26,7 @@ private fun DarkActiveCommentLabelingContentPreview() {
             viewState = CommentLabelingViewState.Loaded.Active(
                 comments = List(NUMBER_OF_COMMENTS_FOR_PREVIEWS) {
                     UiComment(
+                        id = "randomId",
                         text = UiText.StringText(stringResource(id = R.string.shortPreviewText)),
                         emotion = UiEmotion.Love,
                     )
@@ -49,6 +50,7 @@ private fun LightActiveCommentLabelingContentPreview() {
             viewState = CommentLabelingViewState.Loaded.Active(
                 comments = List(NUMBER_OF_COMMENTS_FOR_PREVIEWS) {
                     UiComment(
+                        id = "randomId",
                         text = UiText.StringText(stringResource(id = R.string.shortPreviewText)),
                         emotion = UiEmotion.Love,
                     )
@@ -80,6 +82,28 @@ private fun LightLoadingCommentLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         LoadingCommentLabelingContent(
             text = stringResource(R.string.loadingComments)
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun DarkLoadingErrorCommentLabelingContentPreview() {
+    PreviewThemeWithBackground(darkTheme = true) {
+        LoadingErrorCommentLabelingContent(
+            errorMessage = stringResource(R.string.shortPreviewText),
+            onRetryLoading = { }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun LightLoadingErrorCommentLabelingContentPreview() {
+    PreviewThemeWithBackground(darkTheme = false) {
+        LoadingErrorCommentLabelingContent(
+            errorMessage = stringResource(R.string.shortPreviewText),
+            onRetryLoading = { }
         )
     }
 }

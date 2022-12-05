@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import dagger.hilt.android.qualifiers.ApplicationContext
-import it.winter2223.bachelor.ak.frontend.data.reminder.worker.CommentLabelingReminderWorker
+import it.winter2223.bachelor.ak.frontend.data.local.reminder.worker.CommentLabelingReminderWorker
 import it.winter2223.bachelor.ak.frontend.domain.reminder.model.GetCommentLabelingReminderStatusResult
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.GetCommentLabelingReminderStatusUseCase
 import javax.inject.Inject
