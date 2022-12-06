@@ -91,7 +91,9 @@ dependencies {
 
     // Tests
     testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "com.google.truth:truth:$truthVersion"
+    testImplementation "com.google.truth:truth:$truthVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
 
     // Instrumented tests
     androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"

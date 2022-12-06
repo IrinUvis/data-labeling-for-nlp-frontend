@@ -1,6 +1,5 @@
 package it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.impl
 
-import android.util.Patterns
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.AuthenticationActivity
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.Credentials
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.exception.AuthenticationException
@@ -13,6 +12,7 @@ import it.winter2223.bachelor.ak.frontend.domain.token.model.StoreTokenResult
 import it.winter2223.bachelor.ak.frontend.domain.token.model.Token
 import it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.CredentialsLogInOrSignUpUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.StoreTokenUseCase
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
@@ -21,6 +21,15 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
 ) : CredentialsLogInOrSignUpUseCase {
     companion object {
         private const val MIN_PASSWORD_SIZE = 6
+        private val EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9+._%-+]{1,256}" +
+                    "@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+        )
     }
 
     override suspend fun invoke(
@@ -71,7 +80,7 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
     private fun validateCredentials(credentials: Credentials): LogInResult.Failure? {
         val emptyEmail = credentials.email.isEmpty()
         val emptyPassword = credentials.password.isEmpty()
-        val emailConformsToRegex = Patterns.EMAIL_ADDRESS.matcher(credentials.email).matches()
+        val emailConformsToRegex = EMAIL_ADDRESS_PATTERN.matcher(credentials.email).matches()
         val passwordAtLeastSixCharacters = credentials.password.length >= MIN_PASSWORD_SIZE
         val credentialsInvalid = !emailConformsToRegex
                 || !passwordAtLeastSixCharacters
