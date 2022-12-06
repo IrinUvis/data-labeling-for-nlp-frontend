@@ -6,6 +6,7 @@ import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ServiceUnavailableException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.UnauthorizedException
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
@@ -65,6 +66,7 @@ class ProdSaveLabeledCommentsUseCase @Inject constructor(
 
     private fun saveLabeledCommentsResultForApiException(apiException: ApiException): SaveLabeledCommentsResult {
         return when (apiException) {
+            is ServiceUnavailableException -> SaveLabeledCommentsResult.Failure.ServiceUnavailable
             is NetworkException -> SaveLabeledCommentsResult.Failure.Network
             is UnauthorizedException -> SaveLabeledCommentsResult.Failure.UnauthorizedUser
             is CommentEmotionAssignmentException.WrongEmotion -> SaveLabeledCommentsResult.Failure.WrongEmotionParsing

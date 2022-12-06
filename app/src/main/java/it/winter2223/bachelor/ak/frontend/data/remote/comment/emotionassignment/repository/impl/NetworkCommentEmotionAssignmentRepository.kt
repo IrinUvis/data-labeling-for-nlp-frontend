@@ -17,6 +17,7 @@ import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ServiceUnavailableException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.UnauthorizedException
 import it.winter2223.bachelor.ak.frontend.di.BASE_URL
 import javax.inject.Inject
@@ -48,6 +49,12 @@ class NetworkCommentEmotionAssignmentRepository @Inject constructor(
                         e.message,
                         e.cause,
                     ),
+                )
+                HttpStatusCode.ServiceUnavailable -> DataResult.Failure(
+                    ServiceUnavailableException(
+                        e.message,
+                        e.cause
+                    )
                 )
                 else -> DataResult.Failure(e.toCommentEmotionAssignmentException())
             }

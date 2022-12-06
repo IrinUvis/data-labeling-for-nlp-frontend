@@ -7,6 +7,7 @@ import io.ktor.client.plugins.ResponseException
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.utils.io.errors.IOException
 import it.winter2223.bachelor.ak.frontend.data.core.model.DataResult
@@ -16,6 +17,7 @@ import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.excep
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.AuthenticationRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ServiceUnavailableException
 import it.winter2223.bachelor.ak.frontend.di.BASE_URL
 import javax.inject.Inject
 
@@ -37,7 +39,15 @@ class NetworkAuthenticationRepository @Inject constructor(
             DataResult.Success(userOutput)
         } catch (e: ResponseException) {
             Log.e(TAG, "logIn: response status is ${e.response.status}", e)
-            DataResult.Failure(e.toAuthenticationException())
+            when (e.response.status) {
+                HttpStatusCode.ServiceUnavailable -> DataResult.Failure(
+                    ServiceUnavailableException(
+                        e.message,
+                        e.cause,
+                    )
+                )
+                else -> DataResult.Failure(e.toAuthenticationException())
+            }
         } catch (e: IOException) {
             Log.e(TAG, "logIn: Network error", e)
             DataResult.Failure(NetworkException(e.message, e.cause))
@@ -54,7 +64,15 @@ class NetworkAuthenticationRepository @Inject constructor(
             DataResult.Success(userOutput)
         } catch (e: ResponseException) {
             Log.e(TAG, "signUp: response status is ${e.response.status}", e)
-            DataResult.Failure(e.toAuthenticationException())
+            when (e.response.status) {
+                HttpStatusCode.ServiceUnavailable -> DataResult.Failure(
+                    ServiceUnavailableException(
+                        e.message,
+                        e.cause,
+                    )
+                )
+                else -> DataResult.Failure(e.toAuthenticationException())
+            }
         } catch (e: IOException) {
             Log.e(TAG, "signUp: Network error", e)
             DataResult.Failure(NetworkException(e.message, e.cause))

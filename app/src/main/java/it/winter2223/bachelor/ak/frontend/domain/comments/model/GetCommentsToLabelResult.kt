@@ -17,5 +17,7 @@ sealed class GetCommentsToLabelResult {
         object NoToken : Failure()
 
         object Unknown : Failure()
+
+        object ServiceUnavailable : GetCommentsToLabelResult()
     }
 }

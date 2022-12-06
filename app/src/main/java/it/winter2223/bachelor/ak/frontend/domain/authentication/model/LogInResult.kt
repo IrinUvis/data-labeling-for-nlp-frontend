@@ -19,5 +19,7 @@ sealed class LogInResult {
         object WrongCredentials : Failure()
 
         object Network : Failure()
+
+        object ServiceUnavailable : Failure()
     }
 }

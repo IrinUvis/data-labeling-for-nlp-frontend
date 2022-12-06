@@ -14,6 +14,7 @@ import it.winter2223.bachelor.ak.frontend.data.remote.comment.model.dto.CommentO
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.model.exception.toCommentException
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.repository.CommentRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ServiceUnavailableException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.UnauthorizedException
 import it.winter2223.bachelor.ak.frontend.di.BASE_URL
 import javax.inject.Inject
@@ -45,6 +46,12 @@ class NetworkCommentRepository @Inject constructor(
                         e.message,
                         e.cause,
                     ),
+                )
+                HttpStatusCode.ServiceUnavailable -> DataResult.Failure(
+                    ServiceUnavailableException(
+                        e.message,
+                        e.cause
+                    )
                 )
                 else -> DataResult.Failure(e.toCommentException())
             }
