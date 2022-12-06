@@ -4,6 +4,7 @@ import it.winter2223.bachelor.ak.frontend.data.remote.comment.model.exception.Co
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.repository.CommentRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ServiceUnavailableException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.UnauthorizedException
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.GetCommentsToLabelResult
@@ -56,6 +57,7 @@ class ProdGetCommentsToLabelUseCase @Inject constructor(
 
     private fun getCommentsToLabelResultForApiException(apiException: ApiException): GetCommentsToLabelResult {
         return when (apiException) {
+            is ServiceUnavailableException -> GetCommentsToLabelResult.Failure.ServiceUnavailable
             is NetworkException -> GetCommentsToLabelResult.Failure.Network
             is UnauthorizedException -> GetCommentsToLabelResult.Failure.UnauthorizedUser
             is CommentException.CommentsNumberOutOfRange ->

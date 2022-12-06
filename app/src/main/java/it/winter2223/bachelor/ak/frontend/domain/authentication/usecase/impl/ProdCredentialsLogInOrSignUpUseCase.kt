@@ -9,6 +9,7 @@ import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.U
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.AuthenticationRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ApiException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ServiceUnavailableException
 import it.winter2223.bachelor.ak.frontend.domain.token.model.StoreTokenResult
 import it.winter2223.bachelor.ak.frontend.domain.token.model.Token
 import it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.CredentialsLogInOrSignUpUseCase
@@ -92,6 +93,7 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
 
     private fun logInResultForApiException(exception: ApiException): LogInResult.Failure {
         return when (exception) {
+            is ServiceUnavailableException -> LogInResult.Failure.ServiceUnavailable
             is NetworkException -> LogInResult.Failure.Network
             is AuthenticationException.SigningInFailed -> LogInResult.Failure.WrongCredentials
             is AuthenticationException.SigningUpFailed -> LogInResult.Failure.WrongCredentials

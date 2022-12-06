@@ -19,5 +19,7 @@ sealed class SaveLabeledCommentsResult {
         object ReadingToken : Failure()
 
         object UnauthorizedUser : SaveLabeledCommentsResult()
+
+        object ServiceUnavailable : SaveLabeledCommentsResult()
     }
 }

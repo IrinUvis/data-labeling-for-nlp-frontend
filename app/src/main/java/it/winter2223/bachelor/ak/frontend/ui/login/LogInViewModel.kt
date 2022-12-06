@@ -97,6 +97,10 @@ class LogInViewModel @Inject constructor(
     ) {
         _viewState.value = when (result) {
             is LogInResult.Success -> LogInViewState.Completed
+            is LogInResult.Failure.ServiceUnavailable -> LogInViewState.SubmissionError(
+                credentials = logInCredentials,
+                errorMessage = UiText.ResourceText(R.string.serviceUnavailableLongErrorMessage)
+            )
             is LogInResult.Failure.Network -> LogInViewState.SubmissionError(
                 credentials = logInCredentials,
                 errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
