@@ -1,6 +1,5 @@
 package it.winter2223.bachelor.ak.frontend.ui.commentlabeling
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,12 +27,8 @@ class CommentLabelingViewModel @Inject constructor(
     private val saveLabeledCommentsUseCase: SaveLabeledCommentsUseCase,
     private val clearTokenUseCase: ClearTokenUseCase,
 ) : ViewModel() {
-    companion object {
-        private const val TAG = "CommentLabelingVM"
-    }
-
     private val _viewState: MutableStateFlow<CommentLabelingViewState> = MutableStateFlow(
-        value = CommentLabelingViewState.Loading(UiText.StringText("loading"))
+        value = CommentLabelingViewState.Loading(UiText.ResourceText(R.string.loadingComments))
     )
     val viewState: StateFlow<CommentLabelingViewState> = _viewState
 
@@ -151,106 +146,78 @@ class CommentLabelingViewModel @Inject constructor(
         result: SaveLabeledCommentsResult,
     ) {
         _viewState.value = when (result) {
-            is SaveLabeledCommentsResult.Success -> {
-                _viewState.value
-            }
+            is SaveLabeledCommentsResult.Success -> _viewState.value
             is SaveLabeledCommentsResult.Failure.NoToken,
             is SaveLabeledCommentsResult.Failure.ReadingToken,
             is SaveLabeledCommentsResult.Failure.UnauthorizedUser,
-            -> {
-                Log.e(TAG, "User can't be authorized. Logging in is required")
-                CommentLabelingViewState.AuthError(
-                    errorMessage = UiText.ResourceText(R.string.logInAndTryAgainErrorMessage)
-                )
-            }
-            is SaveLabeledCommentsResult.Failure.Network -> {
-                Log.e(TAG, "Posting comments failed because the server is not accessible")
+            -> CommentLabelingViewState.AuthError(
+                errorMessage = UiText.ResourceText(R.string.logInAndTryAgainErrorMessage)
+            )
+            is SaveLabeledCommentsResult.Failure.ServiceUnavailable ->
                 CommentLabelingViewState.Loaded.CommentPostingError(
-                    comments = comments,
-                    currentCommentIndex = comments.lastIndex,
-                    errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
-                )
-            }
-            is SaveLabeledCommentsResult.Failure.NonLabeledComments -> {
-                Log.e(TAG,
-                    "Posting comments failed because some comments did not have emotions assigned")
+                comments = comments,
+                currentCommentIndex = comments.lastIndex,
+                errorMessage = UiText.ResourceText(R.string.serviceUnavailableShortErrorMessage)
+            )
+            is SaveLabeledCommentsResult.Failure.Network -> CommentLabelingViewState.Loaded.CommentPostingError(
+                comments = comments,
+                currentCommentIndex = comments.lastIndex,
+                errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
+            )
+            is SaveLabeledCommentsResult.Failure.NonLabeledComments ->
                 CommentLabelingViewState.Loaded.CommentPostingError(
-                    comments = comments,
-                    currentCommentIndex = comments.lastIndex,
-                    errorMessage = UiText.ResourceText(R.string.commentsNotLabeledErrorMessage)
-                )
-            }
-            is SaveLabeledCommentsResult.Failure.WrongEmotionParsing -> {
-                Log.e(TAG, "Posting comments failed because some emotions are parsed incorrectly")
+                comments = comments,
+                currentCommentIndex = comments.lastIndex,
+                errorMessage = UiText.ResourceText(R.string.commentsNotLabeledErrorMessage)
+            )
+            is SaveLabeledCommentsResult.Failure.WrongEmotionParsing ->
                 CommentLabelingViewState.Loaded.CommentPostingError(
                     comments = comments,
                     currentCommentIndex = comments.lastIndex,
                     errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
                 )
-            }
-            is SaveLabeledCommentsResult.Failure.AlreadyAssignedByThisUser -> {
-                Log.e(TAG, "Posting comments failed because they are already labeled by this user")
+            is SaveLabeledCommentsResult.Failure.AlreadyAssignedByThisUser ->
                 CommentLabelingViewState.Loaded.CommentPostingError(
-                    comments = comments,
-                    currentCommentIndex = comments.lastIndex,
-                    errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
-                )
-            }
-            is SaveLabeledCommentsResult.Failure.Unknown -> {
-                Log.e(TAG, "Posting comments failed due to unknown error")
-                CommentLabelingViewState.Loaded.CommentPostingError(
-                    comments = comments,
-                    currentCommentIndex = comments.lastIndex,
-                    errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
-                )
-            }
+                comments = comments,
+                currentCommentIndex = comments.lastIndex,
+                errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
+            )
+            is SaveLabeledCommentsResult.Failure.Unknown -> CommentLabelingViewState.Loaded.CommentPostingError(
+                comments = comments,
+                currentCommentIndex = comments.lastIndex,
+                errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
+            )
         }
     }
 
     private fun handleGetCommentsToLabelResult(result: GetCommentsToLabelResult) {
         _viewState.value = when (result) {
-            is GetCommentsToLabelResult.Success -> {
-                val uiComments = result.comments.map { it.toUiComment() }
-                CommentLabelingViewState.Loaded.Active(
-                    comments = uiComments,
-                    currentCommentIndex = 0,
-                )
-            }
+            is GetCommentsToLabelResult.Success -> CommentLabelingViewState.Loaded.Active(
+                comments = result.comments.map { it.toUiComment() },
+                currentCommentIndex = 0,
+            )
             is GetCommentsToLabelResult.Failure.NoToken,
             is GetCommentsToLabelResult.Failure.ReadingToken,
             is GetCommentsToLabelResult.Failure.UnauthorizedUser,
-            -> {
-                Log.e(TAG, "User can't be authorized. Logging in is required")
-                CommentLabelingViewState.AuthError(
-                    errorMessage = UiText.ResourceText(R.string.logInAndTryAgainErrorMessage)
-                )
-            }
-            is GetCommentsToLabelResult.Failure.Network -> {
-                Log.e(TAG, "Loading comments failed because the server is not accessible")
-                CommentLabelingViewState.CommentLoadingError(
-                    errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
-                )
-            }
-            is GetCommentsToLabelResult.Failure.NoComments -> {
-                Log.e(TAG,
-                    "Loading comments failed because there are no comments for this user to label")
-                CommentLabelingViewState.CommentLoadingError(
-                    errorMessage = UiText.ResourceText(R.string.noMoreCommentsToLabelError)
-                )
-            }
-            is GetCommentsToLabelResult.Failure.CommentsNumberOutOfRange -> {
-                Log.e(TAG,
-                    "Loading comments failed because there are no comments for this user to label")
+            -> CommentLabelingViewState.AuthError(
+                errorMessage = UiText.ResourceText(R.string.logInAndTryAgainErrorMessage)
+            )
+            is GetCommentsToLabelResult.Failure.ServiceUnavailable -> CommentLabelingViewState.CommentLoadingError(
+                errorMessage = UiText.ResourceText(R.string.serviceUnavailableLongErrorMessage)
+            )
+            is GetCommentsToLabelResult.Failure.Network -> CommentLabelingViewState.CommentLoadingError(
+                errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
+            )
+            is GetCommentsToLabelResult.Failure.NoComments -> CommentLabelingViewState.CommentLoadingError(
+                errorMessage = UiText.ResourceText(R.string.noMoreCommentsToLabelError)
+            )
+            is GetCommentsToLabelResult.Failure.CommentsNumberOutOfRange ->
                 CommentLabelingViewState.CommentLoadingError(
                     errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
                 )
-            }
-            is GetCommentsToLabelResult.Failure.Unknown -> {
-                Log.e(TAG, "Loading comments failed due to an unknown error")
-                CommentLabelingViewState.CommentLoadingError(
-                    errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
-                )
-            }
+            is GetCommentsToLabelResult.Failure.Unknown -> CommentLabelingViewState.CommentLoadingError(
+                errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
+            )
         }
     }
 }
