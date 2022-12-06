@@ -32,13 +32,13 @@ import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
-const val BASE_URL = "http://10.0.2.2:8080/api/v1"
+const val BASE_URL = "https://data-labeling-for-nlp-backend.azuremicroservices.io/api/v1"
 
 @InstallIn(SingletonComponent::class)
 @Module
 object ApiModule {
     private const val TAG = "HttpClient"
-    private const val REQUEST_TIMEOUT_MILLIS = 3000L
+    private const val REQUEST_TIMEOUT_MILLIS = 30000L
 
     @Singleton
     @Provides
