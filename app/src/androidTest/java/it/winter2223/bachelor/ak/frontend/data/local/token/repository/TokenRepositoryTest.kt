@@ -1,4 +1,4 @@
-package it.winter2223.bachelor.ak.frontend.data.local.reminder.repository
+package it.winter2223.bachelor.ak.frontend.data.local.token.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -9,8 +9,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth
-import it.winter2223.bachelor.ak.frontend.data.local.reminder.model.ReminderTimePreferences
-import it.winter2223.bachelor.ak.frontend.data.local.reminder.repository.impl.DataStoreReminderTimeRepository
+import it.winter2223.bachelor.ak.frontend.data.local.token.model.TokenPreferences
+import it.winter2223.bachelor.ak.frontend.data.local.token.repository.impl.DataStoreTokenRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
@@ -23,9 +23,9 @@ import org.junit.runner.RunWith
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
-class ReminderTimeRepositoryTest {
+class TokenRepositoryTest {
     companion object {
-        private const val TEST_DATASTORE_NAME = "test_datastore_reminder"
+        private const val TEST_DATASTORE_NAME = "test_datastore_token"
     }
 
     private val testCoroutineDispatcher: TestDispatcher = StandardTestDispatcher()
@@ -37,49 +37,50 @@ class ReminderTimeRepositoryTest {
         produceFile = { testContext.preferencesDataStoreFile(TEST_DATASTORE_NAME) }
     )
 
-    private val repository: ReminderTimeRepository = DataStoreReminderTimeRepository(testDataStore)
+    private val repository = DataStoreTokenRepository(testDataStore)
 
     @Test
     fun repository_whenDataStoreIsEmpty_returnsNull() = testCoroutineScope.runTest {
         cleanDataStore()
 
-        val reminderTimePreferences = repository.reminderTimeFlow().first()
+        val tokenPreferences = repository.tokenFlow().first()
 
-        Truth.assertThat(reminderTimePreferences).isEqualTo(null)
+        Truth.assertThat(tokenPreferences).isNull()
     }
 
 
     @Test
-    fun repository_whenPreferenceStoredInDataStore_returnsStoredPreference() =
-        testCoroutineScope.runTest {
-            cleanDataStore()
+    fun repository_whenPreferenceStoredInDataStore_returnsStoredPreference() = testCoroutineScope.runTest {
+        cleanDataStore()
 
-            val reminderTimePreferences = ReminderTimePreferences(
-                hour = 8,
-                minute = 0,
-            )
+        val tokenPreferences = TokenPreferences(
+            authToken = "auth_token",
+            refreshToken = "refresh_token",
+            userId = "user_id"
+        )
 
-            repository.storeReminderTime(reminderTimePreferences)
-            val storedReminderTimePreferences = repository.reminderTimeFlow().first()
+        repository.storeToken(tokenPreferences)
+        val storedTokenPreferences = repository.tokenFlow().first()
 
-            Truth.assertThat(storedReminderTimePreferences).isEqualTo(reminderTimePreferences)
-        }
+        Truth.assertThat(storedTokenPreferences).isEqualTo(tokenPreferences)
+    }
 
 
     @Test
     fun repository_whenPreferencesCleared_returnsNull() = testCoroutineScope.runTest {
         cleanDataStore()
 
-        val reminderTimePreferences = ReminderTimePreferences(
-            hour = 8,
-            minute = 0,
+        val tokenPreferences = TokenPreferences(
+            authToken = "auth_token",
+            refreshToken = "refresh_token",
+            userId = "user_id"
         )
 
-        repository.storeReminderTime(reminderTimePreferences)
-        repository.clearReminderTime()
-        val storedReminderTimePreferences = repository.reminderTimeFlow().first()
+        repository.storeToken(tokenPreferences)
+        repository.clearToken()
+        val storedTokenPreferences = repository.tokenFlow().first()
 
-        Truth.assertThat(storedReminderTimePreferences).isEqualTo(null)
+        Truth.assertThat(storedTokenPreferences).isNull()
     }
 
 

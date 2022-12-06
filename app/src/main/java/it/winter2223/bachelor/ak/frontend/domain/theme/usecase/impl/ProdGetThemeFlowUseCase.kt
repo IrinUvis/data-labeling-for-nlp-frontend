@@ -19,7 +19,7 @@ class ProdGetThemeFlowUseCase @Inject constructor(
     override suspend fun invoke(): GetThemeFlowResult {
         return try {
             GetThemeFlowResult.Success(
-                themeFlow = themeRepository.tokenFlow().map {
+                themeFlow = themeRepository.themeFlow().map {
                     Theme.valueOf(it.name)
                 }
             )

@@ -25,7 +25,7 @@ class DataStoreThemeRepository @Inject constructor(
         }
     }
 
-    override suspend fun tokenFlow(): Flow<ThemePreferences> {
+    override suspend fun themeFlow(): Flow<ThemePreferences> {
         return dataStore.data.map { preferences ->
             val theme = preferences[ThemePreferencesKeys.THEME]
 

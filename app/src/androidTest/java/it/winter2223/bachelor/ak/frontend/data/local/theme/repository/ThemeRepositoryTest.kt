@@ -1,4 +1,4 @@
-package it.winter2223.bachelor.ak.frontend.data.local.reminder.repository
+package it.winter2223.bachelor.ak.frontend.data.local.theme.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -9,8 +9,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth
-import it.winter2223.bachelor.ak.frontend.data.local.reminder.model.ReminderTimePreferences
-import it.winter2223.bachelor.ak.frontend.data.local.reminder.repository.impl.DataStoreReminderTimeRepository
+import it.winter2223.bachelor.ak.frontend.data.local.theme.model.ThemePreferences
+import it.winter2223.bachelor.ak.frontend.data.local.theme.repository.impl.DataStoreThemeRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
@@ -23,9 +23,9 @@ import org.junit.runner.RunWith
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
-class ReminderTimeRepositoryTest {
+class ThemeRepositoryTest {
     companion object {
-        private const val TEST_DATASTORE_NAME = "test_datastore_reminder"
+        private const val TEST_DATASTORE_NAME = "test_datastore_theme"
     }
 
     private val testCoroutineDispatcher: TestDispatcher = StandardTestDispatcher()
@@ -37,15 +37,15 @@ class ReminderTimeRepositoryTest {
         produceFile = { testContext.preferencesDataStoreFile(TEST_DATASTORE_NAME) }
     )
 
-    private val repository: ReminderTimeRepository = DataStoreReminderTimeRepository(testDataStore)
+    private val repository: ThemeRepository = DataStoreThemeRepository(testDataStore)
 
     @Test
-    fun repository_whenDataStoreIsEmpty_returnsNull() = testCoroutineScope.runTest {
+    fun repository_whenDataStoreIsEmpty_returnsSystemDefaultTheme() = testCoroutineScope.runTest {
         cleanDataStore()
 
-        val reminderTimePreferences = repository.reminderTimeFlow().first()
+        val themePreferences = repository.themeFlow().first()
 
-        Truth.assertThat(reminderTimePreferences).isEqualTo(null)
+        Truth.assertThat(themePreferences).isEqualTo(ThemePreferences.System)
     }
 
 
@@ -54,33 +54,30 @@ class ReminderTimeRepositoryTest {
         testCoroutineScope.runTest {
             cleanDataStore()
 
-            val reminderTimePreferences = ReminderTimePreferences(
-                hour = 8,
-                minute = 0,
-            )
+            val themePreferences = ThemePreferences.Dark
 
-            repository.storeReminderTime(reminderTimePreferences)
-            val storedReminderTimePreferences = repository.reminderTimeFlow().first()
+            repository.storeTheme(themePreferences)
+            val storedThemePreferences = repository.themeFlow().first()
 
-            Truth.assertThat(storedReminderTimePreferences).isEqualTo(reminderTimePreferences)
+            Truth.assertThat(storedThemePreferences).isEqualTo(themePreferences)
         }
 
 
     @Test
-    fun repository_whenPreferencesCleared_returnsNull() = testCoroutineScope.runTest {
-        cleanDataStore()
+    fun repository_whenStoredPreferenceOverwritten_returnsNewlyStoredPreference() =
+        testCoroutineScope.runTest {
+            cleanDataStore()
 
-        val reminderTimePreferences = ReminderTimePreferences(
-            hour = 8,
-            minute = 0,
-        )
+            val themePreferences = ThemePreferences.Dark
+            val overwrittenThemePreferences = ThemePreferences.Light
 
-        repository.storeReminderTime(reminderTimePreferences)
-        repository.clearReminderTime()
-        val storedReminderTimePreferences = repository.reminderTimeFlow().first()
+            repository.storeTheme(themePreferences)
+            repository.storeTheme(overwrittenThemePreferences)
 
-        Truth.assertThat(storedReminderTimePreferences).isEqualTo(null)
-    }
+            val storedThemePreferences = repository.themeFlow().first()
+
+            Truth.assertThat(storedThemePreferences).isEqualTo(overwrittenThemePreferences)
+        }
 
 
     private suspend fun cleanDataStore() {
