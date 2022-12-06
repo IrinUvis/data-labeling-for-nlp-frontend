@@ -1,4 +1,6 @@
-package it.winter2223.bachelor.ak.frontend.domain.authentication.usecase
+@file:Suppress("MaxLineLength")
+
+package it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.impl
 
 import com.google.common.truth.Truth
 import io.mockk.coEvery
@@ -12,7 +14,6 @@ import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkExc
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.AuthenticationActivity
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.Credentials
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.LogInResult
-import it.winter2223.bachelor.ak.frontend.domain.authentication.usecase.impl.ProdCredentialsLogInOrSignUpUseCase
 import it.winter2223.bachelor.ak.frontend.domain.token.model.StoreTokenResult
 import it.winter2223.bachelor.ak.frontend.domain.token.model.Token
 import it.winter2223.bachelor.ak.frontend.domain.token.usecase.StoreTokenUseCase
@@ -21,7 +22,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class CredentialsLogInOrSignUpUseCaseTest {
+class ProdCredentialsLogInOrSignUpUseCaseTest {
 
     @Test
     fun useCase_invokedWithEmptyCredentials_returnsInvalidCredentialsLogInResult() = runTest {
@@ -107,11 +108,11 @@ class CredentialsLogInOrSignUpUseCaseTest {
             )
 
             val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+
             coEvery {
                 mockAuthenticationRepository.logIn(passedUserInput)
             } returns DataResult.Success(retrievedUserOutput)
-
-            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
             coEvery {
                 mockStoreTokenUseCase(tokenToStore)
             } returns StoreTokenResult.Success
@@ -163,11 +164,11 @@ class CredentialsLogInOrSignUpUseCaseTest {
             )
 
             val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+
             coEvery {
                 mockAuthenticationRepository.logIn(passedUserInput)
             } returns DataResult.Success(retrievedUserOutput)
-
-            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
             coEvery {
                 mockStoreTokenUseCase(tokenToStore)
             } returns StoreTokenResult.Failure
@@ -203,11 +204,11 @@ class CredentialsLogInOrSignUpUseCaseTest {
             )
 
             val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+
             coEvery {
                 mockAuthenticationRepository.signUp(passedUserInput)
             } returns DataResult.Failure(NetworkException(null, null))
-
-            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
 
             val useCase = ProdCredentialsLogInOrSignUpUseCase(
                 authenticationRepository = mockAuthenticationRepository,
@@ -229,6 +230,7 @@ class CredentialsLogInOrSignUpUseCaseTest {
         runTest {
             val passedEmail = "test@test.com"
             val passedPassword = "password"
+            val errorMessage = "errorMessage"
 
             val passedUserInput = UserInput(
                 email = passedEmail,
@@ -240,11 +242,11 @@ class CredentialsLogInOrSignUpUseCaseTest {
             )
 
             val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+
             coEvery {
                 mockAuthenticationRepository.logIn(passedUserInput)
-            } returns DataResult.Failure(AuthenticationException.SigningInFailed("errorMessage"))
-
-            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+            } returns DataResult.Failure(AuthenticationException.SigningInFailed(errorMessage))
 
             val useCase = ProdCredentialsLogInOrSignUpUseCase(
                 authenticationRepository = mockAuthenticationRepository,
@@ -266,6 +268,7 @@ class CredentialsLogInOrSignUpUseCaseTest {
         runTest {
             val passedEmail = "test@test.com"
             val passedPassword = "password"
+            val errorMessage = "errorMessage"
 
             val passedUserInput = UserInput(
                 email = passedEmail,
@@ -277,11 +280,11 @@ class CredentialsLogInOrSignUpUseCaseTest {
             )
 
             val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+
             coEvery {
                 mockAuthenticationRepository.signUp(passedUserInput)
-            } returns DataResult.Failure(AuthenticationException.SigningUpFailed("errorMessage"))
-
-            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+            } returns DataResult.Failure(AuthenticationException.SigningUpFailed(errorMessage))
 
             val useCase = ProdCredentialsLogInOrSignUpUseCase(
                 authenticationRepository = mockAuthenticationRepository,
@@ -303,6 +306,7 @@ class CredentialsLogInOrSignUpUseCaseTest {
         runTest {
             val passedEmail = "test@test.com"
             val passedPassword = "password"
+            val errorMessage = "errorMessage"
 
             val passedUserInput = UserInput(
                 email = passedEmail,
@@ -314,11 +318,11 @@ class CredentialsLogInOrSignUpUseCaseTest {
             )
 
             val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+
             coEvery {
                 mockAuthenticationRepository.signUp(passedUserInput)
-            } returns DataResult.Failure(AuthenticationException.InvalidEmailAddress("errorMessage"))
-
-            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+            } returns DataResult.Failure(AuthenticationException.InvalidEmailAddress(errorMessage))
 
             val useCase = ProdCredentialsLogInOrSignUpUseCase(
                 authenticationRepository = mockAuthenticationRepository,
@@ -340,6 +344,7 @@ class CredentialsLogInOrSignUpUseCaseTest {
         runTest {
             val passedEmail = "test@test.com"
             val passedPassword = "password"
+            val errorMessage = "errorMessage"
 
             val passedUserInput = UserInput(
                 email = passedEmail,
@@ -351,11 +356,11 @@ class CredentialsLogInOrSignUpUseCaseTest {
             )
 
             val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+
             coEvery {
                 mockAuthenticationRepository.signUp(passedUserInput)
-            } returns DataResult.Failure(AuthenticationException.InvalidPassword("errorMessage"))
-
-            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+            } returns DataResult.Failure(AuthenticationException.InvalidPassword(errorMessage))
 
             val useCase = ProdCredentialsLogInOrSignUpUseCase(
                 authenticationRepository = mockAuthenticationRepository,
@@ -377,6 +382,7 @@ class CredentialsLogInOrSignUpUseCaseTest {
         runTest {
             val passedEmail = "test@test.com"
             val passedPassword = "password"
+            val errorMessage = "errorMessage"
 
             val passedUserInput = UserInput(
                 email = passedEmail,
@@ -388,11 +394,11 @@ class CredentialsLogInOrSignUpUseCaseTest {
             )
 
             val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+
             coEvery {
                 mockAuthenticationRepository.signUp(passedUserInput)
-            } returns DataResult.Failure(AuthenticationException.Unknown("errorMessage"))
-
-            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+            } returns DataResult.Failure(AuthenticationException.Unknown(errorMessage))
 
             val useCase = ProdCredentialsLogInOrSignUpUseCase(
                 authenticationRepository = mockAuthenticationRepository,
