@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface ThemeRepository {
     suspend fun storeTheme(themePreferences: ThemePreferences)
 
-    suspend fun tokenFlow(): Flow<ThemePreferences>
+    suspend fun themeFlow(): Flow<ThemePreferences>
 }

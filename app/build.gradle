@@ -50,19 +50,32 @@ android {
 }
 
 dependencies {
+    // Essentials
     implementation "androidx.core:core-ktx:$coreVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.activity:activity-compose:$activityComposeVersion"
     implementation "androidx.compose.ui:ui:$composeVersion"
     implementation "androidx.compose.ui:ui-tooling-preview:$composeVersion"
+
+    // Material 3
     implementation "androidx.compose.material3:material3:$material3Version"
-    implementation "androidx.datastore:datastore-preferences:$dataStoreVersion"
+
+    // Navigation
     implementation "androidx.navigation:navigation-compose:$navigationComposeVersion"
-    implementation "com.google.dagger:hilt-android:$hiltVersion"
-    implementation "androidx.hilt:hilt-navigation-compose:$hiltNavigationComposeVersion"
+
+    // Accompanist
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
+
+    // Data store
+    implementation "androidx.datastore:datastore-preferences:$dataStoreVersion"
+
+    // Work manager
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
+
+    // Splash screen API
     implementation "androidx.core:core-splashscreen:$splashScreenVersion"
+
+    // Ktor client
     implementation "io.ktor:ktor-client-core:$ktorVersion"
     implementation "io.ktor:ktor-client-android:$ktorVersion"
     implementation "io.ktor:ktor-client-logging:$ktorVersion"
@@ -70,11 +83,25 @@ dependencies {
     implementation "io.ktor:ktor-client-content-negotiation:$ktorVersion"
     implementation "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    implementation "androidx.hilt:hilt-navigation-compose:$hiltNavigationComposeVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+
+    // Tests
     testImplementation "junit:junit:$junitVersion"
+    testImplementation "com.google.truth:truth:$truthVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+
+    // Instrumented tests
     androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
+    androidTestImplementation "com.google.truth:truth:$truthVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$composeVersion"
+
+    // ???
     debugImplementation "androidx.compose.ui:ui-tooling:$composeVersion"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$composeVersion"
 }
