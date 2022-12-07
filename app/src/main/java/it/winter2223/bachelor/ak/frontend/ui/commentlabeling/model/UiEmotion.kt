@@ -13,6 +13,6 @@ enum class UiEmotion(
     Joy(R.string.joyEmotion, R.drawable.ic_mood_24),
     Love(R.string.loveEmotion, R.drawable.ic_sentiment_very_satisfied_24),
     Sadness(R.string.sadnessEmotion, R.drawable.ic_sentiment_dissatisfied_24),
-    Surprise(R.string.surpriseEmotion, R.drawable.ic_sentiment_very_dissatisfied_24),
+    Surprise(R.string.surpriseEmotion, R.drawable.ic_surprised_24),
     Unspecifiable(R.string.unspecifiableEmotion, R.drawable.ic_baseline_question_mark_24)
 }
