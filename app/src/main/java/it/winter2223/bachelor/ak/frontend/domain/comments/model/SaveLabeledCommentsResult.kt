@@ -4,7 +4,7 @@ sealed class SaveLabeledCommentsResult {
     object Success : SaveLabeledCommentsResult()
 
     sealed class Failure : SaveLabeledCommentsResult() {
-        object NonLabeledComments : Failure()
+        data class NonLabeledComments(val e: Exception) : Failure()
 
         object WrongEmotionParsing : Failure()
 

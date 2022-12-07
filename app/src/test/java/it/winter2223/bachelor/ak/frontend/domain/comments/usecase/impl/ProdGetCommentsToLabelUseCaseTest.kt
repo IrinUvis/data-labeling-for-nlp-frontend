@@ -10,6 +10,7 @@ import it.winter2223.bachelor.ak.frontend.data.remote.comment.model.dto.CommentO
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.model.exception.CommentException
 import it.winter2223.bachelor.ak.frontend.data.remote.comment.repository.CommentRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ServiceUnavailableException
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.UnauthorizedException
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
 import it.winter2223.bachelor.ak.frontend.domain.comments.model.GetCommentsToLabelResult
@@ -236,6 +237,45 @@ class ProdGetCommentsToLabelUseCaseTest {
             val result = useCase(commentsNumber)
 
             val expectedResult = GetCommentsToLabelResult.Failure.Network
+
+            Truth.assertThat(result).isEqualTo(expectedResult)
+        }
+
+    @Test
+    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningServiceUnavailableException_returnServiceUnavailableGetCommentsToLabelResult() =
+        runTest {
+            val authToken = "authToken"
+            val refreshToken = "refreshToken"
+            val userId = "userId"
+            val commentsNumber = 10
+
+            val retrievedToken = Token(
+                authToken = authToken,
+                refreshToken = refreshToken,
+                userId = userId
+            )
+
+            val commentsRepositoryMock: CommentRepository = mockk()
+            val getTokenFlowUseCaseMock: GetTokenFlowUseCase = mockk()
+
+            coEvery { getTokenFlowUseCaseMock() } returns GetTokenFlowResult.Success(
+                tokenFlow = flow { emit(retrievedToken) }
+            )
+            coEvery {
+                commentsRepositoryMock.fetchComments(
+                    userId = userId,
+                    commentsNumber = commentsNumber,
+                )
+            } returns DataResult.Failure(ServiceUnavailableException(null, null))
+
+            val useCase = ProdGetCommentsToLabelUseCase(
+                commentsRepository = commentsRepositoryMock,
+                getTokenFlowUseCase = getTokenFlowUseCaseMock
+            )
+
+            val result = useCase(commentsNumber)
+
+            val expectedResult = GetCommentsToLabelResult.Failure.ServiceUnavailable
 
             Truth.assertThat(result).isEqualTo(expectedResult)
         }

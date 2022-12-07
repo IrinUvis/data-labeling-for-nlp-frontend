@@ -7,5 +7,7 @@ enum class Emotion {
     Love,
     Sadness,
     Surprise,
-    Unspecifiable,
+    Unspecifiable;
+
+    fun toUppercaseString() = this.name.uppercase()
 }

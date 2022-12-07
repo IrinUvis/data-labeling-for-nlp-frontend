@@ -11,6 +11,7 @@ import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.dto.U
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.model.exception.AuthenticationException
 import it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.AuthenticationRepository
 import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
+import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ServiceUnavailableException
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.AuthenticationActivity
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.Credentials
 import it.winter2223.bachelor.ak.frontend.domain.authentication.model.LogInResult
@@ -221,6 +222,43 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
             )
 
             val expectedResult = LogInResult.Failure.Network
+
+            Truth.assertThat(result).isEqualTo(expectedResult)
+        }
+
+    @Test
+    fun useCase_invokedWithCorrectDataWithRepositoryReturningServiceUnavailableApiException_returnsServiceUnavailableLogInFailure() =
+        runTest {
+            val passedEmail = "test@test.com"
+            val passedPassword = "password"
+
+            val passedUserInput = UserInput(
+                email = passedEmail,
+                password = passedPassword,
+            )
+            val passedCredentials = Credentials(
+                email = passedEmail,
+                password = passedPassword
+            )
+
+            val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
+
+            coEvery {
+                mockAuthenticationRepository.signUp(passedUserInput)
+            } returns DataResult.Failure(ServiceUnavailableException(null, null))
+
+            val useCase = ProdCredentialsLogInOrSignUpUseCase(
+                authenticationRepository = mockAuthenticationRepository,
+                storeTokenUseCase = mockStoreTokenUseCase
+            )
+
+            val result = useCase(
+                credentials = passedCredentials,
+                authenticationActivity = AuthenticationActivity.SignUp,
+            )
+
+            val expectedResult = LogInResult.Failure.ServiceUnavailable
 
             Truth.assertThat(result).isEqualTo(expectedResult)
         }

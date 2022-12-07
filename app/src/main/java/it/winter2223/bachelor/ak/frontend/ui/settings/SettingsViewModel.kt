@@ -13,6 +13,7 @@ import it.winter2223.bachelor.ak.frontend.BuildConfig
 import it.winter2223.bachelor.ak.frontend.domain.reminder.model.GetCommentLabelingReminderStatusResult
 import it.winter2223.bachelor.ak.frontend.domain.reminder.model.GetReminderTimeFlowResult
 import it.winter2223.bachelor.ak.frontend.domain.reminder.model.ReminderTime
+import it.winter2223.bachelor.ak.frontend.domain.reminder.model.StoreReminderTimeResult
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.CancelCommentLabelingRemindersUseCase
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.GetCommentLabelingReminderStatusUseCase
 import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.GetReminderTimeFlowUseCase
@@ -34,6 +35,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 
@@ -78,7 +80,6 @@ class SettingsViewModel @Inject constructor(
             val notificationsTurnOn =
                 when (val reminderStatusResult = getCommentLabelingReminderStatusUseCase()) {
                     is GetCommentLabelingReminderStatusResult.Success -> reminderStatusResult.isScheduled
-                    is GetCommentLabelingReminderStatusResult.Failure -> false
                 }
 
             _viewState.value = SettingsViewState.Loaded.Active(
@@ -171,17 +172,37 @@ class SettingsViewModel @Inject constructor(
 
     fun scheduleReminders() {
         (_viewState.value as? SettingsViewState.Loaded)?.let { state ->
-            _viewState.value = SettingsViewState.Loaded.Active(
-                selectedTheme = state.selectedTheme,
-                remindersState = RemindersState(
-                    turnOn = true,
-                    scheduledReminderTime = state.remindersState.selectedReminderTime,
-                    selectedReminderTime = state.remindersState.selectedReminderTime
-                )
+            val now = Calendar.getInstance().apply {
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            scheduleCommentLabelingRemindersUseCase(
+                reminderTime = state.remindersState.selectedReminderTime.toDomainReminderTime(),
+                now = now,
             )
-            scheduleCommentLabelingRemindersUseCase(state.remindersState.selectedReminderTime.toDomainReminderTime())
             viewModelScope.launch {
-                storeReminderTimeUseCase(state.remindersState.selectedReminderTime.toDomainReminderTime())
+                when (storeReminderTimeUseCase(state.remindersState.selectedReminderTime.toDomainReminderTime())) {
+                    is StoreReminderTimeResult.Success -> {
+                        _viewState.value = SettingsViewState.Loaded.Active(
+                            selectedTheme = state.selectedTheme,
+                            remindersState = RemindersState(
+                                turnOn = true,
+                                scheduledReminderTime = state.remindersState.selectedReminderTime,
+                                selectedReminderTime = state.remindersState.selectedReminderTime
+                            )
+                        )
+                    }
+                    is StoreReminderTimeResult.Failure -> {
+                        _viewState.value = SettingsViewState.Loaded.Active(
+                            selectedTheme = state.selectedTheme,
+                            remindersState = RemindersState(
+                                turnOn = false,
+                                scheduledReminderTime = state.remindersState.scheduledReminderTime,
+                                selectedReminderTime = state.remindersState.selectedReminderTime
+                            )
+                        )
+                    }
+                }
             }
         }
     }

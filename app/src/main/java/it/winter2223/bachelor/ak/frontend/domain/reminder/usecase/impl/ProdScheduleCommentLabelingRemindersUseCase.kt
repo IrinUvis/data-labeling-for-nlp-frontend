@@ -1,11 +1,9 @@
 package it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl
 
-import android.content.Context
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import dagger.hilt.android.qualifiers.ApplicationContext
 import it.winter2223.bachelor.ak.frontend.data.local.reminder.worker.CommentLabelingReminderWorker
 import it.winter2223.bachelor.ak.frontend.domain.reminder.model.ReminderTime
 import it.winter2223.bachelor.ak.frontend.domain.reminder.model.ScheduleCommentLabelingRemindersResult
@@ -15,15 +13,12 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ProdScheduleCommentLabelingRemindersUseCase @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val workManager: WorkManager,
 ) : ScheduleCommentLabelingRemindersUseCase {
-    override fun invoke(reminderTime: ReminderTime): ScheduleCommentLabelingRemindersResult {
-        val workManager = WorkManager.getInstance(context)
-
-        val now = Calendar.getInstance().apply {
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
+    override fun invoke(
+        reminderTime: ReminderTime,
+        now: Calendar,
+    ): ScheduleCommentLabelingRemindersResult {
         val target = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, reminderTime.hour)
             set(Calendar.MINUTE, reminderTime.minute)
@@ -35,7 +30,7 @@ class ProdScheduleCommentLabelingRemindersUseCase @Inject constructor(
             target.add(Calendar.DAY_OF_YEAR, 1)
         }
 
-        val delayInMillis = target.timeInMillis - System.currentTimeMillis()
+        val delayInMillis = target.timeInMillis - now.timeInMillis
 
         val workRequest = OneTimeWorkRequestBuilder<CommentLabelingReminderWorker>()
             .setInputData(
