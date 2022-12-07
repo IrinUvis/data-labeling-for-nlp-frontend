@@ -25,7 +25,6 @@ class NetworkAuthenticationRepository @Inject constructor(
     private val httpClient: HttpClient,
 ) : AuthenticationRepository {
     companion object {
-        private const val TAG = "NetworkAuthRepo"
         private const val URL = "$BASE_URL/auth"
     }
 
@@ -38,7 +37,6 @@ class NetworkAuthenticationRepository @Inject constructor(
             val userOutput = response.body<UserOutput>()
             DataResult.Success(userOutput)
         } catch (e: ResponseException) {
-            Log.e(TAG, "logIn: response status is ${e.response.status}", e)
             when (e.response.status) {
                 HttpStatusCode.ServiceUnavailable -> DataResult.Failure(
                     ServiceUnavailableException(
@@ -49,7 +47,6 @@ class NetworkAuthenticationRepository @Inject constructor(
                 else -> DataResult.Failure(e.toAuthenticationException())
             }
         } catch (e: IOException) {
-            Log.e(TAG, "logIn: Network error", e)
             DataResult.Failure(NetworkException(e.message, e.cause))
         }
     }
@@ -63,7 +60,6 @@ class NetworkAuthenticationRepository @Inject constructor(
             val userOutput = response.body<UserOutput>()
             DataResult.Success(userOutput)
         } catch (e: ResponseException) {
-            Log.e(TAG, "signUp: response status is ${e.response.status}", e)
             when (e.response.status) {
                 HttpStatusCode.ServiceUnavailable -> DataResult.Failure(
                     ServiceUnavailableException(
@@ -74,7 +70,6 @@ class NetworkAuthenticationRepository @Inject constructor(
                 else -> DataResult.Failure(e.toAuthenticationException())
             }
         } catch (e: IOException) {
-            Log.e(TAG, "signUp: Network error", e)
             DataResult.Failure(NetworkException(e.message, e.cause))
         }
     }
