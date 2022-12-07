@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 sealed class GetTokenFlowResult {
     data class Success(val tokenFlow: Flow<Token?>) : GetTokenFlowResult()
 
-    object Failure : GetTokenFlowResult()
+    data class Failure(val e: Exception) : GetTokenFlowResult()
 }

@@ -24,6 +24,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
+import java.io.IOException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProdSaveLabeledCommentsUseCaseTest {
@@ -111,7 +112,7 @@ class ProdSaveLabeledCommentsUseCaseTest {
             val commentEmotionAssignmentRepositoryMock: CommentEmotionAssignmentRepository = mockk()
             val getTokenFlowUseCaseMock: GetTokenFlowUseCase = mockk()
 
-            coEvery { getTokenFlowUseCaseMock() } returns GetTokenFlowResult.Failure
+            coEvery { getTokenFlowUseCaseMock() } returns GetTokenFlowResult.Failure(IOException())
 
             val useCase = ProdSaveLabeledCommentsUseCase(
                 commentEmotionAssignmentRepository = commentEmotionAssignmentRepositoryMock,

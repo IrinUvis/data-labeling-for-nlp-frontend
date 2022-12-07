@@ -21,6 +21,7 @@ import it.winter2223.bachelor.ak.frontend.domain.token.usecase.StoreTokenUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
+import java.io.IOException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProdCredentialsLogInOrSignUpUseCaseTest {
@@ -172,7 +173,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
             } returns DataResult.Success(retrievedUserOutput)
             coEvery {
                 mockStoreTokenUseCase(tokenToStore)
-            } returns StoreTokenResult.Failure
+            } returns StoreTokenResult.Failure(IOException())
 
             val useCase = ProdCredentialsLogInOrSignUpUseCase(
                 authenticationRepository = mockAuthenticationRepository,
