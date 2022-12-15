@@ -22,7 +22,7 @@
     <string name="incorrectEmailFormatErrorMessage">Hasło jest w niepoprawnym formacie</string>
     <string name="passwordCannotBeLessThanSixCharactersErrorMessage">Hasło musi mieć co najmniej 6 znaków</string>
     <string name="unknownErrorOccurredErrorMessage">Wystąpił nieznany błąd</string>
-    <string name="labelCommentsHomeInstructions">Przypisuj emocje do podanych komentarzy, w celu nauczenia modelu sztucznej inteligencji, który będzie w stanie rozpoznać emocję wyrażoną polskiego tekstu</string>
+    <string name="labelCommentsHomeInstructions">Przypisuj dominujące emocje do podanych komentarzy, w celu uczenia modelu sztucznej inteligencji do klasyfikowania tekstu. Docelowo będzie on w stanie rozpoznać dominującą emocję wyrażoną w polskim tekście. Baza komentarzy jest codzinnie aktualizowana na podstawie polskiej listy "Na czasie" na platformie YouTube</string>
     <string name="labelComments">Etykietuj komentarze</string>
     <string name="commentsNotLabeledErrorMessage">Niektóre komentarze nie mają przypisanej emocji</string>
     <string name="cannotLoadCommentsErrorMessage">Nie można załadować komentarzy. Spróbuj ponownie później</string>
