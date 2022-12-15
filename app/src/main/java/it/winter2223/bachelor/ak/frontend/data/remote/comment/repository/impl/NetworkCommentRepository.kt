@@ -41,7 +41,9 @@ class NetworkCommentRepository @Inject constructor(
         } catch (e: ResponseException) {
             Log.e(TAG, "fetchComments: response status is ${e.response.status}", e)
             when (e.response.status) {
-                HttpStatusCode.Unauthorized -> DataResult.Failure(
+                HttpStatusCode.Unauthorized,
+                HttpStatusCode.BadGateway,
+                -> DataResult.Failure(
                     UnauthorizedException(
                         e.message,
                         e.cause,

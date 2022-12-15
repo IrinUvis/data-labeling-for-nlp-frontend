@@ -65,6 +65,6 @@
     <string name="unexpectedErrorOccurredErrorMessage">An unexpected error has occurred</string>
     <string name="noMoreCommentsToLabelError">There are no more comments for you to label. Try again later.</string>
     <string name="logInAndTryAgainErrorMessage">Please log in and try again</string>
-    <string name="serviceUnavailableLongErrorMessage">Server is currently unavailable in order to reduce spendings. Try again later</string>
-    <string name="serviceUnavailableShortErrorMessage">Server turned off now. Try again later</string>
+    <string name="serviceUnavailableLongErrorMessage">Server is inaccessible at the moment. It might have been turned off temporarily in order to reduce spendings. Try again later</string>
+    <string name="serviceUnavailableShortErrorMessage">Server is turned off now. Try again later</string>
 </resources>

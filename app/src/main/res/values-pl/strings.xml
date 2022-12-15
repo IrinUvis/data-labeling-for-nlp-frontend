@@ -66,6 +66,6 @@
     <string name="unexpectedErrorOccurredErrorMessage">Wystąpił nieoczekiwany błąd</string>
     <string name="noMoreCommentsToLabelError">Nie ma w tej chwili więcej komentarzy dla Ciebie do zetykietowania. Spróbuj ponownie później</string>
     <string name="logInAndTryAgainErrorMessage">Zaloguj się i spróbuj ponownie</string>
-    <string name="serviceUnavailableLongErrorMessage">Serwer jest w tej chwili wyłączony, aby ograniczyć wydatki na jego utrzymanie. Spróbuj ponownie później</string>
+    <string name="serviceUnavailableLongErrorMessage">Nie można połączyć się z serwerem. Mógł zostać tymczasowo wyłączony w celu ograniczenia wydatków na jego utrzymanie. Spróbuj ponownie później</string>
     <string name="serviceUnavailableShortErrorMessage">Serwer jest w tej chwili wyłączony. Spróbuj ponownie później</string>
 </resources>
