@@ -38,7 +38,7 @@ class NetworkAuthenticationRepository @Inject constructor(
         } catch (e: ResponseException) {
             when (e.response.status) {
                 HttpStatusCode.ServiceUnavailable,
-                HttpStatusCode.BadGateway,
+                HttpStatusCode.GatewayTimeout,
                 -> DataResult.Failure(
                     ServiceUnavailableException(
                         e.message,
@@ -63,7 +63,7 @@ class NetworkAuthenticationRepository @Inject constructor(
         } catch (e: ResponseException) {
             when (e.response.status) {
                 HttpStatusCode.ServiceUnavailable,
-                HttpStatusCode.BadGateway,
+                HttpStatusCode.GatewayTimeout,
                 -> DataResult.Failure(
                     ServiceUnavailableException(
                         e.message,

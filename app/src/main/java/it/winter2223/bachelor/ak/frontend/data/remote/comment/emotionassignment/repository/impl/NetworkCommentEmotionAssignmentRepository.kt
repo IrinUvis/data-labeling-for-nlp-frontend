@@ -45,7 +45,7 @@ class NetworkCommentEmotionAssignmentRepository @Inject constructor(
             Log.e(TAG, "postCommentEmotionAssignment: response status is ${e.response.status}", e)
             when (e.response.status) {
                 HttpStatusCode.Unauthorized,
-                HttpStatusCode.BadGateway,
+                HttpStatusCode.GatewayTimeout,
                 -> DataResult.Failure(
                     UnauthorizedException(
                         e.message,
