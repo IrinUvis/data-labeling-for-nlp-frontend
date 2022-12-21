@@ -22,6 +22,8 @@ fun NavGraphBuilder.settingsScreen(
                         inclusive = true
                     }
                 }
+                val stack = navController.backQueue.map { it.destination.route }
+                println(stack)
             }
         )
     }
