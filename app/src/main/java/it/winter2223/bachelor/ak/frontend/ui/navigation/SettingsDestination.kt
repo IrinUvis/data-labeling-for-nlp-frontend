@@ -18,12 +18,8 @@ fun NavGraphBuilder.settingsScreen(
             },
             navigateToLogin = {
                 navController.navigateToLogIn {
-                    popUpTo(SettingsDestination.route) {
-                        inclusive = true
-                    }
+                    popUpToTop()
                 }
-                val stack = navController.backQueue.map { it.destination.route }
-                println(stack)
             }
         )
     }
