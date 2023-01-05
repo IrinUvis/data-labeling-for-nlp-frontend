@@ -19,7 +19,7 @@
     <string name="wrongCredentialsErrorMessage">Podane dane logowania są niepoprawne</string>
     <string name="emptyEmailInputErrorMessage">Email nie może być pusty</string>
     <string name="emptyPasswordInputErrorMessage">Hasło nie może być puste</string>
-    <string name="incorrectEmailFormatErrorMessage">Hasło jest w niepoprawnym formacie</string>
+    <string name="incorrectEmailFormatErrorMessage">Email jest w niepoprawnym formacie</string>
     <string name="passwordCannotBeLessThanSixCharactersErrorMessage">Hasło musi mieć co najmniej 6 znaków</string>
     <string name="unknownErrorOccurredErrorMessage">Wystąpił nieznany błąd</string>
     <string name="labelCommentsHomeInstructions">Przypisuj dominujące emocje do podanych komentarzy, w celu uczenia modelu sztucznej inteligencji do klasyfikowania tekstu. Docelowo będzie on w stanie rozpoznać dominującą emocję wyrażoną w polskim tekście. Baza komentarzy jest codzinnie aktualizowana na podstawie polskiej listy "Na czasie" na platformie YouTube</string>
