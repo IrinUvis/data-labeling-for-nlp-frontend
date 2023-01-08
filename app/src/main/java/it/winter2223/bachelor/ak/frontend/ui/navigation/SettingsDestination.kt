@@ -18,9 +18,7 @@ fun NavGraphBuilder.settingsScreen(
             },
             navigateToLogin = {
                 navController.navigateToLogIn {
-                    popUpTo(SettingsDestination.route) {
-                        inclusive = true
-                    }
+                    popUpToTop()
                 }
             }
         )

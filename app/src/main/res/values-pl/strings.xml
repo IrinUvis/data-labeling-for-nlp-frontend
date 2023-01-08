@@ -19,21 +19,21 @@
     <string name="wrongCredentialsErrorMessage">Podane dane logowania są niepoprawne</string>
     <string name="emptyEmailInputErrorMessage">Email nie może być pusty</string>
     <string name="emptyPasswordInputErrorMessage">Hasło nie może być puste</string>
-    <string name="incorrectEmailFormatErrorMessage">Hasło jest w niepoprawnym formacie</string>
+    <string name="incorrectEmailFormatErrorMessage">Email jest w niepoprawnym formacie</string>
     <string name="passwordCannotBeLessThanSixCharactersErrorMessage">Hasło musi mieć co najmniej 6 znaków</string>
     <string name="unknownErrorOccurredErrorMessage">Wystąpił nieznany błąd</string>
-    <string name="labelCommentsHomeInstructions">Przypisuj emocje do podanych komentarzy, w celu nauczenia modelu sztucznej inteligencji, który będzie w stanie rozpoznać emocję wyrażoną polskiego tekstu</string>
+    <string name="labelCommentsHomeInstructions">Przypisuj dominujące emocje do podanych komentarzy, w celu uczenia modelu sztucznej inteligencji do klasyfikowania tekstu. Docelowo będzie on w stanie rozpoznać dominującą emocję wyrażoną w polskim tekście. Baza komentarzy jest codzinnie aktualizowana na podstawie polskiej listy "Na czasie" na platformie YouTube</string>
     <string name="labelComments">Etykietuj komentarze</string>
     <string name="commentsNotLabeledErrorMessage">Niektóre komentarze nie mają przypisanej emocji</string>
     <string name="cannotLoadCommentsErrorMessage">Nie można załadować komentarzy. Spróbuj ponownie później</string>
     <string name="postingComments">Zapisywanie komentarzy</string>
     <string name="homeTopBarTitle">Ekran główny</string>
-    <string name="angerEmotion">Złość</string>++extremely_dissatisfied--
-    <string name="surpriseEmotion">Zaskoczenie</string>++very_dissatisfied
-    <string name="sadnessEmotion">Smutek</string>++dissatisfied
-    <string name="loveEmotion">Upodobanie</string>++very_satisifed
-    <string name="joyEmotion">Radość</string>++mood
-    <string name="fearEmotion">Strach</string>++mood_bad
+    <string name="angerEmotion">Złość</string>
+    <string name="surpriseEmotion">Zaskoczenie</string>
+    <string name="sadnessEmotion">Smutek</string>
+    <string name="loveEmotion">Zachwyt</string>
+    <string name="joyEmotion">Radość</string>
+    <string name="fearEmotion">Strach</string>
     <string name="unspecifiableEmotion">Nieidentyfikowalny</string>
     <string name="warningIconContentDescription">Ikona ostrzeżenia</string>
     <string name="unspecifiableEmotionDialogTitle">Ostrzeżenie</string>
@@ -66,6 +66,6 @@
     <string name="unexpectedErrorOccurredErrorMessage">Wystąpił nieoczekiwany błąd</string>
     <string name="noMoreCommentsToLabelError">Nie ma w tej chwili więcej komentarzy dla Ciebie do zetykietowania. Spróbuj ponownie później</string>
     <string name="logInAndTryAgainErrorMessage">Zaloguj się i spróbuj ponownie</string>
-    <string name="serviceUnavailableLongErrorMessage">Serwer jest w tej chwili wyłączony, aby ograniczyć wydatki na jego utrzymanie. Spróbuj ponownie później</string>
+    <string name="serviceUnavailableLongErrorMessage">Nie można połączyć się z serwerem. Mógł zostać tymczasowo wyłączony w celu ograniczenia wydatków na jego utrzymanie. Spróbuj ponownie później</string>
     <string name="serviceUnavailableShortErrorMessage">Serwer jest w tej chwili wyłączony. Spróbuj ponownie później</string>
 </resources>

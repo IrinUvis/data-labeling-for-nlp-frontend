@@ -1,6 +1,5 @@
 package it.winter2223.bachelor.ak.frontend.data.remote.authentication.repository.impl
 
-import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.ResponseException
@@ -38,7 +37,9 @@ class NetworkAuthenticationRepository @Inject constructor(
             DataResult.Success(userOutput)
         } catch (e: ResponseException) {
             when (e.response.status) {
-                HttpStatusCode.ServiceUnavailable -> DataResult.Failure(
+                HttpStatusCode.ServiceUnavailable,
+                HttpStatusCode.GatewayTimeout,
+                -> DataResult.Failure(
                     ServiceUnavailableException(
                         e.message,
                         e.cause,
@@ -61,7 +62,9 @@ class NetworkAuthenticationRepository @Inject constructor(
             DataResult.Success(userOutput)
         } catch (e: ResponseException) {
             when (e.response.status) {
-                HttpStatusCode.ServiceUnavailable -> DataResult.Failure(
+                HttpStatusCode.ServiceUnavailable,
+                HttpStatusCode.GatewayTimeout,
+                -> DataResult.Failure(
                     ServiceUnavailableException(
                         e.message,
                         e.cause,

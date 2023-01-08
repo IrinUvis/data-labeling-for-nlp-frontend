@@ -3,6 +3,7 @@ package it.winter2223.bachelor.ak.frontend.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import it.winter2223.bachelor.ak.frontend.ui.splash.SplashViewModel
 
@@ -34,6 +35,10 @@ fun AppNavHost(
             navController = navController,
         )
     }
+}
+
+fun NavOptionsBuilder.popUpToTop() {
+    popUpTo(0)
 }
 
 sealed class AppDestination(

@@ -14,15 +14,19 @@ android {
         applicationId "it.winter2223.bachelor.ak.frontend"
         minSdk 23
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 6
+        versionName "1.0.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
         }
     }
-
+    bundle {
+        storeArchive {
+            enable = false
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false

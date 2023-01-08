@@ -21,7 +21,7 @@
     <string name="incorrectEmailFormatErrorMessage">Email in incorrect format</string>
     <string name="passwordCannotBeLessThanSixCharactersErrorMessage">Password must have at least 6 characters</string>
     <string name="unknownErrorOccurredErrorMessage">An unknown error has occurred</string>
-    <string name="labelCommentsHomeInstructions">Assign emotions to provided comments, in order to train AI, which will be able to recognize emotion from provided text</string>
+    <string name="labelCommentsHomeInstructions">Assign most expressed emotions to provided comments, in order to train AI model for classification of polish texts. Its purpose is to detect the emotion expressed in polish texts. The set of comments is updated daily based on the polish "Trending" list on YouTube platform</string>
     <string name="labelComments">Label comments</string>
     <string name="commentsNotLabeledErrorMessage">Some comments are not labeled</string>
     <string name="cannotLoadCommentsErrorMessage">Cannot load comments. Try again later</string>
@@ -65,6 +65,6 @@
     <string name="unexpectedErrorOccurredErrorMessage">An unexpected error has occurred</string>
     <string name="noMoreCommentsToLabelError">There are no more comments for you to label. Try again later.</string>
     <string name="logInAndTryAgainErrorMessage">Please log in and try again</string>
-    <string name="serviceUnavailableLongErrorMessage">Server is currently unavailable in order to reduce spendings. Try again later</string>
-    <string name="serviceUnavailableShortErrorMessage">Server turned off now. Try again later</string>
+    <string name="serviceUnavailableLongErrorMessage">Server is inaccessible at the moment. It might have been turned off temporarily in order to reduce spendings. Try again later</string>
+    <string name="serviceUnavailableShortErrorMessage">Server is turned off now. Try again later</string>
 </resources>
