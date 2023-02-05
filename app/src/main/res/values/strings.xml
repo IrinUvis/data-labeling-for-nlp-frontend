@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Comments labeling</string>
+    <string name="app_name">Emotion Classification</string>
     <string name="loadingComments">Loading comments</string>
     <string name="commentLabelingAppBarTitle">Emotion assignment</string>
     <string name="logOutIconContentDescription">Log out from the app button</string>
