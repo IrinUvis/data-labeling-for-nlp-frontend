@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Etykietowanie komentarzy</string>
+    <string name="app_name">Emotion Classification</string>
     <string name="loadingComments">Ładowanie komentarzy</string>
     <string name="commentLabelingAppBarTitle">Etykietowanie</string>
     <string name="logOutIconContentDescription">Wyloguj się z aplikacji</string>
