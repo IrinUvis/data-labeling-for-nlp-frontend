@@ -6,8 +6,7 @@ import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import it.winter2223.bachelor.ak.frontend.domain.reminder.model.CancelCommentLabelingRemindersResult
-import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdCancelCommentLabelingRemindersUseCase
+import it.nlp.frontend.domain.reminder.model.CancelCommentLabelingRemindersResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test

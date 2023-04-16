@@ -7,9 +7,8 @@ import androidx.work.WorkManager
 import com.google.common.truth.Truth
 import io.mockk.every
 import io.mockk.mockk
-import it.winter2223.bachelor.ak.frontend.domain.reminder.model.ReminderTime
-import it.winter2223.bachelor.ak.frontend.domain.reminder.model.ScheduleCommentLabelingRemindersResult
-import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdScheduleCommentLabelingRemindersUseCase
+import it.nlp.frontend.domain.reminder.model.ReminderTime
+import it.nlp.frontend.domain.reminder.model.ScheduleCommentLabelingRemindersResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test

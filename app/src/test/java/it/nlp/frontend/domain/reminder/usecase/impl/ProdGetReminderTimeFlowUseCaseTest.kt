@@ -3,11 +3,10 @@ package it.nlp.frontend.domain.reminder.usecase.impl
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
-import it.winter2223.bachelor.ak.frontend.data.local.reminder.model.ReminderTimePreferences
-import it.winter2223.bachelor.ak.frontend.data.local.reminder.repository.ReminderTimeRepository
-import it.winter2223.bachelor.ak.frontend.domain.reminder.model.GetReminderTimeFlowResult
-import it.winter2223.bachelor.ak.frontend.domain.reminder.model.ReminderTime
-import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdGetReminderTimeFlowUseCase
+import it.nlp.frontend.data.local.reminder.model.ReminderTimePreferences
+import it.nlp.frontend.data.local.reminder.repository.ReminderTimeRepository
+import it.nlp.frontend.domain.reminder.model.GetReminderTimeFlowResult
+import it.nlp.frontend.domain.reminder.model.ReminderTime
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow

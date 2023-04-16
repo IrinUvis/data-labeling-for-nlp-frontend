@@ -9,9 +9,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth
-import it.winter2223.bachelor.ak.frontend.data.local.reminder.model.ReminderTimePreferences
-import it.winter2223.bachelor.ak.frontend.data.local.reminder.repository.ReminderTimeRepository
-import it.winter2223.bachelor.ak.frontend.data.local.reminder.repository.impl.DataStoreReminderTimeRepository
+import it.nlp.frontend.data.local.reminder.model.ReminderTimePreferences
+import it.nlp.frontend.data.local.reminder.repository.impl.DataStoreReminderTimeRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first

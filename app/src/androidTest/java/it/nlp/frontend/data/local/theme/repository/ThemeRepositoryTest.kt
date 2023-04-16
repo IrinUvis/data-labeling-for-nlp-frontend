@@ -9,9 +9,8 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth
-import it.winter2223.bachelor.ak.frontend.data.local.theme.model.ThemePreferences
-import it.winter2223.bachelor.ak.frontend.data.local.theme.repository.ThemeRepository
-import it.winter2223.bachelor.ak.frontend.data.local.theme.repository.impl.DataStoreThemeRepository
+import it.nlp.frontend.data.local.theme.model.ThemePreferences
+import it.nlp.frontend.data.local.theme.repository.impl.DataStoreThemeRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first

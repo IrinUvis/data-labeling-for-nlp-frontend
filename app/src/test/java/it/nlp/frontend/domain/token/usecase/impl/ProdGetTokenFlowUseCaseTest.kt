@@ -3,11 +3,10 @@ package it.nlp.frontend.domain.token.usecase.impl
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
-import it.winter2223.bachelor.ak.frontend.data.local.token.model.TokenPreferences
-import it.winter2223.bachelor.ak.frontend.data.local.token.repository.TokenRepository
-import it.winter2223.bachelor.ak.frontend.domain.token.model.GetTokenFlowResult
-import it.winter2223.bachelor.ak.frontend.domain.token.model.Token
-import it.winter2223.bachelor.ak.frontend.domain.token.usecase.impl.ProdGetTokenFlowUseCase
+import it.nlp.frontend.data.local.token.model.TokenPreferences
+import it.nlp.frontend.data.local.token.repository.TokenRepository
+import it.nlp.frontend.domain.token.model.GetTokenFlowResult
+import it.nlp.frontend.domain.token.model.Token
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow

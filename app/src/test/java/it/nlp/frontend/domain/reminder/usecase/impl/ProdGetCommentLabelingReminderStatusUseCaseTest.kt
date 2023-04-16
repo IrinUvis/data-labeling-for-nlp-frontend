@@ -7,8 +7,7 @@ import com.google.common.truth.Truth
 import com.google.common.util.concurrent.ListenableFuture
 import io.mockk.coEvery
 import io.mockk.mockk
-import it.winter2223.bachelor.ak.frontend.domain.reminder.model.GetCommentLabelingReminderStatusResult
-import it.winter2223.bachelor.ak.frontend.domain.reminder.usecase.impl.ProdGetCommentLabelingReminderStatusUseCase
+import it.nlp.frontend.domain.reminder.model.GetCommentLabelingReminderStatusResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*

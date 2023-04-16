@@ -3,11 +3,10 @@ package it.nlp.frontend.domain.theme.usecase.impl
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
-import it.winter2223.bachelor.ak.frontend.data.local.theme.model.ThemePreferences
-import it.winter2223.bachelor.ak.frontend.data.local.theme.repository.ThemeRepository
-import it.winter2223.bachelor.ak.frontend.domain.theme.model.GetThemeFlowResult
-import it.winter2223.bachelor.ak.frontend.domain.theme.model.Theme
-import it.winter2223.bachelor.ak.frontend.domain.theme.usecase.impl.ProdGetThemeFlowUseCase
+import it.nlp.frontend.data.local.theme.model.ThemePreferences
+import it.nlp.frontend.data.local.theme.repository.ThemeRepository
+import it.nlp.frontend.domain.theme.model.GetThemeFlowResult
+import it.nlp.frontend.domain.theme.model.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow

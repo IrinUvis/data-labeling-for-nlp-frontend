@@ -5,22 +5,21 @@ package it.nlp.frontend.domain.comments.usecase.impl
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
-import it.winter2223.bachelor.ak.frontend.data.core.model.DataResult
-import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentInput
-import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentOutput
-import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.dto.EmotionDto
-import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.model.exception.CommentEmotionAssignmentException
-import it.winter2223.bachelor.ak.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
-import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.NetworkException
-import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.ServiceUnavailableException
-import it.winter2223.bachelor.ak.frontend.data.remote.model.exception.UnauthorizedException
-import it.winter2223.bachelor.ak.frontend.domain.comments.model.Comment
-import it.winter2223.bachelor.ak.frontend.domain.comments.model.Emotion
-import it.winter2223.bachelor.ak.frontend.domain.comments.model.SaveLabeledCommentsResult
-import it.winter2223.bachelor.ak.frontend.domain.comments.usecase.impl.ProdSaveLabeledCommentsUseCase
-import it.winter2223.bachelor.ak.frontend.domain.token.model.GetTokenFlowResult
-import it.winter2223.bachelor.ak.frontend.domain.token.model.Token
-import it.winter2223.bachelor.ak.frontend.domain.token.usecase.GetTokenFlowUseCase
+import it.nlp.frontend.data.core.model.DataResult
+import it.nlp.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentInput
+import it.nlp.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentOutput
+import it.nlp.frontend.data.remote.comment.emotionassignment.model.dto.EmotionDto
+import it.nlp.frontend.data.remote.comment.emotionassignment.model.exception.CommentEmotionAssignmentException
+import it.nlp.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
+import it.nlp.frontend.data.remote.model.exception.NetworkException
+import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException
+import it.nlp.frontend.data.remote.model.exception.UnauthorizedException
+import it.nlp.frontend.domain.comments.model.Comment
+import it.nlp.frontend.domain.comments.model.Emotion
+import it.nlp.frontend.domain.comments.model.SaveLabeledCommentsResult
+import it.nlp.frontend.domain.token.model.GetTokenFlowResult
+import it.nlp.frontend.domain.token.model.Token
+import it.nlp.frontend.domain.token.usecase.GetTokenFlowUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -428,7 +427,8 @@ class ProdSaveLabeledCommentsUseCaseTest {
                 commentEmotionAssignmentRepositoryMock.postCommentEmotionAssignments(
                     commentEmotionAssignmentInputs = commentEmotionAssignmentInputs
                 )
-            } returns DataResult.Failure(CommentEmotionAssignmentException.AssignmentAlreadyExists(
+            } returns DataResult.Failure(
+                CommentEmotionAssignmentException.AssignmentAlreadyExists(
                 errorMessage))
 
             val useCase = ProdSaveLabeledCommentsUseCase(
