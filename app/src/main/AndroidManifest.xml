@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".DataLabelingForNlpApp"
+        android:name="it.nlp.frontend.DataLabelingForNlpApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,7 +17,7 @@
         android:theme="@style/Theme.AppSplash"
         tools:targetApi="33">
         <activity
-            android:name=".ui.MainActivity"
+            android:name="it.nlp.frontend.ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppSplash"
             android:configChanges="orientation"
