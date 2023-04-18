@@ -10,21 +10,21 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import it.nlp.frontend.BuildConfig
-import it.nlp.frontend.domain.reminder.model.GetCommentLabelingReminderStatusResult
+import it.nlp.frontend.domain.reminder.model.GetTextsLabelingReminderStatusResult
 import it.nlp.frontend.domain.reminder.model.GetReminderTimeFlowResult
 import it.nlp.frontend.domain.reminder.model.ReminderTime
 import it.nlp.frontend.domain.reminder.model.StoreReminderTimeResult
-import it.nlp.frontend.domain.reminder.usecase.CancelCommentLabelingRemindersUseCase
-import it.nlp.frontend.domain.reminder.usecase.GetCommentLabelingReminderStatusUseCase
+import it.nlp.frontend.domain.reminder.usecase.CancelTextsLabelingRemindersUseCase
+import it.nlp.frontend.domain.reminder.usecase.GetTextsLabelingReminderStatusUseCase
 import it.nlp.frontend.domain.reminder.usecase.GetReminderTimeFlowUseCase
-import it.nlp.frontend.domain.reminder.usecase.ScheduleCommentLabelingRemindersUseCase
+import it.nlp.frontend.domain.reminder.usecase.ScheduleTextsLabelingRemindersUseCase
 import it.nlp.frontend.domain.reminder.usecase.StoreReminderTimeUseCase
 import it.nlp.frontend.domain.theme.model.GetThemeFlowResult
 import it.nlp.frontend.domain.theme.model.SavePreferredThemeResult
 import it.nlp.frontend.domain.theme.usecase.GetThemeFlowUseCase
 import it.nlp.frontend.domain.theme.usecase.SavePreferredThemeUseCase
 import it.nlp.frontend.domain.token.usecase.ClearTokenUseCase
-import it.nlp.frontend.util.reminder.CommentLabelingNotificationHandler.canSendNotifications
+import it.nlp.frontend.util.reminder.TextsLabelingNotificationHandler.canSendNotifications
 import it.nlp.frontend.ui.core.model.UiTheme
 import it.nlp.frontend.ui.core.model.toDomainTheme
 import it.nlp.frontend.ui.core.model.toUiTheme
@@ -46,9 +46,9 @@ class SettingsViewModel @Inject constructor(
     private val clearTokenUseCase: ClearTokenUseCase,
     private val savePreferredThemeUseCase: SavePreferredThemeUseCase,
     private val getThemeFlowUseCase: GetThemeFlowUseCase,
-    private val getCommentLabelingReminderStatusUseCase: GetCommentLabelingReminderStatusUseCase,
-    private val scheduleCommentLabelingRemindersUseCase: ScheduleCommentLabelingRemindersUseCase,
-    private val cancelCommentLabelingRemindersUseCase: CancelCommentLabelingRemindersUseCase,
+    private val getTextsLabelingReminderStatusUseCase: GetTextsLabelingReminderStatusUseCase,
+    private val scheduleTextsLabelingRemindersUseCase: ScheduleTextsLabelingRemindersUseCase,
+    private val cancelTextsLabelingRemindersUseCase: CancelTextsLabelingRemindersUseCase,
     private val storeReminderTimeUseCase: StoreReminderTimeUseCase,
     private val getReminderTimeFlowUseCase: GetReminderTimeFlowUseCase,
 ) : ViewModel() {
@@ -78,8 +78,8 @@ class SettingsViewModel @Inject constructor(
             }
 
             val notificationsTurnOn =
-                when (val reminderStatusResult = getCommentLabelingReminderStatusUseCase()) {
-                    is GetCommentLabelingReminderStatusResult.Success -> reminderStatusResult.isScheduled
+                when (val reminderStatusResult = getTextsLabelingReminderStatusUseCase()) {
+                    is GetTextsLabelingReminderStatusResult.Success -> reminderStatusResult.isScheduled
                 }
 
             _viewState.value = SettingsViewState.Loaded.Active(
@@ -129,7 +129,7 @@ class SettingsViewModel @Inject constructor(
     fun toggleNotifications(checked: Boolean) {
         (_viewState.value as? SettingsViewState.Loaded)?.let { state ->
             if (!checked) {
-                cancelCommentLabelingRemindersUseCase()
+                cancelTextsLabelingRemindersUseCase()
                 _viewState.value = SettingsViewState.Loaded.Active(
                     selectedTheme = state.selectedTheme,
                     remindersState = RemindersState(
@@ -176,7 +176,7 @@ class SettingsViewModel @Inject constructor(
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
             }
-            scheduleCommentLabelingRemindersUseCase(
+            scheduleTextsLabelingRemindersUseCase(
                 reminderTime = state.remindersState.selectedReminderTime.toDomainReminderTime(),
                 now = now,
             )

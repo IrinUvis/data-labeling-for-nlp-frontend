@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.nlp.frontend.R
-import it.nlp.frontend.domain.comments.model.Comment
-import it.nlp.frontend.domain.comments.model.Emotion
-import it.nlp.frontend.domain.comments.model.GetCommentsToLabelResult
-import it.nlp.frontend.domain.comments.model.SaveLabeledCommentsResult
-import it.nlp.frontend.domain.comments.usecase.GetCommentsToLabelUseCase
-import it.nlp.frontend.domain.comments.usecase.SaveLabeledCommentsUseCase
+import it.nlp.frontend.domain.emotiontexts.model.EmotionText
+import it.nlp.frontend.domain.emotiontexts.model.Emotion
+import it.nlp.frontend.domain.emotiontexts.model.GetTextsToLabelResult
+import it.nlp.frontend.domain.emotiontexts.model.SaveLabeledTextsResult
+import it.nlp.frontend.domain.emotiontexts.usecase.GetTextsToLabelUseCase
+import it.nlp.frontend.domain.emotiontexts.usecase.SaveLabeledTextsUseCase
 import it.nlp.frontend.domain.token.usecase.ClearTokenUseCase
 import it.nlp.frontend.ui.commentlabeling.model.UiComment
 import it.nlp.frontend.ui.commentlabeling.model.UiEmotion
@@ -23,8 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentLabelingViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getCommentsToLabelUseCase: GetCommentsToLabelUseCase,
-    private val saveLabeledCommentsUseCase: SaveLabeledCommentsUseCase,
+    private val getTextsToLabelUseCase: GetTextsToLabelUseCase,
+    private val saveLabeledTextsUseCase: SaveLabeledTextsUseCase,
     private val clearTokenUseCase: ClearTokenUseCase,
 ) : ViewModel() {
     private val _viewState: MutableStateFlow<CommentLabelingViewState> = MutableStateFlow(
@@ -124,7 +124,7 @@ class CommentLabelingViewModel @Inject constructor(
             text = UiText.ResourceText(R.string.loadingComments)
         )
 
-        val getCommentsToLabelResult = getCommentsToLabelUseCase(quantity)
+        val getCommentsToLabelResult = getTextsToLabelUseCase(quantity)
         handleGetCommentsToLabelResult(getCommentsToLabelResult)
     }
 
@@ -134,7 +134,7 @@ class CommentLabelingViewModel @Inject constructor(
         )
 
         val domainComments = comments.map { it.toDomainComment() }
-        val saveLabeledCommentsResult = saveLabeledCommentsUseCase(domainComments)
+        val saveLabeledCommentsResult = saveLabeledTextsUseCase(domainComments)
         handleSaveLabeledCommentsResult(
             comments = comments,
             result = saveLabeledCommentsResult
@@ -143,46 +143,46 @@ class CommentLabelingViewModel @Inject constructor(
 
     private fun handleSaveLabeledCommentsResult(
         comments: List<UiComment>,
-        result: SaveLabeledCommentsResult,
+        result: SaveLabeledTextsResult,
     ) {
         _viewState.value = when (result) {
-            is SaveLabeledCommentsResult.Success -> _viewState.value
-            is SaveLabeledCommentsResult.Failure.NoToken,
-            is SaveLabeledCommentsResult.Failure.ReadingToken,
-            is SaveLabeledCommentsResult.Failure.UnauthorizedUser,
+            is SaveLabeledTextsResult.Success -> _viewState.value
+            is SaveLabeledTextsResult.Failure.NoToken,
+            is SaveLabeledTextsResult.Failure.ReadingToken,
+            is SaveLabeledTextsResult.Failure.UnauthorizedUser,
             -> CommentLabelingViewState.AuthError(
                 errorMessage = UiText.ResourceText(R.string.logInAndTryAgainErrorMessage)
             )
-            is SaveLabeledCommentsResult.Failure.ServiceUnavailable ->
+            is SaveLabeledTextsResult.Failure.ServiceUnavailable ->
                 CommentLabelingViewState.Loaded.CommentPostingError(
                     comments = comments,
                     currentCommentIndex = comments.lastIndex,
                     errorMessage = UiText.ResourceText(R.string.serviceUnavailableShortErrorMessage)
                 )
-            is SaveLabeledCommentsResult.Failure.Network -> CommentLabelingViewState.Loaded.CommentPostingError(
+            is SaveLabeledTextsResult.Failure.Network -> CommentLabelingViewState.Loaded.CommentPostingError(
                 comments = comments,
                 currentCommentIndex = comments.lastIndex,
                 errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
             )
-            is SaveLabeledCommentsResult.Failure.NonLabeledComments ->
+            is SaveLabeledTextsResult.Failure.NonLabeledTexts ->
                 CommentLabelingViewState.Loaded.CommentPostingError(
                     comments = comments,
                     currentCommentIndex = comments.lastIndex,
                     errorMessage = UiText.ResourceText(R.string.commentsNotLabeledErrorMessage)
                 )
-            is SaveLabeledCommentsResult.Failure.WrongEmotionParsing ->
+            is SaveLabeledTextsResult.Failure.WrongEmotionParsing ->
                 CommentLabelingViewState.Loaded.CommentPostingError(
                     comments = comments,
                     currentCommentIndex = comments.lastIndex,
                     errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
                 )
-            is SaveLabeledCommentsResult.Failure.AlreadyAssignedByThisUser ->
+            is SaveLabeledTextsResult.Failure.AlreadyAssignedByThisUser ->
                 CommentLabelingViewState.Loaded.CommentPostingError(
                     comments = comments,
                     currentCommentIndex = comments.lastIndex,
                     errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
                 )
-            is SaveLabeledCommentsResult.Failure.Unknown -> CommentLabelingViewState.Loaded.CommentPostingError(
+            is SaveLabeledTextsResult.Failure.Unknown -> CommentLabelingViewState.Loaded.CommentPostingError(
                 comments = comments,
                 currentCommentIndex = comments.lastIndex,
                 errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
@@ -190,32 +190,32 @@ class CommentLabelingViewModel @Inject constructor(
         }
     }
 
-    private fun handleGetCommentsToLabelResult(result: GetCommentsToLabelResult) {
+    private fun handleGetCommentsToLabelResult(result: GetTextsToLabelResult) {
         _viewState.value = when (result) {
-            is GetCommentsToLabelResult.Success -> CommentLabelingViewState.Loaded.Active(
-                comments = result.comments.map { it.toUiComment() },
+            is GetTextsToLabelResult.Success -> CommentLabelingViewState.Loaded.Active(
+                comments = result.emotionTexts.map { it.toUiComment() },
                 currentCommentIndex = 0,
             )
-            is GetCommentsToLabelResult.Failure.NoToken,
-            is GetCommentsToLabelResult.Failure.ReadingToken,
-            is GetCommentsToLabelResult.Failure.UnauthorizedUser,
+            is GetTextsToLabelResult.Failure.NoToken,
+            is GetTextsToLabelResult.Failure.ReadingToken,
+            is GetTextsToLabelResult.Failure.UnauthorizedUser,
             -> CommentLabelingViewState.AuthError(
                 errorMessage = UiText.ResourceText(R.string.logInAndTryAgainErrorMessage)
             )
-            is GetCommentsToLabelResult.Failure.ServiceUnavailable -> CommentLabelingViewState.CommentLoadingError(
+            is GetTextsToLabelResult.Failure.ServiceUnavailable -> CommentLabelingViewState.CommentLoadingError(
                 errorMessage = UiText.ResourceText(R.string.serviceUnavailableLongErrorMessage)
             )
-            is GetCommentsToLabelResult.Failure.Network -> CommentLabelingViewState.CommentLoadingError(
+            is GetTextsToLabelResult.Failure.Network -> CommentLabelingViewState.CommentLoadingError(
                 errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
             )
-            is GetCommentsToLabelResult.Failure.NoComments -> CommentLabelingViewState.CommentLoadingError(
+            is GetTextsToLabelResult.Failure.NoTexts -> CommentLabelingViewState.CommentLoadingError(
                 errorMessage = UiText.ResourceText(R.string.noMoreCommentsToLabelError)
             )
-            is GetCommentsToLabelResult.Failure.CommentsNumberOutOfRange ->
+            is GetTextsToLabelResult.Failure.TextsNumberOutOfRange ->
                 CommentLabelingViewState.CommentLoadingError(
                     errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
                 )
-            is GetCommentsToLabelResult.Failure.Unknown -> CommentLabelingViewState.CommentLoadingError(
+            is GetTextsToLabelResult.Failure.Unknown -> CommentLabelingViewState.CommentLoadingError(
                 errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
             )
         }
@@ -236,13 +236,13 @@ fun List<UiComment>.withChangedEmotionAtIndex(
 }
 
 fun UiComment.toDomainComment() =
-    Comment(
+    EmotionText(
         id = id,
         text = text.value,
         emotion = emotion?.name?.let { Emotion.valueOf(it) },
     )
 
-fun Comment.toUiComment() = UiComment(
+fun EmotionText.toUiComment() = UiComment(
     id = id,
     text = UiText.StringText(text),
     emotion = emotion?.name?.let { UiEmotion.valueOf(it) },

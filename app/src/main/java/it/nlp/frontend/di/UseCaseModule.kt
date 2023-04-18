@@ -10,19 +10,19 @@ import it.nlp.frontend.domain.token.usecase.GetTokenFlowUseCase
 import it.nlp.frontend.domain.token.usecase.StoreTokenUseCase
 import it.nlp.frontend.domain.token.usecase.impl.ProdClearTokenUseCase
 import it.nlp.frontend.domain.authentication.usecase.impl.ProdCredentialsLogInOrSignUpUseCase
-import it.nlp.frontend.domain.comments.usecase.GetCommentsToLabelUseCase
-import it.nlp.frontend.domain.comments.usecase.SaveLabeledCommentsUseCase
-import it.nlp.frontend.domain.comments.usecase.impl.ProdGetCommentsToLabelUseCase
-import it.nlp.frontend.domain.comments.usecase.impl.ProdSaveLabeledCommentsUseCase
-import it.nlp.frontend.domain.reminder.usecase.CancelCommentLabelingRemindersUseCase
-import it.nlp.frontend.domain.reminder.usecase.GetCommentLabelingReminderStatusUseCase
+import it.nlp.frontend.domain.emotiontexts.usecase.GetTextsToLabelUseCase
+import it.nlp.frontend.domain.emotiontexts.usecase.SaveLabeledTextsUseCase
+import it.nlp.frontend.domain.emotiontexts.usecase.impl.ProdGetTextsToLabelUseCase
+import it.nlp.frontend.domain.emotiontexts.usecase.impl.ProdSaveLabeledTextsUseCase
+import it.nlp.frontend.domain.reminder.usecase.CancelTextsLabelingRemindersUseCase
+import it.nlp.frontend.domain.reminder.usecase.GetTextsLabelingReminderStatusUseCase
 import it.nlp.frontend.domain.reminder.usecase.GetReminderTimeFlowUseCase
-import it.nlp.frontend.domain.reminder.usecase.ScheduleCommentLabelingRemindersUseCase
+import it.nlp.frontend.domain.reminder.usecase.ScheduleTextsLabelingRemindersUseCase
 import it.nlp.frontend.domain.reminder.usecase.StoreReminderTimeUseCase
-import it.nlp.frontend.domain.reminder.usecase.impl.ProdCancelCommentLabelingRemindersUseCase
-import it.nlp.frontend.domain.reminder.usecase.impl.ProdGetCommentLabelingReminderStatusUseCase
+import it.nlp.frontend.domain.reminder.usecase.impl.ProdCancelTextsLabelingRemindersUseCase
+import it.nlp.frontend.domain.reminder.usecase.impl.ProdGetTextsLabelingReminderStatusUseCase
 import it.nlp.frontend.domain.reminder.usecase.impl.ProdGetReminderTimeFlowUseCase
-import it.nlp.frontend.domain.reminder.usecase.impl.ProdScheduleCommentLabelingRemindersUseCase
+import it.nlp.frontend.domain.reminder.usecase.impl.ProdScheduleTextsLabelingRemindersUseCase
 import it.nlp.frontend.domain.reminder.usecase.impl.ProdStoreReminderTimeUseCase
 import it.nlp.frontend.domain.theme.usecase.GetThemeFlowUseCase
 import it.nlp.frontend.domain.theme.usecase.SavePreferredThemeUseCase
@@ -67,29 +67,29 @@ abstract class UseCaseModule {
     ): GetThemeFlowUseCase
 
     @Binds
-    abstract fun bindGetCommentsToLabelUseCase(
-        getCommentsToLabelUseCase: ProdGetCommentsToLabelUseCase,
-    ): GetCommentsToLabelUseCase
+    abstract fun bindGetTextsToLabelUseCase(
+        getTextsToLabelUseCase: ProdGetTextsToLabelUseCase,
+    ): GetTextsToLabelUseCase
 
     @Binds
-    abstract fun bindSaveLabeledCommentsUseCase(
-        saveLabeledCommentsUseCase: ProdSaveLabeledCommentsUseCase,
-    ): SaveLabeledCommentsUseCase
+    abstract fun bindSaveLabeledTextsUseCase(
+        saveLabeledTextsUseCase: ProdSaveLabeledTextsUseCase,
+    ): SaveLabeledTextsUseCase
 
     @Binds
-    abstract fun getCancelCommentLabelingRemindersUseCase(
-        cancelCommentLabelingRemindersUseCase: ProdCancelCommentLabelingRemindersUseCase,
-    ): CancelCommentLabelingRemindersUseCase
+    abstract fun bindCancelTextsLabelingRemindersUseCase(
+        cancelTextsLabelingRemindersUseCase: ProdCancelTextsLabelingRemindersUseCase,
+    ): CancelTextsLabelingRemindersUseCase
 
     @Binds
-    abstract fun bindGetCommentLabelingReminderStatusUseCase(
-        getCommentLabelingReminderStatusUseCase: ProdGetCommentLabelingReminderStatusUseCase,
-    ): GetCommentLabelingReminderStatusUseCase
+    abstract fun bindGetTextsLabelingReminderStatusUseCase(
+        getTextsLabelingReminderStatusUseCase: ProdGetTextsLabelingReminderStatusUseCase,
+    ): GetTextsLabelingReminderStatusUseCase
 
     @Binds
-    abstract fun bindScheduleCommentLabelingRemindersUseCase(
-        scheduleCommentLabelingRemindersUseCase: ProdScheduleCommentLabelingRemindersUseCase,
-    ): ScheduleCommentLabelingRemindersUseCase
+    abstract fun bindScheduleTextsLabelingRemindersUseCase(
+        scheduleTextsLabelingRemindersUseCase: ProdScheduleTextsLabelingRemindersUseCase,
+    ): ScheduleTextsLabelingRemindersUseCase
 
     @Binds
     abstract fun bindGetReminderTimeFlowUseCase(

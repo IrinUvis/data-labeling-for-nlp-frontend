@@ -4,13 +4,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import it.nlp.frontend.data.remote.emotion.texts.repository.CommentRepository
-import it.nlp.frontend.data.remote.emotion.texts.repository.impl.NetworkCommentRepository
+import it.nlp.frontend.data.remote.emotion.texts.repository.EmotionTextRepository
+import it.nlp.frontend.data.remote.emotion.texts.repository.impl.NetworkEmotionTextRepository
 import it.nlp.frontend.data.local.token.repository.impl.DataStoreTokenRepository
 import it.nlp.frontend.data.remote.authentication.repository.impl.NetworkAuthenticationRepository
 import it.nlp.frontend.data.remote.authentication.repository.AuthenticationRepository
-import it.nlp.frontend.data.remote.emotion.assignments.repository.CommentEmotionAssignmentRepository
-import it.nlp.frontend.data.remote.emotion.assignments.repository.impl.NetworkCommentEmotionAssignmentRepository
+import it.nlp.frontend.data.remote.emotion.assignments.repository.TextEmotionAssignmentRepository
+import it.nlp.frontend.data.remote.emotion.assignments.repository.impl.NetworkTextEmotionAssignmentRepository
 import it.nlp.frontend.data.local.reminder.repository.ReminderTimeRepository
 import it.nlp.frontend.data.local.reminder.repository.impl.DataStoreReminderTimeRepository
 import it.nlp.frontend.data.local.theme.repository.ThemeRepository
@@ -22,14 +22,14 @@ import it.nlp.frontend.data.local.token.repository.TokenRepository
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun bindCommentRepository(
-        commentRepository: NetworkCommentRepository
-    ): CommentRepository
+    abstract fun bindEmotionTextRepository(
+        emotionTextRepository: NetworkEmotionTextRepository
+    ): EmotionTextRepository
 
     @Binds
     abstract fun bindEmotionAssignmentRepository(
-        emotionAssignmentRepository: NetworkCommentEmotionAssignmentRepository,
-    ): CommentEmotionAssignmentRepository
+        emotionAssignmentRepository: NetworkTextEmotionAssignmentRepository,
+    ): TextEmotionAssignmentRepository
 
     @Binds
     abstract fun bindTokenRepository(
