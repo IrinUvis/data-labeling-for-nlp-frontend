@@ -5,18 +5,18 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserOutput(
-    @SerialName("email")
-    val email: String,
-
     @SerialName("userId")
     val userId: String,
 
-    @SerialName("idToken")
-    val authToken: String,
+    @SerialName("email")
+    val email: String,
 
-    @SerialName("expiresIn")
-    val expiresIn: String,
+    @SerialName("userRoleOutput")
+    val userRoleOutput: UserRoleOutput,
 
-    @SerialName("refreshToken")
-    val refreshToken: String,
+    @SerialName("accessTokenOutput")
+    val accessTokenOutput: TokenOutput,
+
+    @SerialName("refreshTokenOutput")
+    val refreshTokenOutput: TokenOutput,
 )

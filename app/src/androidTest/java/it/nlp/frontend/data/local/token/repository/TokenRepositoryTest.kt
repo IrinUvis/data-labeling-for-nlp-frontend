@@ -54,7 +54,7 @@ class TokenRepositoryTest {
         cleanDataStore()
 
         val tokenPreferences = TokenPreferences(
-            authToken = "auth_token",
+            accessToken = "auth_token",
             refreshToken = "refresh_token",
             userId = "user_id"
         )
@@ -71,7 +71,7 @@ class TokenRepositoryTest {
         cleanDataStore()
 
         val tokenPreferences = TokenPreferences(
-            authToken = "auth_token",
+            accessToken = "auth_token",
             refreshToken = "refresh_token",
             userId = "user_id"
         )

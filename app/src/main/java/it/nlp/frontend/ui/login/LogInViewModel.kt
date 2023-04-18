@@ -19,10 +19,6 @@ import javax.inject.Inject
 class LogInViewModel @Inject constructor(
     private val credentialsLogInOrSignUpUseCase: CredentialsLogInOrSignUpUseCase,
 ) : ViewModel() {
-    companion object {
-        const val TAG = "LoginVM"
-    }
-
     private val _viewState: MutableStateFlow<LogInViewState> = MutableStateFlow(
         value = LogInViewState.Initial
     )
@@ -128,6 +124,10 @@ class LogInViewModel @Inject constructor(
                     passwordInputErrorMessage = passwordInputErrorMessage,
                 )
             }
+            is LogInResult.Failure.EmailAlreadyTaken -> LogInViewState.SubmissionError(
+                credentials = logInCredentials,
+                errorMessage = UiText.ResourceText(R.string.emailAlreadyUsed)
+            )
             is LogInResult.Failure.WrongCredentials -> LogInViewState.SubmissionError(
                 credentials = logInCredentials,
                 errorMessage = UiText.ResourceText(R.string.wrongCredentialsErrorMessage)

@@ -4,7 +4,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RefreshTokenInput(
-    @SerialName("refreshTokenValue")
-    val refreshTokenValue: String,
+data class TokenOutput(
+    @SerialName("value")
+    val value: String,
+
+    @SerialName("expiresIn")
+    val expiresIn: Long,
 )

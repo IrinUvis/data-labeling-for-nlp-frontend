@@ -29,24 +29,14 @@ class NetworkAuthenticationRepository @Inject constructor(
 
     override suspend fun logIn(userInput: UserInput): DataResult<UserOutput, ApiException> {
         return try {
-            val response = httpClient.post("$URL/user") {
+            val response = httpClient.post("$URL/authenticate") {
                 contentType(ContentType.Application.Json)
                 setBody(userInput)
             }
             val userOutput = response.body<UserOutput>()
             DataResult.Success(userOutput)
         } catch (e: ResponseException) {
-            when (e.response.status) {
-                HttpStatusCode.ServiceUnavailable,
-                HttpStatusCode.GatewayTimeout,
-                -> DataResult.Failure(
-                    ServiceUnavailableException(
-                        e.message,
-                        e.cause,
-                    )
-                )
-                else -> DataResult.Failure(e.toAuthenticationException())
-            }
+            dataResultFailureForResponseException(e)
         } catch (e: IOException) {
             DataResult.Failure(NetworkException(e.message, e.cause))
         }
@@ -54,26 +44,32 @@ class NetworkAuthenticationRepository @Inject constructor(
 
     override suspend fun signUp(userInput: UserInput): DataResult<UserOutput, ApiException> {
         return try {
-            val response = httpClient.post(URL) {
+            val response = httpClient.post("$URL/register") {
                 contentType(ContentType.Application.Json)
                 setBody(userInput)
             }
             val userOutput = response.body<UserOutput>()
             DataResult.Success(userOutput)
         } catch (e: ResponseException) {
-            when (e.response.status) {
-                HttpStatusCode.ServiceUnavailable,
-                HttpStatusCode.GatewayTimeout,
-                -> DataResult.Failure(
-                    ServiceUnavailableException(
-                        e.message,
-                        e.cause,
-                    )
-                )
-                else -> DataResult.Failure(e.toAuthenticationException())
-            }
+            dataResultFailureForResponseException(e)
         } catch (e: IOException) {
             DataResult.Failure(NetworkException(e.message, e.cause))
         }
     }
+
+    private suspend fun dataResultFailureForResponseException(
+        responseException: ResponseException
+    ): DataResult.Failure<ApiException> = when (responseException.response.status) {
+        HttpStatusCode.ServiceUnavailable,
+        HttpStatusCode.GatewayTimeout,
+        -> DataResult.Failure(
+            ServiceUnavailableException(
+                responseException.message,
+                responseException.cause,
+            )
+        )
+
+        else -> DataResult.Failure(responseException.toAuthenticationException())
+    }
+
 }

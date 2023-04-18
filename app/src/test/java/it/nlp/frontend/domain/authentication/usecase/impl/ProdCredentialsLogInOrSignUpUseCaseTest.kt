@@ -6,8 +6,10 @@ import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
 import it.nlp.frontend.data.core.model.DataResult
+import it.nlp.frontend.data.remote.authentication.model.dto.TokenOutput
 import it.nlp.frontend.data.remote.authentication.model.dto.UserInput
 import it.nlp.frontend.data.remote.authentication.model.dto.UserOutput
+import it.nlp.frontend.data.remote.authentication.model.dto.UserRoleOutput
 import it.nlp.frontend.data.remote.authentication.model.exception.AuthenticationException
 import it.nlp.frontend.data.remote.authentication.repository.AuthenticationRepository
 import it.nlp.frontend.data.remote.model.exception.NetworkException
@@ -84,9 +86,10 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
             val passedEmail = "test@test.com"
             val passedPassword = "password"
             val userId = "userId"
-            val expiresIn = "expiresIn"
-            val authToken = "authToken"
+            val expiresIn = 2137L
+            val accessToken = "accessToken"
             val refreshToken = "refreshToken"
+            val userRoleOutput = UserRoleOutput.Admin
 
             val passedUserInput = UserInput(
                 email = passedEmail,
@@ -95,12 +98,18 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
             val retrievedUserOutput = UserOutput(
                 email = passedEmail,
                 userId = userId,
-                expiresIn = expiresIn,
-                authToken = authToken,
-                refreshToken = refreshToken,
+                userRoleOutput = userRoleOutput,
+                accessTokenOutput = TokenOutput(
+                    value = accessToken,
+                    expiresIn = expiresIn,
+                ),
+                refreshTokenOutput = TokenOutput(
+                    value = refreshToken,
+                    expiresIn = expiresIn
+                )
             )
             val tokenToStore = Token(
-                authToken = authToken,
+                accessToken = accessToken,
                 refreshToken = refreshToken,
                 userId = userId,
             )
@@ -140,9 +149,10 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
             val passedEmail = "test@test.com"
             val passedPassword = "password"
             val userId = "userId"
-            val expiresIn = "expiresIn"
-            val authToken = "authToken"
+            val expiresIn = 2137L
+            val accessToken = "accessToken"
             val refreshToken = "refreshToken"
+            val userRoleOutput = UserRoleOutput.Admin
 
             val passedUserInput = UserInput(
                 email = passedEmail,
@@ -151,12 +161,18 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
             val retrievedUserOutput = UserOutput(
                 email = passedEmail,
                 userId = userId,
-                expiresIn = expiresIn,
-                authToken = authToken,
-                refreshToken = refreshToken,
+                userRoleOutput = userRoleOutput,
+                accessTokenOutput = TokenOutput(
+                    value = accessToken,
+                    expiresIn = expiresIn,
+                ),
+                refreshTokenOutput = TokenOutput(
+                    value = refreshToken,
+                    expiresIn = expiresIn
+                )
             )
             val tokenToStore = Token(
-                authToken = authToken,
+                accessToken = accessToken,
                 refreshToken = refreshToken,
                 userId = userId,
             )
@@ -285,7 +301,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
 
             coEvery {
                 mockAuthenticationRepository.logIn(passedUserInput)
-            } returns DataResult.Failure(AuthenticationException.SigningInFailed(errorMessage))
+            } returns DataResult.Failure(AuthenticationException.EmailAlreadyTaken(errorMessage))
 
             val useCase = ProdCredentialsLogInOrSignUpUseCase(
                 authenticationRepository = mockAuthenticationRepository,
@@ -297,7 +313,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
                 authenticationActivity = AuthenticationActivity.LogIn,
             )
 
-            val expectedResult = LogInResult.Failure.WrongCredentials
+            val expectedResult = LogInResult.Failure.EmailAlreadyTaken
 
             Truth.assertThat(result).isEqualTo(expectedResult)
         }
@@ -323,7 +339,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
 
             coEvery {
                 mockAuthenticationRepository.signUp(passedUserInput)
-            } returns DataResult.Failure(AuthenticationException.SigningUpFailed(errorMessage))
+            } returns DataResult.Failure(AuthenticationException.BadCredentials(errorMessage))
 
             val useCase = ProdCredentialsLogInOrSignUpUseCase(
                 authenticationRepository = mockAuthenticationRepository,

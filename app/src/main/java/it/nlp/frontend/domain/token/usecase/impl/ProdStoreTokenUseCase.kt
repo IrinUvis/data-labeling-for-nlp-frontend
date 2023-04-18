@@ -15,7 +15,7 @@ class ProdStoreTokenUseCase @Inject constructor(
         return try {
             tokenRepository.storeToken(
                 TokenPreferences(
-                    authToken = token.authToken,
+                    accessToken = token.accessToken,
                     refreshToken = token.refreshToken,
                     userId = token.userId,
                 )

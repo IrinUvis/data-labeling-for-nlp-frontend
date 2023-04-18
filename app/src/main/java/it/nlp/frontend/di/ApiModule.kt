@@ -70,7 +70,7 @@ object ApiModule {
                     loadTokens {
                         tokenRepository.tokenFlow().first()?.let {
                             BearerTokens(
-                                accessToken = it.authToken,
+                                accessToken = it.accessToken,
                                 refreshToken = it.refreshToken,
                             )
                         }
@@ -89,6 +89,7 @@ object ApiModule {
         }
     }
 
+    // TODO: Handle expiry of refreshTokens better.
     private suspend fun RefreshTokensParams.refreshToken(
         tokenRepository: TokenRepository,
     ): BearerTokens? {
@@ -103,15 +104,15 @@ object ApiModule {
                 val refreshTokenOutput = response.body<RefreshTokenOutput>().also {
                     tokenRepository.storeToken(
                         TokenPreferences(
-                            authToken = it.authToken,
-                            refreshToken = it.refreshToken,
+                            accessToken = it.accessTokenOutput.value,
+                            refreshToken = it.refreshTokenOutput.value,
                             userId = it.userId
                         )
                     )
                 }
                 BearerTokens(
-                    accessToken = refreshTokenOutput.authToken,
-                    refreshToken = refreshTokenOutput.refreshToken,
+                    accessToken = refreshTokenOutput.accessTokenOutput.value,
+                    refreshToken = refreshTokenOutput.refreshTokenOutput.value,
                 )
             } catch (e: ResponseException) {
                 Log.e(TAG, "refreshToken callback: response status is ${e.response.status}", e)

@@ -50,6 +50,7 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
                     credentials.password,
                 ),
             )
+
             AuthenticationActivity.SignUp -> authenticationRepository.signUp(
                 UserInput(
                     credentials.email,
@@ -62,8 +63,8 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
             onSuccess = { userOutput ->
                 val storeTokenResult = storeTokenUseCase(
                     Token(
-                        authToken = userOutput.authToken,
-                        refreshToken = userOutput.refreshToken,
+                        accessToken = userOutput.accessTokenOutput.value,
+                        refreshToken = userOutput.refreshTokenOutput.value,
                         userId = userOutput.userId,
                     )
                 )
@@ -104,18 +105,22 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
         return when (exception) {
             is ServiceUnavailableException -> LogInResult.Failure.ServiceUnavailable
             is NetworkException -> LogInResult.Failure.Network
-            is AuthenticationException.SigningInFailed -> LogInResult.Failure.WrongCredentials
-            is AuthenticationException.SigningUpFailed -> LogInResult.Failure.WrongCredentials
-            is AuthenticationException.InvalidEmailAddress -> {
-                LogInResult.Failure.InvalidCredentials(
-                    badEmailFormat = true
-                )
+            is AuthenticationException -> {
+                when (exception) {
+                    is AuthenticationException.InvalidEmailAddress -> LogInResult.Failure.InvalidCredentials(
+                        badEmailFormat = true
+                    )
+
+                    is AuthenticationException.InvalidPassword -> LogInResult.Failure.InvalidCredentials(
+                        passwordLessThanSixCharacters = true
+                    )
+
+                    is AuthenticationException.EmailAlreadyTaken -> LogInResult.Failure.EmailAlreadyTaken
+                    is AuthenticationException.BadCredentials -> LogInResult.Failure.WrongCredentials
+                    else -> LogInResult.Failure.Unknown
+                }
             }
-            is AuthenticationException.InvalidPassword -> {
-                LogInResult.Failure.InvalidCredentials(
-                    passwordLessThanSixCharacters = true
-                )
-            }
+
             else -> LogInResult.Failure.Unknown
         }
     }

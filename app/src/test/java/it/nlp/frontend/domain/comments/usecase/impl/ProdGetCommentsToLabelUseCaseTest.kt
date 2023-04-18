@@ -48,7 +48,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val commentsList = List(commentsNumber) { comment }
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )
@@ -134,7 +134,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val commentsOutputList = emptyList<CommentOutput>()
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )
@@ -173,7 +173,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val commentsNumber = 10
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )
@@ -212,7 +212,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val commentsNumber = 10
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )
@@ -251,7 +251,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val commentsNumber = 10
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )
@@ -291,7 +291,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val errorMessage = "errorMessage"
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )
@@ -331,7 +331,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val errorMessage = "errorMessage"
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )
@@ -371,7 +371,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val errorMessage = "errorMessage"
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )
@@ -411,7 +411,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val errorMessage = "errorMessage"
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )
@@ -451,7 +451,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val errorMessage = "errorMessage"
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )
@@ -491,7 +491,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val errorMessage = "errorMessage"
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )
@@ -531,7 +531,7 @@ class ProdGetCommentsToLabelUseCaseTest {
             val errorMessage = "errorMessage"
 
             val retrievedToken = Token(
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
                 userId = userId
             )

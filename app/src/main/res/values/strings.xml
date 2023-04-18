@@ -67,4 +67,5 @@
     <string name="logInAndTryAgainErrorMessage">Please log in and try again</string>
     <string name="serviceUnavailableLongErrorMessage">Server is inaccessible at the moment. It might have been turned off temporarily in order to reduce spendings. Try again later</string>
     <string name="serviceUnavailableShortErrorMessage">Server is turned off now. Try again later</string>
+    <string name="emailAlreadyUsed">The provided email is already in use</string>
 </resources>

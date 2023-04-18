@@ -23,7 +23,7 @@ class ProdGetTokenFlowUseCaseTest {
         val refreshToken = "refreshToken"
         val userId = "userId"
         val tokenPreferences = TokenPreferences(
-            authToken = authToken,
+            accessToken = authToken,
             refreshToken = refreshToken,
             userId = userId,
         )
@@ -37,7 +37,7 @@ class ProdGetTokenFlowUseCaseTest {
         )
 
         val expectedToken = Token(
-            authToken = authToken,
+            accessToken = authToken,
             refreshToken = refreshToken,
             userId = userId,
         )

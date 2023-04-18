@@ -17,7 +17,7 @@ class ProdGetTokenFlowUseCase @Inject constructor(
                 tokenFlow = tokenRepository.tokenFlow().map {
                     it?.let {
                         Token(
-                            authToken = it.authToken,
+                            accessToken = it.accessToken,
                             refreshToken = it.refreshToken,
                             userId = it.userId,
                         )

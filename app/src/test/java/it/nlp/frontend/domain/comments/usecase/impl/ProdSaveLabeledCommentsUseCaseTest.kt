@@ -43,7 +43,7 @@ class ProdSaveLabeledCommentsUseCaseTest {
             val assignmentId = "assignmentId"
             val retrievedToken = Token(
                 userId = userId,
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
             )
             val commentToStore = Comment(
@@ -171,7 +171,7 @@ class ProdSaveLabeledCommentsUseCaseTest {
             val emotion = Emotion.Anger
             val retrievedToken = Token(
                 userId = userId,
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
             )
             val commentToStore = Comment(
@@ -227,7 +227,7 @@ class ProdSaveLabeledCommentsUseCaseTest {
             val emotion = Emotion.Anger
             val retrievedToken = Token(
                 userId = userId,
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
             )
             val commentToStore = Comment(
@@ -283,7 +283,7 @@ class ProdSaveLabeledCommentsUseCaseTest {
             val emotion = Emotion.Anger
             val retrievedToken = Token(
                 userId = userId,
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
             )
             val commentToStore = Comment(
@@ -340,7 +340,7 @@ class ProdSaveLabeledCommentsUseCaseTest {
             val emotion = Emotion.Anger
             val retrievedToken = Token(
                 userId = userId,
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
             )
             val commentToStore = Comment(
@@ -397,7 +397,7 @@ class ProdSaveLabeledCommentsUseCaseTest {
             val emotion = Emotion.Anger
             val retrievedToken = Token(
                 userId = userId,
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
             )
             val commentToStore = Comment(
@@ -482,7 +482,7 @@ class ProdSaveLabeledCommentsUseCaseTest {
             val emotion = Emotion.Anger
             val retrievedToken = Token(
                 userId = userId,
-                authToken = authToken,
+                accessToken = authToken,
                 refreshToken = refreshToken,
             )
             val commentToStore = Comment(

@@ -21,12 +21,12 @@ class ProdStoreTokenUseCaseTest {
         val refreshToken = "refreshToken"
         val userId = "userId"
         val tokenPreferences = TokenPreferences(
-            authToken = authToken,
+            accessToken = authToken,
             refreshToken = refreshToken,
             userId = userId,
         )
         val token = Token(
-            authToken = authToken,
+            accessToken = authToken,
             refreshToken = refreshToken,
             userId = userId,
         )
@@ -52,12 +52,12 @@ class ProdStoreTokenUseCaseTest {
         val refreshToken = "refreshToken"
         val userId = "userId"
         val tokenPreferences = TokenPreferences(
-            authToken = authToken,
+            accessToken = authToken,
             refreshToken = refreshToken,
             userId = userId,
         )
         val token = Token(
-            authToken = authToken,
+            accessToken = authToken,
             refreshToken = refreshToken,
             userId = userId,
         )

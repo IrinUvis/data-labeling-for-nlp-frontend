@@ -8,12 +8,9 @@ data class RefreshTokenOutput(
     @SerialName("userId")
     val userId: String,
 
-    @SerialName("idToken")
-    val authToken: String,
+    @SerialName("accessTokenOutput")
+    val accessTokenOutput: TokenOutput,
 
-    @SerialName("expiresIn")
-    val expiresIn: String,
-
-    @SerialName("refreshToken")
-    val refreshToken: String,
+    @SerialName("refreshTokenOutput")
+    val refreshTokenOutput: TokenOutput,
 )

@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RefreshTokenInput(
-    @SerialName("refreshTokenValue")
-    val refreshTokenValue: String,
-)
+enum class UserRoleOutput {
+    @SerialName("USER") User,
+    @SerialName("ADMIN") Admin,
+}

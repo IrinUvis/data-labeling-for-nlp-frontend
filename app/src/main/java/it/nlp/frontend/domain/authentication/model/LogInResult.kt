@@ -16,6 +16,8 @@ sealed class LogInResult {
 
         object Unknown : Failure()
 
+        object EmailAlreadyTaken : Failure()
+
         object WrongCredentials : Failure()
 
         object Network : Failure()
