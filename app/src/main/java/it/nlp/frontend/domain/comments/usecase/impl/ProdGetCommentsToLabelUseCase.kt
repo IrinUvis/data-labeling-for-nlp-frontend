@@ -1,7 +1,7 @@
 package it.nlp.frontend.domain.comments.usecase.impl
 
-import it.nlp.frontend.data.remote.comment.model.exception.CommentException
-import it.nlp.frontend.data.remote.comment.repository.CommentRepository
+import it.nlp.frontend.data.remote.emotion.texts.model.exception.CommentException
+import it.nlp.frontend.data.remote.emotion.texts.repository.CommentRepository
 import it.nlp.frontend.data.remote.model.exception.ApiException
 import it.nlp.frontend.data.remote.model.exception.NetworkException
 import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException

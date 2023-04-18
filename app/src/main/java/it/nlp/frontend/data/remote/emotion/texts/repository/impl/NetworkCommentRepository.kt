@@ -1,4 +1,4 @@
-package it.nlp.frontend.data.remote.comment.repository.impl
+package it.nlp.frontend.data.remote.emotion.texts.repository.impl
 
 import android.util.Log
 import io.ktor.client.HttpClient
@@ -10,9 +10,9 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.utils.io.errors.IOException
 import it.nlp.frontend.data.remote.model.exception.ApiException
 import it.nlp.frontend.data.core.model.DataResult
-import it.nlp.frontend.data.remote.comment.model.dto.CommentOutput
-import it.nlp.frontend.data.remote.comment.model.exception.toCommentException
-import it.nlp.frontend.data.remote.comment.repository.CommentRepository
+import it.nlp.frontend.data.remote.emotion.texts.model.dto.CommentOutput
+import it.nlp.frontend.data.remote.emotion.texts.model.exception.toCommentException
+import it.nlp.frontend.data.remote.emotion.texts.repository.CommentRepository
 import it.nlp.frontend.data.remote.model.exception.NetworkException
 import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException
 import it.nlp.frontend.data.remote.model.exception.UnauthorizedException

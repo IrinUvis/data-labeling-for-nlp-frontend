@@ -1,4 +1,4 @@
-package it.nlp.frontend.data.remote.comment.model.dto
+package it.nlp.frontend.data.remote.emotion.texts.model.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

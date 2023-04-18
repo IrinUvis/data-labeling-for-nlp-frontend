@@ -6,9 +6,9 @@ import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
 import it.nlp.frontend.data.core.model.DataResult
-import it.nlp.frontend.data.remote.comment.model.dto.CommentOutput
-import it.nlp.frontend.data.remote.comment.model.exception.CommentException
-import it.nlp.frontend.data.remote.comment.repository.CommentRepository
+import it.nlp.frontend.data.remote.emotion.texts.model.dto.CommentOutput
+import it.nlp.frontend.data.remote.emotion.texts.model.exception.CommentException
+import it.nlp.frontend.data.remote.emotion.texts.repository.CommentRepository
 import it.nlp.frontend.data.remote.model.exception.NetworkException
 import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException
 import it.nlp.frontend.data.remote.model.exception.UnauthorizedException

@@ -1,8 +1,8 @@
 package it.nlp.frontend.domain.comments.usecase.impl
 
-import it.nlp.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentInput
-import it.nlp.frontend.data.remote.comment.emotionassignment.model.exception.CommentEmotionAssignmentException
-import it.nlp.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
+import it.nlp.frontend.data.remote.emotion.assignments.model.dto.CommentEmotionAssignmentInput
+import it.nlp.frontend.data.remote.emotion.assignments.model.exception.CommentEmotionAssignmentException
+import it.nlp.frontend.data.remote.emotion.assignments.repository.CommentEmotionAssignmentRepository
 import it.nlp.frontend.data.remote.model.exception.ApiException
 import it.nlp.frontend.data.remote.model.exception.NetworkException
 import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException

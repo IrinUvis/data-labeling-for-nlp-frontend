@@ -1,4 +1,4 @@
-package it.nlp.frontend.data.remote.comment.model.exception
+package it.nlp.frontend.data.remote.emotion.texts.model.exception
 
 import io.ktor.client.plugins.ResponseException
 import it.nlp.frontend.data.remote.model.exception.ApiException

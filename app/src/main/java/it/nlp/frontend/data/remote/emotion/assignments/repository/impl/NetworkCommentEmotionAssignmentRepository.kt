@@ -1,4 +1,4 @@
-package it.nlp.frontend.data.remote.comment.emotionassignment.repository.impl
+package it.nlp.frontend.data.remote.emotion.assignments.repository.impl
 
 import android.util.Log
 import io.ktor.client.HttpClient
@@ -11,10 +11,10 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.utils.io.errors.IOException
 import it.nlp.frontend.data.core.model.DataResult
-import it.nlp.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentInput
-import it.nlp.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentOutput
-import it.nlp.frontend.data.remote.comment.emotionassignment.model.exception.toCommentEmotionAssignmentException
-import it.nlp.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
+import it.nlp.frontend.data.remote.emotion.assignments.model.dto.CommentEmotionAssignmentInput
+import it.nlp.frontend.data.remote.emotion.assignments.model.dto.CommentEmotionAssignmentOutput
+import it.nlp.frontend.data.remote.emotion.assignments.model.exception.toCommentEmotionAssignmentException
+import it.nlp.frontend.data.remote.emotion.assignments.repository.CommentEmotionAssignmentRepository
 import it.nlp.frontend.data.remote.model.exception.ApiException
 import it.nlp.frontend.data.remote.model.exception.NetworkException
 import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException

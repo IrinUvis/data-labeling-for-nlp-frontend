@@ -6,11 +6,11 @@ import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
 import it.nlp.frontend.data.core.model.DataResult
-import it.nlp.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentInput
-import it.nlp.frontend.data.remote.comment.emotionassignment.model.dto.CommentEmotionAssignmentOutput
-import it.nlp.frontend.data.remote.comment.emotionassignment.model.dto.EmotionDto
-import it.nlp.frontend.data.remote.comment.emotionassignment.model.exception.CommentEmotionAssignmentException
-import it.nlp.frontend.data.remote.comment.emotionassignment.repository.CommentEmotionAssignmentRepository
+import it.nlp.frontend.data.remote.emotion.assignments.model.dto.CommentEmotionAssignmentInput
+import it.nlp.frontend.data.remote.emotion.assignments.model.dto.CommentEmotionAssignmentOutput
+import it.nlp.frontend.data.remote.emotion.assignments.model.dto.EmotionDto
+import it.nlp.frontend.data.remote.emotion.assignments.model.exception.CommentEmotionAssignmentException
+import it.nlp.frontend.data.remote.emotion.assignments.repository.CommentEmotionAssignmentRepository
 import it.nlp.frontend.data.remote.model.exception.NetworkException
 import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException
 import it.nlp.frontend.data.remote.model.exception.UnauthorizedException
