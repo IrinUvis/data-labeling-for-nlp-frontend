@@ -147,41 +147,45 @@ class TextsLabelingViewModel @Inject constructor(
     ) {
         _viewState.value = when (result) {
             is SaveLabeledTextsResult.Success -> _viewState.value
-            is SaveLabeledTextsResult.Failure.NoToken,
-            is SaveLabeledTextsResult.Failure.ReadingToken,
             is SaveLabeledTextsResult.Failure.UnauthorizedUser,
             -> TextsLabelingViewState.AuthError(
                 errorMessage = UiText.ResourceText(R.string.logInAndTryAgainErrorMessage)
             )
+
             is SaveLabeledTextsResult.Failure.ServiceUnavailable ->
                 TextsLabelingViewState.Loaded.TextsPostingError(
                     texts = texts,
                     currentTextIndex = texts.lastIndex,
                     errorMessage = UiText.ResourceText(R.string.serviceUnavailableShortErrorMessage)
                 )
+
             is SaveLabeledTextsResult.Failure.Network -> TextsLabelingViewState.Loaded.TextsPostingError(
                 texts = texts,
                 currentTextIndex = texts.lastIndex,
                 errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
             )
+
             is SaveLabeledTextsResult.Failure.NonLabeledTexts ->
                 TextsLabelingViewState.Loaded.TextsPostingError(
                     texts = texts,
                     currentTextIndex = texts.lastIndex,
                     errorMessage = UiText.ResourceText(R.string.textsNotLabeledErrorMessage)
                 )
+
             is SaveLabeledTextsResult.Failure.WrongEmotionParsing ->
                 TextsLabelingViewState.Loaded.TextsPostingError(
                     texts = texts,
                     currentTextIndex = texts.lastIndex,
                     errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
                 )
+
             is SaveLabeledTextsResult.Failure.AlreadyAssignedByThisUser ->
                 TextsLabelingViewState.Loaded.TextsPostingError(
                     texts = texts,
                     currentTextIndex = texts.lastIndex,
                     errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
                 )
+
             is SaveLabeledTextsResult.Failure.Unknown -> TextsLabelingViewState.Loaded.TextsPostingError(
                 texts = texts,
                 currentTextIndex = texts.lastIndex,
@@ -196,25 +200,29 @@ class TextsLabelingViewModel @Inject constructor(
                 texts = result.emotionTexts.map { it.toUiEmotionText() },
                 currentTextIndex = 0,
             )
-            is GetTextsToLabelResult.Failure.NoToken,
-            is GetTextsToLabelResult.Failure.ReadingToken,
+
             is GetTextsToLabelResult.Failure.UnauthorizedUser,
             -> TextsLabelingViewState.AuthError(
                 errorMessage = UiText.ResourceText(R.string.logInAndTryAgainErrorMessage)
             )
+
             is GetTextsToLabelResult.Failure.ServiceUnavailable -> TextsLabelingViewState.TextsLoadingError(
                 errorMessage = UiText.ResourceText(R.string.serviceUnavailableLongErrorMessage)
             )
+
             is GetTextsToLabelResult.Failure.Network -> TextsLabelingViewState.TextsLoadingError(
                 errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
             )
+
             is GetTextsToLabelResult.Failure.NoTexts -> TextsLabelingViewState.TextsLoadingError(
                 errorMessage = UiText.ResourceText(R.string.noMoreTextsToLabelError)
             )
+
             is GetTextsToLabelResult.Failure.TextsNumberOutOfRange ->
                 TextsLabelingViewState.TextsLoadingError(
                     errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
                 )
+
             is GetTextsToLabelResult.Failure.Unknown -> TextsLabelingViewState.TextsLoadingError(
                 errorMessage = UiText.ResourceText(R.string.unknownErrorOccurredErrorMessage)
             )

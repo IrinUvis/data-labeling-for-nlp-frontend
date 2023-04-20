@@ -12,10 +12,6 @@ sealed class GetTextsToLabelResult {
 
         object TextsNumberOutOfRange : Failure()
 
-        object ReadingToken : Failure()
-
-        object NoToken : Failure()
-
         object Unknown : Failure()
 
         object ServiceUnavailable : GetTextsToLabelResult()

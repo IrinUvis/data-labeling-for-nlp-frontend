@@ -4,10 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TextEmotionAssignmentInput(
-    @SerialName("textId")
-    val textId: String,
-
-    @SerialName("emotion")
-    val emotion: String,
+data class TextEmotionAssignmentNumberOutput(
+    @SerialName("assignmentsCount")
+    val assignmentsCount: Int
 )

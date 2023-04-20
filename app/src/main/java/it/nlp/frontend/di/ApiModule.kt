@@ -38,7 +38,7 @@ const val BASE_URL = "http://10.0.2.2:8080/api/v1"
 @Module
 object ApiModule {
     private const val TAG = "HttpClient"
-    private const val REQUEST_TIMEOUT_MILLIS = 30000L
+    private const val REQUEST_TIMEOUT_MILLIS = 5000L
 
     @Singleton
     @Provides

@@ -10,8 +10,10 @@ import it.nlp.frontend.domain.token.usecase.GetTokenFlowUseCase
 import it.nlp.frontend.domain.token.usecase.StoreTokenUseCase
 import it.nlp.frontend.domain.token.usecase.impl.ProdClearTokenUseCase
 import it.nlp.frontend.domain.authentication.usecase.impl.ProdCredentialsLogInOrSignUpUseCase
+import it.nlp.frontend.domain.emotiontexts.usecase.GetNumberOfLabeledTextsUseCase
 import it.nlp.frontend.domain.emotiontexts.usecase.GetTextsToLabelUseCase
 import it.nlp.frontend.domain.emotiontexts.usecase.SaveLabeledTextsUseCase
+import it.nlp.frontend.domain.emotiontexts.usecase.impl.ProdGetNumberOfLabeledTextsUseCase
 import it.nlp.frontend.domain.emotiontexts.usecase.impl.ProdGetTextsToLabelUseCase
 import it.nlp.frontend.domain.emotiontexts.usecase.impl.ProdSaveLabeledTextsUseCase
 import it.nlp.frontend.domain.reminder.usecase.CancelTextsLabelingRemindersUseCase
@@ -65,6 +67,11 @@ abstract class UseCaseModule {
     abstract fun getThemeFlowUseCase(
         getThemeFlowUseCase: ProdGetThemeFlowUseCase,
     ): GetThemeFlowUseCase
+
+    @Binds
+    abstract fun bindGetNumberOfLabeledTextsUseCase(
+        getNumberOfLabeledTextsUseCase: ProdGetNumberOfLabeledTextsUseCase
+    ): GetNumberOfLabeledTextsUseCase
 
     @Binds
     abstract fun bindGetTextsToLabelUseCase(

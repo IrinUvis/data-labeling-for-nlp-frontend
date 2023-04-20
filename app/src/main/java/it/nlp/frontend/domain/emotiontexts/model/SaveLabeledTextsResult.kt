@@ -14,10 +14,6 @@ sealed class SaveLabeledTextsResult {
 
         object Unknown : Failure()
 
-        object NoToken : Failure()
-
-        object ReadingToken : Failure()
-
         object UnauthorizedUser : SaveLabeledTextsResult()
 
         object ServiceUnavailable : SaveLabeledTextsResult()

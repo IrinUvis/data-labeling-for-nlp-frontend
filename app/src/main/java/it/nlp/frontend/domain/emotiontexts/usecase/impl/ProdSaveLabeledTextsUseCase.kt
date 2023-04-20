@@ -10,49 +10,32 @@ import it.nlp.frontend.data.remote.model.exception.UnauthorizedException
 import it.nlp.frontend.domain.emotiontexts.model.EmotionText
 import it.nlp.frontend.domain.emotiontexts.model.SaveLabeledTextsResult
 import it.nlp.frontend.domain.emotiontexts.usecase.SaveLabeledTextsUseCase
-import it.nlp.frontend.domain.token.model.GetTokenFlowResult
-import it.nlp.frontend.domain.token.usecase.GetTokenFlowUseCase
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class ProdSaveLabeledTextsUseCase @Inject constructor(
     private val textEmotionAssignmentRepository: TextEmotionAssignmentRepository,
-    private val getTokenFlowUseCase: GetTokenFlowUseCase,
 ) : SaveLabeledTextsUseCase {
     override suspend fun invoke(emotionTexts: List<EmotionText>): SaveLabeledTextsResult {
         return try {
             emotionTexts.forEach { emotionText -> requireNotNull(emotionText.emotion) }
-            when (val tokenFlowResult = getTokenFlowUseCase()) {
-                is GetTokenFlowResult.Success -> {
-                    val token = tokenFlowResult.tokenFlow.first()
-                    token?.userId?.let { userId ->
-                        val inputs = emotionTexts.map {
-                            TextEmotionAssignmentInput(
-                                userId = userId,
-                                textId = it.id,
-                                emotion = it.emotion!!.toUppercaseString(),
-                            )
-                        }
-
-                        val postedAssignmentsResult =
-                            textEmotionAssignmentRepository.postTextEmotionAssignments(inputs)
-
-                        postedAssignmentsResult.fold(
-                            onSuccess = {
-                                SaveLabeledTextsResult.Success
-                            },
-                            onFailure = { apiException ->
-                                saveLabeledTextsResultForApiException(apiException)
-                            },
-                        )
-
-                    } ?: SaveLabeledTextsResult.Failure.NoToken
-                }
-
-                is GetTokenFlowResult.Failure -> {
-                    SaveLabeledTextsResult.Failure.ReadingToken
-                }
+            val inputs = emotionTexts.map {
+                TextEmotionAssignmentInput(
+                    textId = it.id,
+                    emotion = it.emotion!!.toUppercaseString(),
+                )
             }
+
+            val postedAssignmentsResult =
+                textEmotionAssignmentRepository.postTextEmotionAssignments(inputs)
+
+            postedAssignmentsResult.fold(
+                onSuccess = {
+                    SaveLabeledTextsResult.Success
+                },
+                onFailure = { apiException ->
+                    saveLabeledTextsResultForApiException(apiException)
+                },
+            )
         } catch (e: IllegalArgumentException) {
             SaveLabeledTextsResult.Failure.NonLabeledTexts(e)
         }

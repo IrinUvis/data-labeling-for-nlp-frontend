@@ -23,16 +23,15 @@ class NetworkEmotionTextRepository @Inject constructor(
 ) : EmotionTextRepository {
     companion object {
         private const val URL = "$BASE_URL/emotion-texts"
+        private const val EMOTION_TEXTS_NUMBER_PARAMETER = "emotionTextsNumber"
     }
 
     override suspend fun fetchEmotionTextsToBeAssigned(
-        userId: String,
         emotionTextsNumber: Int,
     ): DataResult<List<EmotionTextOutput>, ApiException> {
         return try {
             val response = httpClient.get(URL) {
-                parameter("userId", userId)
-                parameter("emotionTextsNumber", emotionTextsNumber.toString())
+                parameter(EMOTION_TEXTS_NUMBER_PARAMETER, emotionTextsNumber.toString())
             }
             val emotionTextOutputs = response.body<List<EmotionTextOutput>>()
             DataResult.Success(emotionTextOutputs)
