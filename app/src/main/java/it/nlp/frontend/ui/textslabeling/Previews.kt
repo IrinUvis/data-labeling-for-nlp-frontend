@@ -71,7 +71,7 @@ private fun LightActiveTextsLabelingContentPreview() {
 private fun DarkLoadingTextsLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         LoadingTextsLabelingContent(
-            text = stringResource(R.string.loadingComments),
+            text = stringResource(R.string.loadingTexts),
         )
     }
 }
@@ -81,7 +81,7 @@ private fun DarkLoadingTextsLabelingContentPreview() {
 private fun LightLoadingTextsLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         LoadingTextsLabelingContent(
-            text = stringResource(R.string.loadingComments)
+            text = stringResource(R.string.loadingTexts)
         )
     }
 }

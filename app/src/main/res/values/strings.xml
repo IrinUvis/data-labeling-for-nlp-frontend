@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Emotion Classification</string>
-    <string name="loadingComments">Loading comments</string>
-    <string name="commentLabelingAppBarTitle">Emotion assignment</string>
+    <string name="loadingTexts">Loading texts</string>
+    <string name="textsLabelingAppBarTitle">Emotion assignment</string>
     <string name="logOutIconContentDescription">Log out from the app button</string>
     <string name="goBackToPreviousScreenButtonContentDescription">Go back to previous screen button</string>
     <string name="nextButtonText">Next</string>
@@ -21,11 +21,11 @@
     <string name="incorrectEmailFormatErrorMessage">Email in incorrect format</string>
     <string name="passwordCannotBeLessThanSixCharactersErrorMessage">Password must have at least 6 characters</string>
     <string name="unknownErrorOccurredErrorMessage">An unknown error has occurred</string>
-    <string name="labelCommentsHomeInstructions">Assign most expressed emotions to provided comments, in order to train AI model for classification of polish texts. Its purpose is to detect the emotion expressed in polish texts. The set of comments is updated daily based on the polish "Trending" list on YouTube platform</string>
-    <string name="labelComments">Label comments</string>
-    <string name="commentsNotLabeledErrorMessage">Some comments are not labeled</string>
-    <string name="cannotLoadCommentsErrorMessage">Cannot load comments. Try again later</string>
-    <string name="postingComments">Posting comments</string>
+    <string name="labelTextsHomeInstructions">Assign most expressed emotions to provided texts, in order to train AI model for classification of polish texts. Its purpose is to detect the emotion expressed in polish texts. The set of texts is updated regularly and collected from the YouTube platform</string>
+    <string name="labelTexts">Label texts</string>
+    <string name="textsNotLabeledErrorMessage">Some texts are not labeled</string>
+    <string name="cannotLoadTextsErrorMessage">Cannot load texts. Try again later</string>
+    <string name="postingTexts">Posting labeled texts</string>
     <string name="homeTopBarTitle">Home</string>
     <string name="angerEmotion">Anger</string>
     <string name="surpriseEmotion">Surprise</string>
@@ -36,7 +36,7 @@
     <string name="unspecifiableEmotion">Unspecifiable</string>
     <string name="warningIconContentDescription">Warning icon</string>
     <string name="unspecifiableEmotionDialogTitle">Warning</string>
-    <string name="unspecifiableEmotionDialogSupportiveText">You have chosen option of unspecifiable emotion for this comment. Please do it only if there really is no emotion that fits the given comment.</string>
+    <string name="unspecifiableEmotionDialogSupportiveText">You have chosen option of unspecifiable emotion for this text. Please do it only if there really is no emotion that fits the given text.</string>
     <string name="unspecifiableEmotionDialogConfirmButtonText">Continue</string>
     <string name="unspecifiableEmotionDialogDismissButtonText">Undo</string>
     <string name="settingsTopAppBarTitle">Settings</string>
@@ -57,13 +57,13 @@
     <string name="afterPermissionDeniedDialogText">In order to access reminders it is required that you give the app permission to send you notifications. Only after you turn these on in the app\'s settings you can turn the reminders on.</string>
     <string name="afterPermissionDeniedDialogDismissButtonText">Deny</string>
     <string name="afterPermissionDeniedDialogConfirmButtonText">Go to settings</string>
-    <string name="commentLabelingRemindersChannelName">Comment labeling reminders</string>
-    <string name="commentLabelingReminderNotificationText">We would greatly appreciate the help with labeling the comments</string>
-    <string name="commentLabelingReminderNotificationTitle">Daily labeling reminder</string>
+    <string name="textsLabelingRemindersChannelName">Texts labeling reminders</string>
+    <string name="textsLabelingReminderNotificationText">We would greatly appreciate the help with labeling the texts</string>
+    <string name="textsLabelingReminderNotificationTitle">Daily labeling reminder</string>
     <string name="timeSelectorButtonText">Set</string>
     <string name="networkErrorMessage">Can\'t connect to the server</string>
     <string name="unexpectedErrorOccurredErrorMessage">An unexpected error has occurred</string>
-    <string name="noMoreCommentsToLabelError">There are no more comments for you to label. Try again later.</string>
+    <string name="noMoreTextsToLabelError">There are no more texts for you to label at the moment. Try again later.</string>
     <string name="logInAndTryAgainErrorMessage">Please log in and try again</string>
     <string name="serviceUnavailableLongErrorMessage">Server is inaccessible at the moment. It might have been turned off temporarily in order to reduce spendings. Try again later</string>
     <string name="serviceUnavailableShortErrorMessage">Server is turned off now. Try again later</string>

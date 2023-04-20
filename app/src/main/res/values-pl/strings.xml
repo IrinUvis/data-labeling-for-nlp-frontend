@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Emotion Classification</string>
-    <string name="loadingComments">Ładowanie komentarzy</string>
-    <string name="commentLabelingAppBarTitle">Etykietowanie</string>
+    <string name="loadingTexts">Ładowanie tekstów</string>
+    <string name="textsLabelingAppBarTitle">Etykietowanie</string>
     <string name="logOutIconContentDescription">Wyloguj się z aplikacji</string>
     <string name="goBackToPreviousScreenButtonContentDescription">Cofnij się do poprzedniego ekranu</string>
     <string name="nextButtonText">Następny</string>
@@ -22,11 +22,11 @@
     <string name="incorrectEmailFormatErrorMessage">Email jest w niepoprawnym formacie</string>
     <string name="passwordCannotBeLessThanSixCharactersErrorMessage">Hasło musi mieć co najmniej 6 znaków</string>
     <string name="unknownErrorOccurredErrorMessage">Wystąpił nieznany błąd</string>
-    <string name="labelCommentsHomeInstructions">Przypisuj dominujące emocje do podanych komentarzy, w celu uczenia modelu sztucznej inteligencji do klasyfikowania tekstu. Docelowo będzie on w stanie rozpoznać dominującą emocję wyrażoną w polskim tekście. Baza komentarzy jest codzinnie aktualizowana na podstawie polskiej listy "Na czasie" na platformie YouTube</string>
-    <string name="labelComments">Etykietuj komentarze</string>
-    <string name="commentsNotLabeledErrorMessage">Niektóre komentarze nie mają przypisanej emocji</string>
-    <string name="cannotLoadCommentsErrorMessage">Nie można załadować komentarzy. Spróbuj ponownie później</string>
-    <string name="postingComments">Zapisywanie komentarzy</string>
+    <string name="labelTextsHomeInstructions">Przypisuj dominujące emocje do podanych tekstów, w celu uczenia modelu sztucznej inteligencji do klasyfikowania tekstu. Docelowo będzie on w stanie rozpoznać dominującą emocję wyrażoną w polskim tekście. Baza komentarzy jest regularnie aktualizowana i pobierana z platformy YouTube</string>
+    <string name="labelTexts">Etykietuj teksty</string>
+    <string name="textsNotLabeledErrorMessage">Niektóre teksty nie mają przypisanej emocji</string>
+    <string name="cannotLoadTextsErrorMessage">Nie można załadować tekstu. Spróbuj ponownie później</string>
+    <string name="postingTexts">Zapisywanie przypisanych emocji</string>
     <string name="homeTopBarTitle">Ekran główny</string>
     <string name="angerEmotion">Złość</string>
     <string name="surpriseEmotion">Zaskoczenie</string>
@@ -37,7 +37,7 @@
     <string name="unspecifiableEmotion">Nieidentyfikowalny</string>
     <string name="warningIconContentDescription">Ikona ostrzeżenia</string>
     <string name="unspecifiableEmotionDialogTitle">Ostrzeżenie</string>
-    <string name="unspecifiableEmotionDialogSupportiveText">Wybrałeś opcję nieidentyfikowalnej emocji dla tego komentarza. Rób tak tylko w sytuacji, w której na prawdę nie ma emocji pasującej do podanego komentarza.</string>
+    <string name="unspecifiableEmotionDialogSupportiveText">Wybrałeś opcję nieidentyfikowalnej emocji dla tego tekstu. Rób tak tylko w sytuacji, w której na prawdę nie ma emocji pasującej do podanego tekstu.</string>
     <string name="unspecifiableEmotionDialogConfirmButtonText">Zatwierdź</string>
     <string name="unspecifiableEmotionDialogDismissButtonText">Cofnij</string>
     <string name="settingsTopAppBarTitle">Ustawienia</string>
@@ -58,13 +58,13 @@
     <string name="afterPermissionDeniedDialogText">Aby włączyć przypomnienia, wymagane jest uprawnienie aplikacji do wysyłania powiadomień. Dopiero po nadaniu uprawnienia do wysyłania powiadomień w ustawieniach aplikacji, będzie można włączyć codzienne przypomnienia.</string>
     <string name="afterPermissionDeniedDialogDismissButtonText">Odmów</string>
     <string name="afterPermissionDeniedDialogConfirmButtonText">Ustawienia</string>
-    <string name="commentLabelingRemindersChannelName">Przypomnienia o etykietowaniu</string>
-    <string name="commentLabelingReminderNotificationText">Będziemy wdzięczni za wszelką pomoc w etykietowaniu komentarzy</string>
-    <string name="commentLabelingReminderNotificationTitle">Przypomnienie o etykietowaniu</string>
+    <string name="textsLabelingRemindersChannelName">Przypomnienia o etykietowaniu</string>
+    <string name="textsLabelingReminderNotificationText">Będziemy wdzięczni za wszelką pomoc w etykietowaniu tekstów</string>
+    <string name="textsLabelingReminderNotificationTitle">Przypomnienie o etykietowaniu</string>
     <string name="timeSelectorButtonText">Ustaw</string>
     <string name="networkErrorMessage">Nie można połączyć się z serwerem</string>
     <string name="unexpectedErrorOccurredErrorMessage">Wystąpił nieoczekiwany błąd</string>
-    <string name="noMoreCommentsToLabelError">Nie ma w tej chwili więcej komentarzy dla Ciebie do zetykietowania. Spróbuj ponownie później</string>
+    <string name="noMoreTextsToLabelError">W tej chwili nie ma dla Ciebie więcej tekstów do zetykietowania. Spróbuj ponownie później</string>
     <string name="logInAndTryAgainErrorMessage">Zaloguj się i spróbuj ponownie</string>
     <string name="serviceUnavailableLongErrorMessage">Nie można połączyć się z serwerem. Mógł zostać tymczasowo wyłączony w celu ograniczenia wydatków na jego utrzymanie. Spróbuj ponownie później</string>
     <string name="serviceUnavailableShortErrorMessage">Serwer jest w tej chwili wyłączony. Spróbuj ponownie później</string>

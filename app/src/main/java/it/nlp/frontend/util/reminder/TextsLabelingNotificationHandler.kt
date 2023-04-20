@@ -28,8 +28,8 @@ object TextsLabelingNotificationHandler {
 
         val builder = NotificationCompat.Builder(context, REMINDERS_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(context.getString(R.string.commentLabelingReminderNotificationTitle))
-            .setContentText(context.getString(R.string.commentLabelingReminderNotificationText))
+            .setContentTitle(context.getString(R.string.textsLabelingReminderNotificationTitle))
+            .setContentText(context.getString(R.string.textsLabelingReminderNotificationText))
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -50,7 +50,7 @@ object TextsLabelingNotificationHandler {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 REMINDERS_CHANNEL_ID,
-                context.getString(R.string.commentLabelingRemindersChannelName),
+                context.getString(R.string.textsLabelingRemindersChannelName),
                 NotificationManager.IMPORTANCE_DEFAULT
             )
             val notificationManager =

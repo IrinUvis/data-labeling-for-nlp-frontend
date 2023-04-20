@@ -19,7 +19,7 @@ fun TextsLabelingTopBar(
 ) {
     TopAppBar(
         modifier = modifier,
-        title = { Text(text = stringResource(R.string.commentLabelingAppBarTitle)) },
+        title = { Text(text = stringResource(R.string.textsLabelingAppBarTitle)) },
         navigationIcon = { NavigateUpButton(onClick = onBackButtonClicked) },
     )
 }

@@ -28,7 +28,7 @@ fun LabelTextsSection(
         horizontalArrangement = Arrangement.Center,
     ) {
         Button(onClick = onGoToTextsLabelingClicked) {
-            Text(text = stringResource(R.string.labelComments))
+            Text(text = stringResource(R.string.labelTexts))
         }
         HorizontalSpacer(width = mediumPadding)
         NumberPicker(

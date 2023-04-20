@@ -14,7 +14,7 @@ fun LabelTextsInstructions(
 ) {
     Text(
         modifier = modifier,
-        text = stringResource(R.string.labelCommentsHomeInstructions),
+        text = stringResource(R.string.labelTextsHomeInstructions),
         style = MaterialTheme.typography.bodyLarge,
         textAlign = TextAlign.Center,
     )

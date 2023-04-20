@@ -29,7 +29,7 @@ class TextsLabelingViewModel @Inject constructor(
     private val clearTokenUseCase: ClearTokenUseCase,
 ) : ViewModel() {
     private val _viewState: MutableStateFlow<TextsLabelingViewState> = MutableStateFlow(
-        value = TextsLabelingViewState.Loading(UiText.ResourceText(R.string.loadingComments))
+        value = TextsLabelingViewState.Loading(UiText.ResourceText(R.string.loadingTexts))
     )
     val viewState: StateFlow<TextsLabelingViewState> = _viewState
 
@@ -75,7 +75,7 @@ class TextsLabelingViewModel @Inject constructor(
                 viewModelScope.launch {
                     postLabeledTexts(it.texts)
 
-                    // Do not load comments if post was unsuccessful
+                    // Do not load texts if post was unsuccessful
                     if (_viewState.value is TextsLabelingViewState.Loading) {
                         loadTexts(quantity = textsQuantity)
                     }
@@ -121,7 +121,7 @@ class TextsLabelingViewModel @Inject constructor(
 
     private suspend fun loadTexts(quantity: Int) {
         _viewState.value = TextsLabelingViewState.Loading(
-            text = UiText.ResourceText(R.string.loadingComments)
+            text = UiText.ResourceText(R.string.loadingTexts)
         )
 
         val getTextsToLabelResult = getTextsToLabelUseCase(quantity)
@@ -130,7 +130,7 @@ class TextsLabelingViewModel @Inject constructor(
 
     private suspend fun postLabeledTexts(texts: List<UiEmotionText>) {
         _viewState.value = TextsLabelingViewState.Loading(
-            text = UiText.ResourceText(R.string.postingComments)
+            text = UiText.ResourceText(R.string.postingTexts)
         )
 
         val domainTexts = texts.map { it.toDomainEmotionText() }
@@ -168,7 +168,7 @@ class TextsLabelingViewModel @Inject constructor(
                 TextsLabelingViewState.Loaded.TextsPostingError(
                     texts = texts,
                     currentTextIndex = texts.lastIndex,
-                    errorMessage = UiText.ResourceText(R.string.commentsNotLabeledErrorMessage)
+                    errorMessage = UiText.ResourceText(R.string.textsNotLabeledErrorMessage)
                 )
             is SaveLabeledTextsResult.Failure.WrongEmotionParsing ->
                 TextsLabelingViewState.Loaded.TextsPostingError(
@@ -209,7 +209,7 @@ class TextsLabelingViewModel @Inject constructor(
                 errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
             )
             is GetTextsToLabelResult.Failure.NoTexts -> TextsLabelingViewState.TextsLoadingError(
-                errorMessage = UiText.ResourceText(R.string.noMoreCommentsToLabelError)
+                errorMessage = UiText.ResourceText(R.string.noMoreTextsToLabelError)
             )
             is GetTextsToLabelResult.Failure.TextsNumberOutOfRange ->
                 TextsLabelingViewState.TextsLoadingError(
