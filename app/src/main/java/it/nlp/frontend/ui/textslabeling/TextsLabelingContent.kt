@@ -1,4 +1,4 @@
-package it.nlp.frontend.ui.commentlabeling
+package it.nlp.frontend.ui.textslabeling
 
 import android.widget.Toast
 import androidx.compose.animation.Crossfade
@@ -9,27 +9,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import it.nlp.frontend.ui.commentlabeling.component.CommentLabelingTopBar
-import it.nlp.frontend.ui.commentlabeling.model.UiEmotion
+import it.nlp.frontend.ui.textslabeling.component.TextsLabelingTopBar
+import it.nlp.frontend.ui.textslabeling.model.UiEmotion
 import it.nlp.frontend.ui.core.helpers.getString
 import it.nlp.frontend.ui.core.helpers.mediumPadding
 
 @Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommentLabelingContent(
-    viewState: CommentLabelingViewState,
+fun TextsLabelingContent(
+    viewState: TextsLabelingViewState,
     onEmotionSelected: (UiEmotion) -> Unit,
     onPreviousButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
-    onGoToNextComment: () -> Unit,
+    onGoToNextText: () -> Unit,
     onCloseDialog: () -> Unit,
     onRetryLoading: () -> Unit,
     onNavigateToLogIn: () -> Unit,
 ) {
     Scaffold(
-        topBar = { CommentLabelingTopBar(onBackButtonClicked = onBackButtonClicked) }
+        topBar = { TextsLabelingTopBar(onBackButtonClicked = onBackButtonClicked) }
     ) { paddingValues ->
         Crossfade(
             modifier = Modifier.padding(paddingValues),
@@ -38,17 +38,17 @@ fun CommentLabelingContent(
             val context = LocalContext.current
 
             when (screenType) {
-                CommentLabelingScreenType.Loading -> {
-                    (viewState as? CommentLabelingViewState.Loading)?.let { state ->
-                        LoadingCommentLabelingContent(
+                TextsLabelingScreenType.Loading -> {
+                    (viewState as? TextsLabelingViewState.Loading)?.let { state ->
+                        LoadingTextsLabelingContent(
                             modifier = Modifier.padding(mediumPadding),
                             text = state.text.getString(),
                         )
                     }
                 }
-                CommentLabelingScreenType.AuthError -> {
+                TextsLabelingScreenType.AuthError -> {
                     LaunchedEffect(viewState) {
-                        if (viewState is CommentLabelingViewState.AuthError) {
+                        if (viewState is TextsLabelingViewState.AuthError) {
                             Toast.makeText(
                                 context,
                                 viewState.errorMessage.getString(context),
@@ -58,19 +58,19 @@ fun CommentLabelingContent(
                         }
                     }
                 }
-                CommentLabelingScreenType.CommentLoadingError -> {
-                    (viewState as? CommentLabelingViewState.CommentLoadingError)?.let { state ->
-                        LoadingErrorCommentLabelingContent(
+                TextsLabelingScreenType.TextsLoadingError -> {
+                    (viewState as? TextsLabelingViewState.TextsLoadingError)?.let { state ->
+                        LoadingErrorTextsLabelingContent(
                             modifier = Modifier.padding(mediumPadding),
                             errorMessage = state.errorMessage.getString(),
                             onRetryLoading = onRetryLoading,
                         )
                     }
                 }
-                CommentLabelingScreenType.Loaded -> {
-                    (viewState as? CommentLabelingViewState.Loaded)?.let { state ->
+                TextsLabelingScreenType.Loaded -> {
+                    (viewState as? TextsLabelingViewState.Loaded)?.let { state ->
                         LaunchedEffect(viewState) {
-                            if (state is CommentLabelingViewState.Loaded.CommentPostingError) {
+                            if (state is TextsLabelingViewState.Loaded.TextsPostingError) {
                                 Toast.makeText(
                                     context,
                                     state.errorMessage.getString(context),
@@ -79,12 +79,12 @@ fun CommentLabelingContent(
                             }
                         }
 
-                        ActiveCommentLabelingContent(
+                        TextsLabelingActiveContent(
                             viewState = state,
                             onEmotionSelected = onEmotionSelected,
                             onPreviousButtonClicked = onPreviousButtonClicked,
                             onNextButtonClicked = onNextButtonClicked,
-                            onGoToNextComment = onGoToNextComment,
+                            onGoToNextText = onGoToNextText,
                             onCloseDialog = onCloseDialog,
                         )
                     }

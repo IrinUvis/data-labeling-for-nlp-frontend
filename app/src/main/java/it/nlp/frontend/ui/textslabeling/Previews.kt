@@ -1,86 +1,86 @@
 @file:Suppress("UnusedPrivateMember", "TooManyFunctions")
 
-package it.nlp.frontend.ui.commentlabeling
+package it.nlp.frontend.ui.textslabeling
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import it.nlp.frontend.R
-import it.nlp.frontend.ui.commentlabeling.component.CommentCard
-import it.nlp.frontend.ui.commentlabeling.component.CommentLabelingTopBar
-import it.nlp.frontend.ui.commentlabeling.component.EmotionSelector
-import it.nlp.frontend.ui.commentlabeling.component.ProgressSection
-import it.nlp.frontend.ui.commentlabeling.model.UiComment
-import it.nlp.frontend.ui.commentlabeling.model.UiEmotion
+import it.nlp.frontend.ui.textslabeling.component.TextCard
+import it.nlp.frontend.ui.textslabeling.component.TextsLabelingTopBar
+import it.nlp.frontend.ui.textslabeling.component.EmotionSelector
+import it.nlp.frontend.ui.textslabeling.component.ProgressSection
+import it.nlp.frontend.ui.textslabeling.model.UiEmotionText
+import it.nlp.frontend.ui.textslabeling.model.UiEmotion
 import it.nlp.frontend.ui.core.component.PreviewThemeWithBackground
 import it.nlp.frontend.ui.core.helpers.UiText
 
-private const val NUMBER_OF_COMMENTS_FOR_PREVIEWS = 5
+private const val NUMBER_OF_TEXTS_FOR_PREVIEWS = 5
 
-@Preview(name = "Dark themed Active Comment Labeling Content", showBackground = true)
+@Preview(name = "Dark themed Active Texts Labeling Content", showBackground = true)
 @Composable
-private fun DarkActiveCommentLabelingContentPreview() {
+private fun DarkActiveTextsLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
-        ActiveCommentLabelingContent(
-            viewState = CommentLabelingViewState.Loaded.Active(
-                comments = List(NUMBER_OF_COMMENTS_FOR_PREVIEWS) {
-                    UiComment(
+        TextsLabelingActiveContent(
+            viewState = TextsLabelingViewState.Loaded.Active(
+                texts = List(NUMBER_OF_TEXTS_FOR_PREVIEWS) {
+                    UiEmotionText(
                         id = "randomId",
                         text = UiText.StringText(stringResource(id = R.string.shortPreviewText)),
                         emotion = UiEmotion.Love,
                     )
                 },
-                currentCommentIndex = 2,
+                currentTextIndex = 2,
             ),
             onEmotionSelected = { },
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },
-            onGoToNextComment = { },
+            onGoToNextText = { },
             onCloseDialog = { },
         )
     }
 }
 
-@Preview(name = "Light themed Active Comment Labeling Content", showBackground = true)
+@Preview(name = "Light themed Active Texts Labeling Content", showBackground = true)
 @Composable
-private fun LightActiveCommentLabelingContentPreview() {
+private fun LightActiveTextsLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
-        ActiveCommentLabelingContent(
-            viewState = CommentLabelingViewState.Loaded.Active(
-                comments = List(NUMBER_OF_COMMENTS_FOR_PREVIEWS) {
-                    UiComment(
+        TextsLabelingActiveContent(
+            viewState = TextsLabelingViewState.Loaded.Active(
+                texts = List(NUMBER_OF_TEXTS_FOR_PREVIEWS) {
+                    UiEmotionText(
                         id = "randomId",
                         text = UiText.StringText(stringResource(id = R.string.shortPreviewText)),
                         emotion = UiEmotion.Love,
                     )
                 },
-                currentCommentIndex = 2,
+                currentTextIndex = 2,
             ),
             onEmotionSelected = { },
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },
-            onGoToNextComment = { },
+            onGoToNextText = { },
             onCloseDialog = { },
         )
     }
 }
 
-@Preview(name = "Dark themed Loading Comment Labeling Content", showBackground = true)
+@Preview(name = "Dark themed Loading Texts Labeling Content", showBackground = true)
 @Composable
-private fun DarkLoadingCommentLabelingContentPreview() {
+private fun DarkLoadingTextsLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
-        LoadingCommentLabelingContent(
+        LoadingTextsLabelingContent(
             text = stringResource(R.string.loadingComments),
         )
     }
 }
 
-@Preview(name = "Light themed Loading Comment Labeling Content", showBackground = true)
+@Preview(name = "Light themed Loading Texts Labeling Content", showBackground = true)
 @Composable
-private fun LightLoadingCommentLabelingContentPreview() {
+private fun LightLoadingTextsLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
-        LoadingCommentLabelingContent(
+        LoadingTextsLabelingContent(
             text = stringResource(R.string.loadingComments)
         )
     }
@@ -88,9 +88,9 @@ private fun LightLoadingCommentLabelingContentPreview() {
 
 @Preview
 @Composable
-private fun DarkLoadingErrorCommentLabelingContentPreview() {
+private fun DarkLoadingErrorTextsLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
-        LoadingErrorCommentLabelingContent(
+        LoadingErrorTextsLabelingContent(
             errorMessage = stringResource(R.string.shortPreviewText),
             onRetryLoading = { }
         )
@@ -99,9 +99,9 @@ private fun DarkLoadingErrorCommentLabelingContentPreview() {
 
 @Preview
 @Composable
-private fun LightLoadingErrorCommentLabelingContentPreview() {
+private fun LightLoadingErrorTextsLabelingContentPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
-        LoadingErrorCommentLabelingContent(
+        LoadingErrorTextsLabelingContent(
             errorMessage = stringResource(R.string.shortPreviewText),
             onRetryLoading = { }
         )
@@ -110,9 +110,9 @@ private fun LightLoadingErrorCommentLabelingContentPreview() {
 
 @Preview(name = "Dark themed Top app bar", showBackground = true)
 @Composable
-private fun DarkCommentLabelingTopBarPreview() {
+private fun DarkTextsLabelingTopBarPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
-        CommentLabelingTopBar(
+        TextsLabelingTopBar(
             onBackButtonClicked = { },
         )
     }
@@ -120,23 +120,23 @@ private fun DarkCommentLabelingTopBarPreview() {
 
 @Preview(name = "Light themed Top app bar", showBackground = true)
 @Composable
-private fun LightCommentLabelingTopBarPreview() {
+private fun LightTextsLabelingTopBarPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
-        CommentLabelingTopBar(
+        TextsLabelingTopBar(
             onBackButtonClicked = { },
         )
     }
 }
 
 @Preview(
-    name = "Dark themed Comment Card with short text", showBackground = true,
+    name = "Dark themed Text Card with short text", showBackground = true,
     widthDp = 250,
     heightDp = 150,
 )
 @Composable
-private fun DarkCommentCardWithShortTextPreview() {
+private fun DarkTextCardWithShortTextPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
-        CommentCard(
+        TextCard(
             scrollState = rememberScrollState(),
             text = stringResource(R.string.shortPreviewText),
         )
@@ -144,15 +144,15 @@ private fun DarkCommentCardWithShortTextPreview() {
 }
 
 @Preview(
-    name = "Dark themed Comment Card with long text",
+    name = "Dark themed Text Card with long text",
     showBackground = true,
     widthDp = 250,
     heightDp = 150,
 )
 @Composable
-private fun DarkCommentCardWithLongTextPreview() {
+private fun DarkTextCardWithLongTextPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
-        CommentCard(
+        TextCard(
             scrollState = rememberScrollState(),
             text = stringResource(R.string.longPreviewText),
         )
@@ -160,14 +160,14 @@ private fun DarkCommentCardWithLongTextPreview() {
 }
 
 @Preview(
-    name = "Light themed Comment Card with short text", showBackground = true,
+    name = "Light themed Text Card with short text", showBackground = true,
     widthDp = 250,
     heightDp = 150,
 )
 @Composable
-private fun LightCommentCardWithShortTextPreview() {
+private fun LightTextCardWithShortTextPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
-        CommentCard(
+        TextCard(
             scrollState = rememberScrollState(),
             text = stringResource(R.string.shortPreviewText),
         )
@@ -175,14 +175,14 @@ private fun LightCommentCardWithShortTextPreview() {
 }
 
 @Preview(
-    name = "Light themed Comment Card with long text", showBackground = true,
+    name = "Light themed Text Card with long text", showBackground = true,
     widthDp = 250,
     heightDp = 150,
 )
 @Composable
-private fun LightCommentCardWithLongTextPreview() {
+private fun LightTextCardWithLongTextPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
-        CommentCard(
+        TextCard(
             scrollState = rememberScrollState(),
             text = stringResource(R.string.longPreviewText),
         )
@@ -249,8 +249,8 @@ private fun LightEmotionSelectorWithEmotionSelectedPreview() {
 private fun DarkProgressSectionForFirstElementWithoutSelectedEmotionPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         ProgressSection(
-            currentCommentIndex = 0,
-            currentCommentEmotion = null,
+            currentTextIndex = 0,
+            currentTextEmotion = null,
             progress = 0f,
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },
@@ -266,8 +266,8 @@ private fun DarkProgressSectionForFirstElementWithoutSelectedEmotionPreview() {
 private fun DarkProgressSectionForSecondElementWithSelectedEmotionPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         ProgressSection(
-            currentCommentIndex = 1,
-            currentCommentEmotion = UiEmotion.Fear,
+            currentTextIndex = 1,
+            currentTextEmotion = UiEmotion.Fear,
             progress = 0.25f,
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },
@@ -283,8 +283,8 @@ private fun DarkProgressSectionForSecondElementWithSelectedEmotionPreview() {
 private fun LightProgressSectionForFirstElementWithoutSelectedEmotionPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         ProgressSection(
-            currentCommentIndex = 0,
-            currentCommentEmotion = null,
+            currentTextIndex = 0,
+            currentTextEmotion = null,
             progress = 0f,
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },
@@ -300,8 +300,8 @@ private fun LightProgressSectionForFirstElementWithoutSelectedEmotionPreview() {
 private fun LightProgressSectionForSecondElementWithSelectedEmotionPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         ProgressSection(
-            currentCommentIndex = 1,
-            currentCommentEmotion = UiEmotion.Fear,
+            currentTextIndex = 1,
+            currentTextEmotion = UiEmotion.Fear,
             progress = 0.25f,
             onPreviousButtonClicked = { },
             onNextButtonClicked = { },

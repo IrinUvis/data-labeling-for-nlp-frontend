@@ -18,8 +18,8 @@ fun NavGraphBuilder.homeScreen(
             navigateToSettings = {
                 navController.navigateToSettings()
             },
-            navigateToCommentLabeling = { quantity ->
-                navController.navigateToCommentLabeling(quantity)
+            navigateToTextsLabeling = { quantity ->
+                navController.navigateToTextsLabeling(quantity)
             },
         )
     }

@@ -8,20 +8,20 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
-import it.nlp.frontend.ui.commentlabeling.CommentLabelingScreen
+import it.nlp.frontend.ui.textslabeling.TextsLabelingScreen
 
-private const val COMMENT_QUANTITY_ARG = "commentQuantity"
+const val TEXTS_QUANTITY_ARG = "textsQuantity"
 
-object CommentLabelingDestination : AppDestination("commentlabeling/{$COMMENT_QUANTITY_ARG}")
+object TextsLabelingDestination : AppDestination("textslabeling/{$TEXTS_QUANTITY_ARG}")
 
-fun NavGraphBuilder.commentLabelingScreen(
+fun NavGraphBuilder.textsLabelingScreen(
     navController: NavController,
 ) {
     composable(
-        CommentLabelingDestination.route,
-        arguments = listOf(navArgument(COMMENT_QUANTITY_ARG) { type = NavType.IntType })
+        TextsLabelingDestination.route,
+        arguments = listOf(navArgument(TEXTS_QUANTITY_ARG) { type = NavType.IntType })
     ) {
-        CommentLabelingScreen(
+        TextsLabelingScreen(
             navigateUp = { navController.navigateUp() },
             navigateToLogIn = {
                 navController.navigateToLogIn {
@@ -32,25 +32,25 @@ fun NavGraphBuilder.commentLabelingScreen(
     }
 }
 
-fun NavController.navigateToCommentLabeling(
-    commentQuantity: Int,
+fun NavController.navigateToTextsLabeling(
+    textsQuantity: Int,
     navOptions: NavOptions? = null,
 ) {
     navigate(
-        CommentLabelingDestination.route.replace(
-            oldValue = "{$COMMENT_QUANTITY_ARG}",
-            newValue = commentQuantity.toString(),
+        TextsLabelingDestination.route.replace(
+            oldValue = "{$TEXTS_QUANTITY_ARG}",
+            newValue = textsQuantity.toString(),
         ),
         navOptions = navOptions
     )
 }
 
-fun NavController.navigateToCommentLabeling(
-    commentQuantity: Int,
+fun NavController.navigateToTextsLabeling(
+    textsQuantity: Int,
     builder: (NavOptionsBuilder.() -> Unit),
 ) {
-    navigateToCommentLabeling(
-        commentQuantity = commentQuantity,
+    navigateToTextsLabeling(
+        textsQuantity = textsQuantity,
         navOptions = navOptions(builder)
     )
 }

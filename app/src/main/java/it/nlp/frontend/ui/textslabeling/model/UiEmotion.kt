@@ -1,4 +1,4 @@
-package it.nlp.frontend.ui.commentlabeling.model
+package it.nlp.frontend.ui.textslabeling.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

@@ -18,12 +18,12 @@ suspend fun ResponseException.toEmotionTextException(): EmotionTextException {
     val message = this.response.bodyAsText()
 
     return when {
-        message.contains(TextExceptionMessage.CommentsNumberOutOfRange.message) ->
+        message.contains(TextExceptionMessage.TextsNumberOutOfRange.message) ->
             EmotionTextException.NumberOutOfRange(
                 message
             )
 
-        message.contains(TextExceptionMessage.CannotCompareNullComment.message) ->
+        message.contains(TextExceptionMessage.CannotCompareNullText.message) ->
             EmotionTextException.CannotCompareNulls(
                 message
             )

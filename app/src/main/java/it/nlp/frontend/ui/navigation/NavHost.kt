@@ -31,7 +31,7 @@ fun AppNavHost(
         settingsScreen(
             navController = navController,
         )
-        commentLabelingScreen(
+        textsLabelingScreen(
             navController = navController,
         )
     }

@@ -1,4 +1,4 @@
-package it.nlp.frontend.ui.commentlabeling
+package it.nlp.frontend.ui.textslabeling
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
@@ -9,11 +9,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import it.nlp.frontend.ui.commentlabeling.component.CommentCard
-import it.nlp.frontend.ui.commentlabeling.component.EmotionSelector
-import it.nlp.frontend.ui.commentlabeling.component.ProgressSection
-import it.nlp.frontend.ui.commentlabeling.component.UnspecifiableEmotionDialog
-import it.nlp.frontend.ui.commentlabeling.model.UiEmotion
+import it.nlp.frontend.ui.textslabeling.component.TextCard
+import it.nlp.frontend.ui.textslabeling.component.EmotionSelector
+import it.nlp.frontend.ui.textslabeling.component.ProgressSection
+import it.nlp.frontend.ui.textslabeling.component.UnspecifiableEmotionDialog
+import it.nlp.frontend.ui.textslabeling.model.UiEmotion
 import it.nlp.frontend.ui.core.component.VerticalSpacer
 import it.nlp.frontend.ui.core.helpers.bigPadding
 import it.nlp.frontend.ui.core.helpers.getString
@@ -21,24 +21,24 @@ import it.nlp.frontend.ui.core.helpers.mediumPadding
 import it.nlp.frontend.ui.core.helpers.smallPadding
 
 @Composable
-fun ActiveCommentLabelingContent(
+fun TextsLabelingActiveContent(
     modifier: Modifier = Modifier,
-    viewState: CommentLabelingViewState.Loaded,
+    viewState: TextsLabelingViewState.Loaded,
     onEmotionSelected: (UiEmotion) -> Unit,
     onPreviousButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
-    onGoToNextComment: () -> Unit,
+    onGoToNextText: () -> Unit,
     onCloseDialog: () -> Unit,
 ) {
     BackHandler(
-        enabled = viewState.currentCommentIndex != 0,
+        enabled = viewState.currentTextIndex != 0,
         onBack = onPreviousButtonClicked,
     )
 
-    if (viewState is CommentLabelingViewState.Loaded.GoToNextWithUnspecifiableRequested) {
+    if (viewState is TextsLabelingViewState.Loaded.GoToNextWithUnspecifiableRequested) {
         UnspecifiableEmotionDialog(
             onCloseDialog = onCloseDialog,
-            onGoToNextComment = onGoToNextComment,
+            onGoToNextText = onGoToNextText,
         )
     }
 
@@ -52,10 +52,10 @@ fun ActiveCommentLabelingContent(
             )
             .fillMaxSize()
     ) {
-        CommentCard(
+        TextCard(
             modifier = Modifier.weight(1f),
             scrollState = rememberScrollState(),
-            text = viewState.currentComment.text.getString(),
+            text = viewState.currentText.text.getString(),
         )
 
         VerticalSpacer(height = mediumPadding)
@@ -65,7 +65,7 @@ fun ActiveCommentLabelingContent(
                 .weight(2f)
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
-            selectedEmotion = viewState.currentComment.emotion,
+            selectedEmotion = viewState.currentText.emotion,
             onEmotionSelected = onEmotionSelected,
         )
 
@@ -73,8 +73,8 @@ fun ActiveCommentLabelingContent(
 
         ProgressSection(
             modifier = Modifier.fillMaxWidth(),
-            currentCommentIndex = viewState.currentCommentIndex,
-            currentCommentEmotion = viewState.currentComment.emotion,
+            currentTextIndex = viewState.currentTextIndex,
+            currentTextEmotion = viewState.currentText.emotion,
             progress = viewState.progress,
             onPreviousButtonClicked = onPreviousButtonClicked,
             onNextButtonClicked = onNextButtonClicked,

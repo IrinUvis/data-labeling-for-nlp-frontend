@@ -15,11 +15,11 @@ import it.nlp.frontend.ui.core.component.NumberPicker
 import it.nlp.frontend.ui.core.helpers.mediumPadding
 
 @Composable
-fun LabelCommentsSection(
+fun LabelTextsSection(
     modifier: Modifier = Modifier,
-    numberOfCommentsToLabel: Int,
-    onGoToCommentLabelingClicked: () -> Unit,
-    onNumberOfCommentsToLabelUpdated: (Int) -> Unit,
+    numberOfTextsToLabel: Int,
+    onGoToTextsLabelingClicked: () -> Unit,
+    onNumberOfTextsToLabelUpdated: (Int) -> Unit,
     selectionRange: IntRange,
 ) {
     Row(
@@ -27,15 +27,15 @@ fun LabelCommentsSection(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        Button(onClick = onGoToCommentLabelingClicked) {
+        Button(onClick = onGoToTextsLabelingClicked) {
             Text(text = stringResource(R.string.labelComments))
         }
         HorizontalSpacer(width = mediumPadding)
         NumberPicker(
             modifier = Modifier
                 .animateContentSize(),
-            value = numberOfCommentsToLabel,
-            onValueChange = onNumberOfCommentsToLabelUpdated,
+            value = numberOfTextsToLabel,
+            onValueChange = onNumberOfTextsToLabelUpdated,
             range = selectionRange,
         )
     }

@@ -1,4 +1,4 @@
-package it.nlp.frontend.ui.commentlabeling.component
+package it.nlp.frontend.ui.textslabeling.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
@@ -13,7 +13,7 @@ import it.nlp.frontend.R
 @Composable
 fun UnspecifiableEmotionDialog(
     onCloseDialog: () -> Unit,
-    onGoToNextComment: () -> Unit,
+    onGoToNextText: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onCloseDialog,
@@ -31,7 +31,7 @@ fun UnspecifiableEmotionDialog(
             TextButton(
                 onClick = {
                     onCloseDialog()
-                    onGoToNextComment()
+                    onGoToNextText()
                 },
             ) {
                 Text(text = stringResource(R.string.unspecifiableEmotionDialogConfirmButtonText))

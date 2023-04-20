@@ -1,4 +1,4 @@
-package it.nlp.frontend.ui.commentlabeling.component
+package it.nlp.frontend.ui.textslabeling.component
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ScrollState
@@ -18,13 +18,13 @@ import it.nlp.frontend.ui.core.helpers.mediumPadding
 import it.nlp.frontend.ui.core.helpers.smallPadding
 
 @Composable
-fun CommentCard(
+fun TextCard(
     modifier: Modifier = Modifier,
     scrollState: ScrollState,
     text: String,
 ) {
     Card(modifier = modifier) {
-        Crossfade(targetState = text) { commentText ->
+        Crossfade(targetState = text) { emotionText ->
             Box(modifier = Modifier
                 .fillMaxSize()
                 .padding(
@@ -35,10 +35,10 @@ fun CommentCard(
                 .padding(horizontal = smallPadding)
                 .verticalScroll(scrollState)
             ) {
-                CommentText(
+                CardText(
                     modifier = Modifier
                         .align(Alignment.Center),
-                    text = commentText,
+                    text = emotionText,
                 )
             }
         }
@@ -46,7 +46,7 @@ fun CommentCard(
 }
 
 @Composable
-fun CommentText(
+private fun CardText(
     modifier: Modifier = Modifier,
     text: String,
 ) {

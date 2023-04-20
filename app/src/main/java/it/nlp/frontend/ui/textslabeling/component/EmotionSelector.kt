@@ -1,4 +1,4 @@
-package it.nlp.frontend.ui.commentlabeling.component
+package it.nlp.frontend.ui.textslabeling.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import it.nlp.frontend.ui.commentlabeling.model.UiEmotion
+import it.nlp.frontend.ui.textslabeling.model.UiEmotion
 import it.nlp.frontend.ui.core.helpers.buttonHorizontalPadding
 import it.nlp.frontend.ui.core.helpers.buttonVerticalPadding
 import it.nlp.frontend.ui.core.helpers.smallPadding
@@ -40,7 +40,7 @@ fun EmotionSelector(
 }
 
 @Composable
-fun EmotionSelectionRadioButton(
+private fun EmotionSelectionRadioButton(
     modifier: Modifier = Modifier,
     selectedEmotion: UiEmotion?,
     emotion: UiEmotion,

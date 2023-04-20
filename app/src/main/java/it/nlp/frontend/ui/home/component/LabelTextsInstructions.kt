@@ -9,7 +9,7 @@ import androidx.compose.ui.text.style.TextAlign
 import it.nlp.frontend.R
 
 @Composable
-fun LabelCommentsInstructions(
+fun LabelTextsInstructions(
     modifier: Modifier = Modifier,
 ) {
     Text(

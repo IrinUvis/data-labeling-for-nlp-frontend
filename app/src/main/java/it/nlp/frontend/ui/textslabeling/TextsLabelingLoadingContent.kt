@@ -1,25 +1,25 @@
-package it.nlp.frontend.ui.commentlabeling
+package it.nlp.frontend.ui.textslabeling
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import it.nlp.frontend.ui.core.component.VerticalSpacer
-import it.nlp.frontend.ui.core.helpers.mediumPadding
+import it.nlp.frontend.ui.core.helpers.smallPadding
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun LoadingErrorCommentLabelingContent(
+fun LoadingTextsLabelingContent(
     modifier: Modifier = Modifier,
-    errorMessage: String,
-    onRetryLoading: () -> Unit,
+    text: String,
 ) {
     Box(
         modifier = modifier
@@ -31,23 +31,16 @@ fun LoadingErrorCommentLabelingContent(
                 .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(
-                text = errorMessage,
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center,
-            )
-
-            VerticalSpacer(height = mediumPadding)
-
-            TextButton(
-                onClick = onRetryLoading
-            ) {
+            AnimatedContent(targetState = text) { targetState ->
                 Text(
-                    text = "Try again",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
+                    text = targetState,
+                    style = MaterialTheme.typography.titleMedium,
                 )
             }
+
+            VerticalSpacer(height = smallPadding)
+
+            LinearProgressIndicator()
         }
     }
 }

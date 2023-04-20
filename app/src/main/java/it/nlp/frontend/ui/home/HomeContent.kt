@@ -12,19 +12,19 @@ import androidx.compose.ui.Modifier
 import it.nlp.frontend.ui.core.helpers.mediumPadding
 import it.nlp.frontend.ui.core.helpers.smallPadding
 import it.nlp.frontend.ui.home.component.HomeTopBar
-import it.nlp.frontend.ui.home.component.LabelCommentsInstructions
-import it.nlp.frontend.ui.home.component.LabelCommentsSection
+import it.nlp.frontend.ui.home.component.LabelTextsInstructions
+import it.nlp.frontend.ui.home.component.LabelTextsSection
 
-private const val MIN_COMMENT_QUANTITY = 5
-private const val MAX_COMMENT_QUANTITY = 20
+private const val MIN_TEXTS_QUANTITY = 5
+private const val MAX_TEXTS_QUANTITY = 20
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeContent(
     viewState: HomeViewState.Loaded,
     onSettingsButtonClicked: () -> Unit,
-    onGoToCommentLabelingClicked: () -> Unit,
-    onNumberOfCommentsToLabelUpdated: (Int) -> Unit,
+    onGoToTextsLabelingClicked: () -> Unit,
+    onNumberOfTextsToLabelUpdated: (Int) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -45,17 +45,17 @@ fun HomeContent(
                 .fillMaxSize(),
         ) {
             Column {
-                LabelCommentsInstructions(
+                LabelTextsInstructions(
                     modifier = Modifier.fillMaxWidth()
                 )
-                LabelCommentsSection(
+                LabelTextsSection(
                     modifier = Modifier
                         .padding(mediumPadding)
                         .fillMaxWidth(),
-                    numberOfCommentsToLabel = viewState.numberOfCommentsToLabel,
-                    onGoToCommentLabelingClicked = onGoToCommentLabelingClicked,
-                    onNumberOfCommentsToLabelUpdated = onNumberOfCommentsToLabelUpdated,
-                    selectionRange = MIN_COMMENT_QUANTITY..MAX_COMMENT_QUANTITY,
+                    numberOfTextsToLabel = viewState.numberOfTextsToLabel,
+                    onGoToTextsLabelingClicked = onGoToTextsLabelingClicked,
+                    onNumberOfTextsToLabelUpdated = onNumberOfTextsToLabelUpdated,
+                    selectionRange = MIN_TEXTS_QUANTITY..MAX_TEXTS_QUANTITY,
                 )
             }
         }

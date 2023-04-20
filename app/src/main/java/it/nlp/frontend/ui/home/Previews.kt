@@ -10,11 +10,11 @@ fun DarkHomeContentPreview() {
     PreviewThemeWithBackground(darkTheme = true) {
         HomeContent(
             viewState = HomeViewState.Loaded(
-                numberOfCommentsToLabel = 10,
+                numberOfTextsToLabel = 10,
             ),
             onSettingsButtonClicked = { },
-            onGoToCommentLabelingClicked = { },
-            onNumberOfCommentsToLabelUpdated = {},
+            onGoToTextsLabelingClicked = { },
+            onNumberOfTextsToLabelUpdated = {},
         )
     }
 }
@@ -25,11 +25,11 @@ fun LightHomeContentPreview() {
     PreviewThemeWithBackground(darkTheme = false) {
         HomeContent(
             viewState = HomeViewState.Loaded(
-                numberOfCommentsToLabel = 5,
+                numberOfTextsToLabel = 5,
             ),
             onSettingsButtonClicked = { },
-            onGoToCommentLabelingClicked = { },
-            onNumberOfCommentsToLabelUpdated = {},
+            onGoToTextsLabelingClicked = { },
+            onNumberOfTextsToLabelUpdated = {},
         )
     }
 }

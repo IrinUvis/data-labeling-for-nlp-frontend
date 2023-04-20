@@ -1,6 +1,6 @@
 @file:Suppress("UnusedPrivateMember")
 
-package it.nlp.frontend.ui.commentlabeling.component
+package it.nlp.frontend.ui.textslabeling.component
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -13,7 +13,7 @@ import it.nlp.frontend.ui.core.component.NavigateUpButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommentLabelingTopBar(
+fun TextsLabelingTopBar(
     modifier: Modifier = Modifier,
     onBackButtonClicked: () -> Unit,
 ) {

@@ -9,20 +9,20 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor() : ViewModel() {
     companion object {
-        private const val INITIAL_NUMBER_OF_COMMENTS = 10
+        private const val INITIAL_NUMBER_OF_TEXTS = 10
     }
 
     private val _viewState: MutableStateFlow<HomeViewState> =
         MutableStateFlow(
             HomeViewState.Loaded(
-                numberOfCommentsToLabel = INITIAL_NUMBER_OF_COMMENTS,
+                numberOfTextsToLabel = INITIAL_NUMBER_OF_TEXTS,
             )
         )
     val viewState: StateFlow<HomeViewState> = _viewState
 
-    fun updateNumberOfCommentsToLabel(newNumber: Int) {
+    fun updateNumberOfTextsToLabel(newNumber: Int) {
         _viewState.value = HomeViewState.Loaded(
-            numberOfCommentsToLabel = newNumber
+            numberOfTextsToLabel = newNumber
         )
     }
 }
