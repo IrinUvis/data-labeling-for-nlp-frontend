@@ -12,18 +12,14 @@ fun HomeScreen(
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
-    when (val stateValue = viewState.value) {
-        is HomeViewState.Loaded -> {
-            HomeContent(
-                viewState = stateValue,
-                onSettingsButtonClicked = {
-                    navigateToSettings()
-                },
-                onGoToTextsLabelingClicked = {
-                    navigateToTextsLabeling(stateValue.numberOfTextsToLabel)
-                },
-                onNumberOfTextsToLabelUpdated = viewModel::updateNumberOfTextsToLabel
-            )
-        }
-    }
+    HomeContent(
+        viewState = viewState.value,
+        onSettingsButtonClicked = {
+            navigateToSettings()
+        },
+        onGoToTextsLabelingClicked = {
+            navigateToTextsLabeling(viewState.value.numberOfTextsToLabel)
+        },
+        onNumberOfTextsToLabelUpdated = viewModel::updateNumberOfTextsToLabel
+    )
 }

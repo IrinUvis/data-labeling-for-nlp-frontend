@@ -51,7 +51,7 @@ class NetworkTextEmotionAssignmentRepository @Inject constructor(
     override suspend fun getNumberOfTextEmotionAssignments():
             DataResult<TextEmotionAssignmentNumberOutput, ApiException> {
         return try {
-            val response = httpClient.get(URL)
+            val response = httpClient.get("$URL/count")
             val textEmotionAssignmentNumberOutput =
                 response.body<TextEmotionAssignmentNumberOutput>()
             DataResult.Success(textEmotionAssignmentNumberOutput)

@@ -22,7 +22,11 @@ fun NavGraphBuilder.textsLabelingScreen(
         arguments = listOf(navArgument(TEXTS_QUANTITY_ARG) { type = NavType.IntType })
     ) {
         TextsLabelingScreen(
-            navigateUp = { navController.navigateUp() },
+            navigateUp = {
+                navController.navigateToHome {
+                    popUpToTop()
+                }
+            },
             navigateToLogIn = {
                 navController.navigateToLogIn {
                     popUpToTop()

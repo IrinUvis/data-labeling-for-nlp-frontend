@@ -14,6 +14,7 @@ import it.nlp.frontend.ui.core.helpers.smallPadding
 import it.nlp.frontend.ui.home.component.HomeTopBar
 import it.nlp.frontend.ui.home.component.LabelTextsInstructions
 import it.nlp.frontend.ui.home.component.LabelTextsSection
+import it.nlp.frontend.ui.home.component.LabelledTextsCount
 
 private const val MIN_TEXTS_QUANTITY = 5
 private const val MAX_TEXTS_QUANTITY = 20
@@ -21,7 +22,7 @@ private const val MAX_TEXTS_QUANTITY = 20
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeContent(
-    viewState: HomeViewState.Loaded,
+    viewState: HomeViewState,
     onSettingsButtonClicked: () -> Unit,
     onGoToTextsLabelingClicked: () -> Unit,
     onNumberOfTextsToLabelUpdated: (Int) -> Unit,
@@ -45,9 +46,14 @@ fun HomeContent(
                 .fillMaxSize(),
         ) {
             Column {
+                LabelledTextsCount(
+                    assignmentsCount = if (viewState is HomeViewState.Loaded) viewState.assignmentsCount else 0
+                )
+
                 LabelTextsInstructions(
                     modifier = Modifier.fillMaxWidth()
                 )
+
                 LabelTextsSection(
                     modifier = Modifier
                         .padding(mediumPadding)

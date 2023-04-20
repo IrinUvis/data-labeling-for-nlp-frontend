@@ -69,4 +69,5 @@
     <string name="serviceUnavailableLongErrorMessage">Nie można połączyć się z serwerem. Mógł zostać tymczasowo wyłączony w celu ograniczenia wydatków na jego utrzymanie. Spróbuj ponownie później</string>
     <string name="serviceUnavailableShortErrorMessage">Serwer jest w tej chwili wyłączony. Spróbuj ponownie później</string>
     <string name="emailAlreadyUsed">Podany adres email jest już w użyciu</string>
+    <string name="yourAssignments">"Twoje przypisania: "</string>
 </resources>

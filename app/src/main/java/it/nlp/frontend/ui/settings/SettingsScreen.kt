@@ -7,14 +7,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
-    navigateToHome: () -> Unit,
+    navigateUp: () -> Unit,
     navigateToLogin: () -> Unit,
 ) {
     val viewState = viewModel.viewState.collectAsState()
 
     SettingsContent(
         viewState = viewState.value,
-        onNavigateUp = navigateToHome,
+        onNavigateUp = navigateUp,
         onNavigateToLogin = {
             viewModel.logOut()
             navigateToLogin()

@@ -13,8 +13,8 @@ fun NavGraphBuilder.settingsScreen(
 ) {
     composable(SettingsDestination.route) {
         SettingsScreen(
-            navigateToHome = {
-                navController.navigateToHome()
+            navigateUp = {
+                navController.navigateUp()
             },
             navigateToLogin = {
                 navController.navigateToLogIn {

@@ -11,6 +11,7 @@ fun DarkHomeContentPreview() {
         HomeContent(
             viewState = HomeViewState.Loaded(
                 numberOfTextsToLabel = 10,
+                assignmentsCount = 10
             ),
             onSettingsButtonClicked = { },
             onGoToTextsLabelingClicked = { },
@@ -26,6 +27,7 @@ fun LightHomeContentPreview() {
         HomeContent(
             viewState = HomeViewState.Loaded(
                 numberOfTextsToLabel = 5,
+                assignmentsCount = 10,
             ),
             onSettingsButtonClicked = { },
             onGoToTextsLabelingClicked = { },
