@@ -38,7 +38,7 @@ class HomeViewModel @Inject constructor(
                 _viewState.update {
                     HomeViewState.Loaded(
                         numberOfTextsToLabel = it.numberOfTextsToLabel,
-                        assignmentsCount = 21,
+                        assignmentsCount = useCaseResult.count,
                     )
                 }
             }
