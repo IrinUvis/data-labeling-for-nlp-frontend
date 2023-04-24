@@ -1,6 +1,6 @@
 package it.nlp.frontend.domain.emotiontexts.usecase.impl
 
-import it.nlp.frontend.data.remote.emotion.assignments.repository.impl.NetworkTextEmotionAssignmentRepository
+import it.nlp.frontend.data.remote.emotion.assignments.repository.TextEmotionAssignmentRepository
 import it.nlp.frontend.data.remote.model.ApiResponse
 import it.nlp.frontend.data.remote.model.HttpStatus
 import it.nlp.frontend.domain.emotiontexts.model.GetNumberOfLabeledTextsResult
@@ -10,7 +10,7 @@ import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class ProdGetNumberOfLabeledTextsUseCase @Inject constructor(
-    private val textEmotionAssignmentRepository: NetworkTextEmotionAssignmentRepository
+    private val textEmotionAssignmentRepository: TextEmotionAssignmentRepository
 ) : GetNumberOfLabeledTextsUseCase {
     override suspend fun invoke(): GetNumberOfLabeledTextsResult {
         return when (val apiResponse = textEmotionAssignmentRepository.getAssignmentsCount()) {

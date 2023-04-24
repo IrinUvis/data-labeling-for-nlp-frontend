@@ -2,7 +2,7 @@ package it.nlp.frontend.domain.emotiontexts.usecase.impl
 
 import android.util.Log
 import it.nlp.frontend.data.remote.emotion.assignments.model.dto.TextEmotionAssignmentInput
-import it.nlp.frontend.data.remote.emotion.assignments.repository.impl.NetworkTextEmotionAssignmentRepository
+import it.nlp.frontend.data.remote.emotion.assignments.repository.TextEmotionAssignmentRepository
 import it.nlp.frontend.data.remote.model.ApiResponse
 import it.nlp.frontend.data.remote.model.HttpStatus
 import it.nlp.frontend.domain.emotiontexts.model.EmotionText
@@ -13,7 +13,7 @@ import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class ProdSaveLabeledTextsUseCase @Inject constructor(
-    private val textEmotionAssignmentRepository: NetworkTextEmotionAssignmentRepository,
+    private val textEmotionAssignmentRepository: TextEmotionAssignmentRepository,
 ) : SaveLabeledTextsUseCase {
     companion object {
         private const val TAG = "SaveLabeledTextsUseCase"

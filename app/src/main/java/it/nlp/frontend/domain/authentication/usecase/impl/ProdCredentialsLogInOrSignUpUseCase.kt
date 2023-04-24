@@ -1,7 +1,7 @@
 package it.nlp.frontend.domain.authentication.usecase.impl
 
 import it.nlp.frontend.data.remote.authentication.model.dto.UserInput
-import it.nlp.frontend.data.remote.authentication.repository.impl.NetworkAuthenticationRepository
+import it.nlp.frontend.data.remote.authentication.repository.AuthenticationRepository
 import it.nlp.frontend.data.remote.model.ApiResponse
 import it.nlp.frontend.data.remote.model.HttpStatus
 import it.nlp.frontend.data.remote.model.exception.messages.SecurityExceptionMessage
@@ -18,7 +18,7 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 
 class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
-    private val authenticationRepository: NetworkAuthenticationRepository,
+    private val authenticationRepository: AuthenticationRepository,
     private val storeTokenUseCase: StoreTokenUseCase,
 ) : CredentialsLogInOrSignUpUseCase {
     companion object {
