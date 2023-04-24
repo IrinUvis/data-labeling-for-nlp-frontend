@@ -1,6 +1,5 @@
 package it.nlp.frontend.domain.emotiontexts.usecase.impl
 
-import android.util.Log
 import it.nlp.frontend.data.remote.emotion.assignments.model.dto.TextEmotionAssignmentInput
 import it.nlp.frontend.data.remote.emotion.assignments.repository.TextEmotionAssignmentRepository
 import it.nlp.frontend.data.remote.model.ApiResponse
@@ -15,10 +14,7 @@ import javax.inject.Inject
 class ProdSaveLabeledTextsUseCase @Inject constructor(
     private val textEmotionAssignmentRepository: TextEmotionAssignmentRepository,
 ) : SaveLabeledTextsUseCase {
-    companion object {
-        private const val TAG = "SaveLabeledTextsUseCase"
-    }
-
+    @Suppress("SwallowedException")
     override suspend fun invoke(emotionTexts: List<EmotionText>): SaveLabeledTextsResult {
         return try {
             emotionTexts.forEach { emotionText -> requireNotNull(emotionText.emotion) }
@@ -36,7 +32,6 @@ class ProdSaveLabeledTextsUseCase @Inject constructor(
                 is ApiResponse.Exception -> saveLabeledTextsResultForApiResponseException(apiResponse)
             }
         } catch (e: IllegalArgumentException) {
-            Log.d(TAG, e.message, e)
             SaveLabeledTextsResult.Failure.Unexpected
         }
     }

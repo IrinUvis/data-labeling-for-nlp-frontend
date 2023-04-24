@@ -8,14 +8,17 @@ import io.mockk.mockk
 import it.nlp.frontend.data.remote.emotion.assignments.model.dto.EmotionDto
 import it.nlp.frontend.data.remote.emotion.assignments.model.dto.TextEmotionAssignmentInput
 import it.nlp.frontend.data.remote.emotion.assignments.model.dto.TextEmotionAssignmentOutput
-import it.nlp.frontend.data.remote.emotion.assignments.model.exception.TextEmotionAssignmentException
-import it.nlp.frontend.data.remote.emotion.assignments.repository.TextEmotionAssignmentService
+import it.nlp.frontend.data.remote.emotion.assignments.repository.TextEmotionAssignmentRepository
+import it.nlp.frontend.data.remote.model.ApiResponse
+import it.nlp.frontend.data.remote.model.HttpStatus
+import it.nlp.frontend.data.remote.model.exception.messages.TextEmotionAssignmentExceptionMessage
 import it.nlp.frontend.domain.emotiontexts.model.Emotion
 import it.nlp.frontend.domain.emotiontexts.model.EmotionText
 import it.nlp.frontend.domain.emotiontexts.model.SaveLabeledTextsResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
+import java.net.SocketTimeoutException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProdSaveLabeledTextsUseCaseTest {
@@ -49,13 +52,11 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentOutputs =
                 List(numberOfTexts) { textEmotionAssignmentOutput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
 
             coEvery {
-                textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
-                    textEmotionAssignmentInputs = textEmotionAssignmentInputs
-                )
-            } returns DataResult.Success(textEmotionAssignmentOutputs)
+                textEmotionAssignmentRepositoryMock.postAssignments(textEmotionAssignmentInputs)
+            } returns ApiResponse.Success(textEmotionAssignmentOutputs)
 
             val useCase = ProdSaveLabeledTextsUseCase(
                 textEmotionAssignmentRepository = textEmotionAssignmentRepositoryMock,
@@ -69,7 +70,7 @@ class ProdSaveLabeledTextsUseCaseTest {
         }
 
     @Test
-    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningServiceUnavailableException_returnsServiceUnavailableSaveLabeledTextsFailure() =
+    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningServiceUnavailableFailure_returnsServiceUnavailableSaveLabeledTextsFailure() =
         runTest {
             val numberOfTexts = 10
             val textId = "textId"
@@ -89,13 +90,11 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
 
             coEvery {
-                textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
-                    textEmotionAssignmentInputs = textEmotionAssignmentInputs
-                )
-            } returns DataResult.Failure(ServiceUnavailableException(null, null))
+                textEmotionAssignmentRepositoryMock.postAssignments(textEmotionAssignmentInputs)
+            } returns ApiResponse.Failure("", HttpStatus.ServiceUnavailable.code)
 
             val useCase = ProdSaveLabeledTextsUseCase(
                 textEmotionAssignmentRepository = textEmotionAssignmentRepositoryMock,
@@ -109,7 +108,7 @@ class ProdSaveLabeledTextsUseCaseTest {
         }
 
     @Test
-    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningNetworkException_returnsNetworkSaveLabeledTextsFailure() =
+    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningSocketTimeoutException_returnsNetworkSaveLabeledTextsFailure() =
         runTest {
             val numberOfTexts = 10
             val textId = "textId"
@@ -128,13 +127,11 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
 
             coEvery {
-                textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
-                    textEmotionAssignmentInputs = textEmotionAssignmentInputs
-                )
-            } returns DataResult.Failure(NetworkException(null, null))
+                textEmotionAssignmentRepositoryMock.postAssignments(textEmotionAssignmentInputs)
+            } returns ApiResponse.Exception(SocketTimeoutException())
 
             val useCase = ProdSaveLabeledTextsUseCase(
                 textEmotionAssignmentRepository = textEmotionAssignmentRepositoryMock,
@@ -148,7 +145,7 @@ class ProdSaveLabeledTextsUseCaseTest {
         }
 
     @Test
-    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningUnauthorizedException_returnsUnauthorizedSaveLabeledTextsFailure() =
+    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningUnauthorizedFailure_returnsUnauthorizedSaveLabeledTextsFailure() =
         runTest {
             val numberOfTexts = 10
             val textId = "textId"
@@ -167,13 +164,11 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
 
             coEvery {
-                textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
-                    textEmotionAssignmentInputs = textEmotionAssignmentInputs
-                )
-            } returns DataResult.Failure(UnauthorizedException(null, null))
+                textEmotionAssignmentRepositoryMock.postAssignments(textEmotionAssignmentInputs)
+            } returns ApiResponse.Failure("", HttpStatus.Unauthorized.code)
 
             val useCase = ProdSaveLabeledTextsUseCase(
                 textEmotionAssignmentRepository = textEmotionAssignmentRepositoryMock,
@@ -187,9 +182,8 @@ class ProdSaveLabeledTextsUseCaseTest {
         }
 
     @Test
-    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningWrongEmotionException_returnsWrongEmotionSaveLabeledTextsFailure() =
+    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningWrongEmotionFailure_returnsUnexpectedSaveLabeledTextsFailure() =
         runTest {
-            val errorMessage = "errorMessage"
             val numberOfTexts = 10
             val textId = "textId"
             val text = "text"
@@ -207,13 +201,14 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
 
             coEvery {
-                textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
-                    textEmotionAssignmentInputs = textEmotionAssignmentInputs
-                )
-            } returns DataResult.Failure(TextEmotionAssignmentException.WrongEmotion(errorMessage))
+                textEmotionAssignmentRepositoryMock.postAssignments(textEmotionAssignmentInputs)
+            } returns ApiResponse.Failure(
+                TextEmotionAssignmentExceptionMessage.WrongEmotion.message,
+                HttpStatus.BadRequest.code
+            )
 
             val useCase = ProdSaveLabeledTextsUseCase(
                 textEmotionAssignmentRepository = textEmotionAssignmentRepositoryMock,
@@ -221,15 +216,14 @@ class ProdSaveLabeledTextsUseCaseTest {
 
             val result = useCase(textsToStore)
 
-            val expectedResult = SaveLabeledTextsResult.Failure.WrongEmotionParsing
+            val expectedResult = SaveLabeledTextsResult.Failure.Unexpected
 
             Truth.assertThat(result).isEqualTo(expectedResult)
         }
 
     @Test
-    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningAssignmentAlreadyExistsException_returnsAlreadyAssignedByThisUserSaveLabeledTextsFailure() =
+    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningAssignmentAlreadyExistsFailure_returnsUnexpectedSaveLabeledTextsFailure() =
         runTest {
-            val errorMessage = "errorMessage"
             val numberOfTexts = 10
             val textId = "textId"
             val text = "text"
@@ -247,15 +241,14 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
 
             coEvery {
-                textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
-                    textEmotionAssignmentInputs = textEmotionAssignmentInputs
-                )
-            } returns DataResult.Failure(
-                TextEmotionAssignmentException.AssignmentAlreadyExists(
-                errorMessage))
+                textEmotionAssignmentRepositoryMock.postAssignments(textEmotionAssignmentInputs)
+            } returns ApiResponse.Failure(
+                TextEmotionAssignmentExceptionMessage.AssignmentAlreadyExists.message,
+                HttpStatus.BadRequest.code
+            )
 
             val useCase = ProdSaveLabeledTextsUseCase(
                 textEmotionAssignmentRepository = textEmotionAssignmentRepositoryMock,
@@ -263,7 +256,7 @@ class ProdSaveLabeledTextsUseCaseTest {
 
             val result = useCase(textsToStore)
 
-            val expectedResult = SaveLabeledTextsResult.Failure.AlreadyAssignedByThisUser
+            val expectedResult = SaveLabeledTextsResult.Failure.Unexpected
 
             Truth.assertThat(result).isEqualTo(expectedResult)
         }
@@ -281,21 +274,22 @@ class ProdSaveLabeledTextsUseCaseTest {
             )
             val textsToStore = List(numberOfTexts) { emotionTextToStore }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
 
             val useCase = ProdSaveLabeledTextsUseCase(
                 textEmotionAssignmentRepository = textEmotionAssignmentRepositoryMock,
             )
 
-            val result = useCase(textsToStore) as SaveLabeledTextsResult.Failure.NonLabeledTexts
+            val result = useCase(textsToStore)
 
-            Truth.assertThat(result.e).isInstanceOf(IllegalArgumentException::class.java)
+            val expectedResult = SaveLabeledTextsResult.Failure.Unexpected
+
+            Truth.assertThat(result).isEqualTo(expectedResult)
         }
 
     @Test
-    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningUnknownException_returnsUnknownSaveLabeledTextsFailure() =
+    fun useCase_invokedWithGetTokenFlowReturningTokenAndRepositoryReturningUnknownFailure_returnsUnexpectedSaveLabeledTextsFailure() =
         runTest {
-            val errorMessage = "errorMessage"
             val numberOfTexts = 10
             val textId = "textId"
             val text = "text"
@@ -313,13 +307,11 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
 
             coEvery {
-                textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
-                    textEmotionAssignmentInputs = textEmotionAssignmentInputs
-                )
-            } returns DataResult.Failure(TextEmotionAssignmentException.Unknown(errorMessage))
+                textEmotionAssignmentRepositoryMock.postAssignments(textEmotionAssignmentInputs)
+            } returns ApiResponse.Failure("", HttpStatus.BadRequest.code)
 
             val useCase = ProdSaveLabeledTextsUseCase(
                 textEmotionAssignmentRepository = textEmotionAssignmentRepositoryMock,
@@ -327,7 +319,7 @@ class ProdSaveLabeledTextsUseCaseTest {
 
             val result = useCase(textsToStore)
 
-            val expectedResult = SaveLabeledTextsResult.Failure.Unknown
+            val expectedResult = SaveLabeledTextsResult.Failure.Unexpected
 
             Truth.assertThat(result).isEqualTo(expectedResult)
         }

@@ -6,13 +6,16 @@ import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
 import it.nlp.frontend.data.remote.emotion.texts.model.dto.EmotionTextOutput
-import it.nlp.frontend.data.remote.emotion.texts.model.exception.EmotionTextException
-import it.nlp.frontend.data.remote.emotion.texts.repository.EmotionTextService
+import it.nlp.frontend.data.remote.emotion.texts.repository.EmotionTextRepository
+import it.nlp.frontend.data.remote.model.ApiResponse
+import it.nlp.frontend.data.remote.model.HttpStatus
+import it.nlp.frontend.data.remote.model.exception.messages.TextExceptionMessage
 import it.nlp.frontend.domain.emotiontexts.model.EmotionText
 import it.nlp.frontend.domain.emotiontexts.model.GetTextsToLabelResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
+import java.net.ConnectException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProdGetTextsToLabelUseCaseTest {
@@ -34,13 +37,11 @@ class ProdGetTextsToLabelUseCaseTest {
             val emotionTextOutputList = List(textsNumber) { emotionTextOutput }
             val textsList = List(textsNumber) { emotionText }
 
-            val emotionTextRepositoryMock: EmotionTextService = mockk()
+            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
 
             coEvery {
-                emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
-                    emotionTextsNumber = textsNumber,
-                )
-            } returns DataResult.Success(emotionTextOutputList)
+                emotionTextRepositoryMock.getTextsForAssignment(textsNumber)
+            } returns ApiResponse.Success(emotionTextOutputList)
 
             val useCase = ProdGetTextsToLabelUseCase(
                 emotionTextRepository = emotionTextRepositoryMock,
@@ -59,13 +60,11 @@ class ProdGetTextsToLabelUseCaseTest {
             val textsNumber = 10
             val textsOutputList = emptyList<EmotionTextOutput>()
 
-            val emotionTextRepositoryMock: EmotionTextService = mockk()
+            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
 
             coEvery {
-                emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
-                    emotionTextsNumber = textsNumber,
-                )
-            } returns DataResult.Success(textsOutputList)
+                emotionTextRepositoryMock.getTextsForAssignment(textsNumber)
+            } returns ApiResponse.Success(textsOutputList)
 
             val useCase = ProdGetTextsToLabelUseCase(
                 emotionTextRepository = emotionTextRepositoryMock,
@@ -79,17 +78,15 @@ class ProdGetTextsToLabelUseCaseTest {
         }
 
     @Test
-    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningUnauthorizedException_returnUnauthorizedUserGetTextsToLabelResult() =
+    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningUnauthorizedFailure_returnUnauthorizedUserGetTextsToLabelResult() =
         runTest {
             val textsNumber = 10
 
-            val emotionTextRepositoryMock: EmotionTextService = mockk()
+            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
 
             coEvery {
-                emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
-                    emotionTextsNumber = textsNumber,
-                )
-            } returns DataResult.Failure(UnauthorizedException(null, null))
+                emotionTextRepositoryMock.getTextsForAssignment(textsNumber)
+            } returns ApiResponse.Failure("", HttpStatus.Unauthorized.code)
 
             val useCase = ProdGetTextsToLabelUseCase(
                 emotionTextRepository = emotionTextRepositoryMock,
@@ -103,17 +100,15 @@ class ProdGetTextsToLabelUseCaseTest {
         }
 
     @Test
-    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningNetworkException_returnNetworkGetTextsToLabelResult() =
+    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningConnectException_returnNetworkGetTextsToLabelResult() =
         runTest {
             val textsNumber = 10
 
-            val emotionTextRepositoryMock: EmotionTextService = mockk()
+            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
 
             coEvery {
-                emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
-                    emotionTextsNumber = textsNumber,
-                )
-            } returns DataResult.Failure(NetworkException(null, null))
+                emotionTextRepositoryMock.getTextsForAssignment(textsNumber)
+            } returns ApiResponse.Exception(ConnectException())
 
             val useCase = ProdGetTextsToLabelUseCase(
                 emotionTextRepository = emotionTextRepositoryMock,
@@ -127,17 +122,15 @@ class ProdGetTextsToLabelUseCaseTest {
         }
 
     @Test
-    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningServiceUnavailableException_returnServiceUnavailableGetTextsToLabelResult() =
+    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningServiceUnavailableFailure_returnServiceUnavailableGetTextsToLabelResult() =
         runTest {
             val textsNumber = 10
 
-            val emotionTextRepositoryMock: EmotionTextService = mockk()
+            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
 
             coEvery {
-                emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
-                    emotionTextsNumber = textsNumber,
-                )
-            } returns DataResult.Failure(ServiceUnavailableException(null, null))
+                emotionTextRepositoryMock.getTextsForAssignment(textsNumber)
+            } returns ApiResponse.Failure("", HttpStatus.ServiceUnavailable.code)
 
             val useCase = ProdGetTextsToLabelUseCase(
                 emotionTextRepository = emotionTextRepositoryMock,
@@ -151,18 +144,18 @@ class ProdGetTextsToLabelUseCaseTest {
         }
 
     @Test
-    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningTextsNumberOutOfRangeException_returnTextsNumberOutOfRangeGetTextsToLabelResult() =
+    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningTextsNumberOutOfRangeFailure_returnUnexpectedGetTextsToLabelResult() =
         runTest {
             val textsNumber = 10
-            val errorMessage = "errorMessage"
 
-            val emotionTextRepositoryMock: EmotionTextService = mockk()
+            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
 
             coEvery {
-                emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
-                    emotionTextsNumber = textsNumber,
-                )
-            } returns DataResult.Failure(EmotionTextException.NumberOutOfRange(errorMessage))
+                emotionTextRepositoryMock.getTextsForAssignment(textsNumber)
+            } returns ApiResponse.Failure(
+                TextExceptionMessage.TextsNumberOutOfRange.message,
+                HttpStatus.BadRequest.code
+            )
 
             val useCase = ProdGetTextsToLabelUseCase(
                 emotionTextRepository = emotionTextRepositoryMock,
@@ -170,24 +163,24 @@ class ProdGetTextsToLabelUseCaseTest {
 
             val result = useCase(textsNumber)
 
-            val expectedResult = GetTextsToLabelResult.Failure.TextsNumberOutOfRange
+            val expectedResult = GetTextsToLabelResult.Failure.Unexpected
 
             Truth.assertThat(result).isEqualTo(expectedResult)
         }
 
     @Test
-    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningCannotCompareNullsException_returnUnknownGetTextsToLabelResult() =
+    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningCannotCompareNullsFailure_returnUnexpectedGetTextsToLabelResult() =
         runTest {
             val textsNumber = 10
-            val errorMessage = "errorMessage"
 
-            val emotionTextRepositoryMock: EmotionTextService = mockk()
+            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
 
             coEvery {
-                emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
-                    emotionTextsNumber = textsNumber,
-                )
-            } returns DataResult.Failure(EmotionTextException.CannotCompareNulls(errorMessage))
+                emotionTextRepositoryMock.getTextsForAssignment(textsNumber)
+            } returns ApiResponse.Failure(
+                TextExceptionMessage.CannotCompareNullText.message,
+                HttpStatus.BadRequest.code
+            )
 
             val useCase = ProdGetTextsToLabelUseCase(
                 emotionTextRepository = emotionTextRepositoryMock,
@@ -195,24 +188,21 @@ class ProdGetTextsToLabelUseCaseTest {
 
             val result = useCase(textsNumber)
 
-            val expectedResult = GetTextsToLabelResult.Failure.Unknown
+            val expectedResult = GetTextsToLabelResult.Failure.Unexpected
 
             Truth.assertThat(result).isEqualTo(expectedResult)
         }
 
     @Test
-    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningUnknownException_returnUnknownGetTextsToLabelResult() =
+    fun useCase_invokedWithGetTokenReturningTokenAndRepositoryReturningUnknownException_returnUnexpectedGetTextsToLabelResult() =
         runTest {
             val textsNumber = 10
-            val errorMessage = "errorMessage"
 
-            val emotionTextRepositoryMock: EmotionTextService = mockk()
+            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
 
             coEvery {
-                emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
-                    emotionTextsNumber = textsNumber,
-                )
-            } returns DataResult.Failure(EmotionTextException.Unknown(errorMessage))
+                emotionTextRepositoryMock.getTextsForAssignment(textsNumber)
+            } returns ApiResponse.Failure("", HttpStatus.BadRequest.code)
 
             val useCase = ProdGetTextsToLabelUseCase(
                 emotionTextRepository = emotionTextRepositoryMock,
@@ -220,7 +210,7 @@ class ProdGetTextsToLabelUseCaseTest {
 
             val result = useCase(textsNumber)
 
-            val expectedResult = GetTextsToLabelResult.Failure.Unknown
+            val expectedResult = GetTextsToLabelResult.Failure.Unexpected
 
             Truth.assertThat(result).isEqualTo(expectedResult)
         }
