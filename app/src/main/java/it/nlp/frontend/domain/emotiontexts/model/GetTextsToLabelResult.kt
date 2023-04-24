@@ -4,16 +4,16 @@ sealed class GetTextsToLabelResult {
     data class Success(val emotionTexts: List<EmotionText>) : GetTextsToLabelResult()
 
     sealed class Failure : GetTextsToLabelResult() {
-        object Network : Failure()
+        object NoTexts : Failure()
 
         object UnauthorizedUser : Failure()
 
-        object NoTexts : Failure()
+        object Network : Failure()
 
-        object TextsNumberOutOfRange : Failure()
+        object ServiceUnavailable : Failure()
 
         object Unknown : Failure()
 
-        object ServiceUnavailable : GetTextsToLabelResult()
+        object Unexpected : Failure()
     }
 }

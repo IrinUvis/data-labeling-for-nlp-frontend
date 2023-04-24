@@ -5,13 +5,9 @@ package it.nlp.frontend.domain.emotiontexts.usecase.impl
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
-import it.nlp.frontend.data.core.model.DataResult
 import it.nlp.frontend.data.remote.emotion.texts.model.dto.EmotionTextOutput
 import it.nlp.frontend.data.remote.emotion.texts.model.exception.EmotionTextException
-import it.nlp.frontend.data.remote.emotion.texts.repository.EmotionTextRepository
-import it.nlp.frontend.data.remote.model.exception.NetworkException
-import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException
-import it.nlp.frontend.data.remote.model.exception.UnauthorizedException
+import it.nlp.frontend.data.remote.emotion.texts.repository.EmotionTextService
 import it.nlp.frontend.domain.emotiontexts.model.EmotionText
 import it.nlp.frontend.domain.emotiontexts.model.GetTextsToLabelResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,7 +24,7 @@ class ProdGetTextsToLabelUseCaseTest {
             val textId = "textId"
             val textContent = "content"
             val emotionTextOutput = EmotionTextOutput(
-                id = textId,
+                emotionTextId = textId,
                 content = textContent
             )
             val emotionText = EmotionText(
@@ -38,7 +34,7 @@ class ProdGetTextsToLabelUseCaseTest {
             val emotionTextOutputList = List(textsNumber) { emotionTextOutput }
             val textsList = List(textsNumber) { emotionText }
 
-            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
+            val emotionTextRepositoryMock: EmotionTextService = mockk()
 
             coEvery {
                 emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
@@ -63,7 +59,7 @@ class ProdGetTextsToLabelUseCaseTest {
             val textsNumber = 10
             val textsOutputList = emptyList<EmotionTextOutput>()
 
-            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
+            val emotionTextRepositoryMock: EmotionTextService = mockk()
 
             coEvery {
                 emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
@@ -87,7 +83,7 @@ class ProdGetTextsToLabelUseCaseTest {
         runTest {
             val textsNumber = 10
 
-            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
+            val emotionTextRepositoryMock: EmotionTextService = mockk()
 
             coEvery {
                 emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
@@ -111,7 +107,7 @@ class ProdGetTextsToLabelUseCaseTest {
         runTest {
             val textsNumber = 10
 
-            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
+            val emotionTextRepositoryMock: EmotionTextService = mockk()
 
             coEvery {
                 emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
@@ -135,7 +131,7 @@ class ProdGetTextsToLabelUseCaseTest {
         runTest {
             val textsNumber = 10
 
-            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
+            val emotionTextRepositoryMock: EmotionTextService = mockk()
 
             coEvery {
                 emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
@@ -160,7 +156,7 @@ class ProdGetTextsToLabelUseCaseTest {
             val textsNumber = 10
             val errorMessage = "errorMessage"
 
-            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
+            val emotionTextRepositoryMock: EmotionTextService = mockk()
 
             coEvery {
                 emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
@@ -185,7 +181,7 @@ class ProdGetTextsToLabelUseCaseTest {
             val textsNumber = 10
             val errorMessage = "errorMessage"
 
-            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
+            val emotionTextRepositoryMock: EmotionTextService = mockk()
 
             coEvery {
                 emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(
@@ -210,7 +206,7 @@ class ProdGetTextsToLabelUseCaseTest {
             val textsNumber = 10
             val errorMessage = "errorMessage"
 
-            val emotionTextRepositoryMock: EmotionTextRepository = mockk()
+            val emotionTextRepositoryMock: EmotionTextService = mockk()
 
             coEvery {
                 emotionTextRepositoryMock.fetchEmotionTextsToBeAssigned(

@@ -132,7 +132,7 @@ class LogInViewModel @Inject constructor(
                 credentials = logInCredentials,
                 errorMessage = UiText.ResourceText(R.string.wrongCredentialsErrorMessage)
             )
-            is LogInResult.Failure.DataStore -> LogInViewState.SubmissionError(
+            is LogInResult.Failure.Unexpected -> LogInViewState.SubmissionError(
                 credentials = logInCredentials,
                 errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
             )

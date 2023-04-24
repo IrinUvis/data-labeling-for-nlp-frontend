@@ -4,18 +4,14 @@ sealed class SaveLabeledTextsResult {
     object Success : SaveLabeledTextsResult()
 
     sealed class Failure : SaveLabeledTextsResult() {
-        data class NonLabeledTexts(val e: Exception) : Failure()
-
-        object WrongEmotionParsing : Failure()
-
-        object AlreadyAssignedByThisUser : Failure()
+        object UnauthorizedUser : Failure()
 
         object Network : Failure()
 
+        object ServiceUnavailable : Failure()
+
         object Unknown : Failure()
 
-        object UnauthorizedUser : SaveLabeledTextsResult()
-
-        object ServiceUnavailable : SaveLabeledTextsResult()
+        object Unexpected : Failure()
     }
 }

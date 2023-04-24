@@ -5,13 +5,14 @@ sealed class GetNumberOfLabeledTextsResult {
     data class Success(val count: Int): GetNumberOfLabeledTextsResult()
 
     sealed class Failure : GetNumberOfLabeledTextsResult() {
+        object UnauthorizedUser : Failure()
 
         object Network : Failure()
-
-        object UnauthorizedUser : Failure()
 
         object ServiceUnavailable : Failure()
 
         object Unknown : Failure()
+
+        object Unexpected : Failure()
     }
 }

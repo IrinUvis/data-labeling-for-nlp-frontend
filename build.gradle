@@ -45,6 +45,12 @@ buildscript {
         // https://developer.android.com/jetpack/androidx/releases/work
         workManagerVersion = "2.7.1"
 
+        // https://github.com/square/retrofit
+        retrofitVersion = "2.9.0"
+
+        // https://square.github.io/okhttp/changelogs/changelog/
+        okhttpVersion = "4.10.0"
+
         // https://github.com/ktorio/ktor/releases
         ktorVersion = "2.1.3"
 

@@ -1,128 +1,78 @@
 package it.nlp.frontend.di
 
-import android.util.Log
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.engine.android.Android
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.ResponseException
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.BearerTokens
-import io.ktor.client.plugins.auth.providers.RefreshTokensParams
-import io.ktor.client.plugins.auth.providers.bearer
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
-import io.ktor.serialization.kotlinx.json.json
-import io.ktor.utils.io.errors.IOException
-import it.nlp.frontend.data.local.token.model.TokenPreferences
 import it.nlp.frontend.data.local.token.repository.TokenRepository
-import it.nlp.frontend.data.remote.authentication.model.dto.RefreshTokenInput
-import it.nlp.frontend.data.remote.authentication.model.dto.RefreshTokenOutput
-import kotlinx.coroutines.flow.first
-import kotlinx.serialization.json.Json
+import it.nlp.frontend.data.remote.authentication.repository.AuthenticationService
+import it.nlp.frontend.data.remote.core.AuthAuthenticator
+import it.nlp.frontend.data.remote.core.AuthInterceptor
+import it.nlp.frontend.data.remote.core.ApiClient
+import it.nlp.frontend.data.remote.emotion.assignments.repository.TextEmotionAssignmentService
+import it.nlp.frontend.data.remote.emotion.texts.repository.EmotionTextService
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-
-const val BASE_URL = "http://10.0.2.2:8080/api/v1"
 
 @InstallIn(SingletonComponent::class)
 @Module
 object ApiModule {
-    private const val TAG = "HttpClient"
-    private const val REQUEST_TIMEOUT_MILLIS = 5000L
+    const val BASE_URL = "http://10.0.2.2:8080/api/v1/"
 
     @Singleton
     @Provides
-    fun provideApiClient(
-        tokenRepository: TokenRepository,
-    ): HttpClient {
-        return HttpClient(Android) {
-            // Features
-            install(Logging) {
-                logger = object : Logger {
-                    override fun log(message: String) {
-                        Log.d(TAG, message)
-                    }
-                }
-                level = LogLevel.ALL
-            }
-            install(HttpTimeout) {
-                requestTimeoutMillis = REQUEST_TIMEOUT_MILLIS
-            }
-            install(ContentNegotiation) {
-                json(
-                    Json {
-                        prettyPrint = true
-                    }
-                )
-            }
-            install(Auth) {
-                bearer {
-                    loadTokens {
-                        tokenRepository.tokenFlow().first()?.let {
-                            BearerTokens(
-                                accessToken = it.accessToken,
-                                refreshToken = it.refreshToken,
-                            )
-                        }
-                    }
-                    refreshTokens {
-                        refreshToken(tokenRepository)
-                    }
-                    // Always send the request without auth token first and only if it returns 401
-                    // refreshTokens and perform request again. Very important
-                    sendWithoutRequest { false }
-                }
-            }
-
-            developmentMode = true // TODO: Change to false at deployment
-            expectSuccess = true
-        }
+    fun providesHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BASIC
     }
 
-    // TODO: Handle expiry of refreshTokens better.
-    private suspend fun RefreshTokensParams.refreshToken(
-        tokenRepository: TokenRepository,
-    ): BearerTokens? {
-        return oldTokens?.let { oldToken ->
-            val refreshTokenInput = RefreshTokenInput(oldToken.refreshToken)
-            try {
-                val response = client.post("$BASE_URL/auth/token") {
-                    contentType(ContentType.Application.Json)
-                    setBody(refreshTokenInput)
-                    markAsRefreshTokenRequest()
-                }
-                val refreshTokenOutput = response.body<RefreshTokenOutput>().also {
-                    tokenRepository.storeToken(
-                        TokenPreferences(
-                            accessToken = it.accessTokenOutput.value,
-                            refreshToken = it.refreshTokenOutput.value,
-                            userId = it.userId
-                        )
-                    )
-                }
-                BearerTokens(
-                    accessToken = refreshTokenOutput.accessTokenOutput.value,
-                    refreshToken = refreshTokenOutput.refreshTokenOutput.value,
-                )
-            } catch (e: ResponseException) {
-                Log.e(TAG, "refreshToken callback: response status is ${e.response.status}", e)
-                tokenRepository.clearToken()
-                null
-            } catch (e: IOException) {
-                Log.e(TAG, "refreshToken callback: Network error", e)
-                tokenRepository.clearToken()
-                null
-            }
-        }
-    }
+    @Singleton
+    @Provides
+    fun providesAuthInterceptor(tokenRepository: TokenRepository) = AuthInterceptor(tokenRepository)
+
+    @Singleton
+    @Provides
+    fun providesAuthAuthenticator(tokenRepository: TokenRepository) =
+        AuthAuthenticator(tokenRepository)
+
+    @Singleton
+    @Provides
+    fun providesOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor,
+        authAuthenticator: AuthAuthenticator
+    ) = OkHttpClient.Builder()
+        .addInterceptor(httpLoggingInterceptor)
+        .addInterceptor(authInterceptor)
+        .authenticator(authAuthenticator)
+        .build()
+
+    @Singleton
+    @Provides
+    fun providesRetrofit(okHttpClient: OkHttpClient) = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(BASE_URL)
+        .client(okHttpClient)
+        .build()
+
+    @Singleton
+    @Provides
+    fun providesAuthenticationService(retrofit: Retrofit) =
+        retrofit.create(AuthenticationService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesTextEmotionAssignmentService(retrofit: Retrofit) =
+        retrofit.create(TextEmotionAssignmentService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesEmotionTextService(retrofit: Retrofit) =
+        retrofit.create(EmotionTextService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesApiClient() = ApiClient()
 }

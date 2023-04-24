@@ -5,15 +5,12 @@ package it.nlp.frontend.domain.authentication.usecase.impl
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
-import it.nlp.frontend.data.core.model.DataResult
 import it.nlp.frontend.data.remote.authentication.model.dto.TokenOutput
 import it.nlp.frontend.data.remote.authentication.model.dto.UserInput
 import it.nlp.frontend.data.remote.authentication.model.dto.UserOutput
 import it.nlp.frontend.data.remote.authentication.model.dto.UserRoleOutput
 import it.nlp.frontend.data.remote.authentication.model.exception.AuthenticationException
-import it.nlp.frontend.data.remote.authentication.repository.AuthenticationRepository
-import it.nlp.frontend.data.remote.model.exception.NetworkException
-import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException
+import it.nlp.frontend.data.remote.authentication.repository.AuthenticationService
 import it.nlp.frontend.domain.authentication.model.AuthenticationActivity
 import it.nlp.frontend.domain.authentication.model.Credentials
 import it.nlp.frontend.domain.authentication.model.LogInResult
@@ -30,7 +27,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
 
     @Test
     fun useCase_invokedWithEmptyCredentials_returnsInvalidCredentialsLogInResult() = runTest {
-        val mockAuthenticationRepository: AuthenticationRepository = mockk()
+        val mockAuthenticationRepository: AuthenticationService = mockk()
         val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
         val useCase = ProdCredentialsLogInOrSignUpUseCase(
             authenticationRepository = mockAuthenticationRepository,
@@ -55,7 +52,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
     @Test
     fun useCase_invokedWithImproperEmailAddressAndPassword_returnsInvalidCredentialsLogInResult() =
         runTest {
-            val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockAuthenticationRepository: AuthenticationService = mockk()
             val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
             val useCase = ProdCredentialsLogInOrSignUpUseCase(
                 authenticationRepository = mockAuthenticationRepository,
@@ -118,7 +115,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
                 password = passedPassword
             )
 
-            val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockAuthenticationRepository: AuthenticationService = mockk()
             val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
 
             coEvery {
@@ -181,7 +178,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
                 password = passedPassword
             )
 
-            val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockAuthenticationRepository: AuthenticationService = mockk()
             val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
 
             coEvery {
@@ -221,7 +218,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
                 password = passedPassword
             )
 
-            val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockAuthenticationRepository: AuthenticationService = mockk()
             val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
 
             coEvery {
@@ -258,7 +255,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
                 password = passedPassword
             )
 
-            val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockAuthenticationRepository: AuthenticationService = mockk()
             val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
 
             coEvery {
@@ -296,7 +293,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
                 password = passedPassword
             )
 
-            val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockAuthenticationRepository: AuthenticationService = mockk()
             val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
 
             coEvery {
@@ -334,7 +331,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
                 password = passedPassword
             )
 
-            val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockAuthenticationRepository: AuthenticationService = mockk()
             val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
 
             coEvery {
@@ -372,7 +369,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
                 password = passedPassword
             )
 
-            val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockAuthenticationRepository: AuthenticationService = mockk()
             val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
 
             coEvery {
@@ -410,7 +407,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
                 password = passedPassword
             )
 
-            val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockAuthenticationRepository: AuthenticationService = mockk()
             val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
 
             coEvery {
@@ -448,7 +445,7 @@ class ProdCredentialsLogInOrSignUpUseCaseTest {
                 password = passedPassword
             )
 
-            val mockAuthenticationRepository: AuthenticationRepository = mockk()
+            val mockAuthenticationRepository: AuthenticationService = mockk()
             val mockStoreTokenUseCase: StoreTokenUseCase = mockk()
 
             coEvery {

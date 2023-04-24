@@ -165,21 +165,7 @@ class TextsLabelingViewModel @Inject constructor(
                 errorMessage = UiText.ResourceText(R.string.networkErrorMessage)
             )
 
-            is SaveLabeledTextsResult.Failure.NonLabeledTexts ->
-                TextsLabelingViewState.Loaded.TextsPostingError(
-                    texts = texts,
-                    currentTextIndex = texts.lastIndex,
-                    errorMessage = UiText.ResourceText(R.string.textsNotLabeledErrorMessage)
-                )
-
-            is SaveLabeledTextsResult.Failure.WrongEmotionParsing ->
-                TextsLabelingViewState.Loaded.TextsPostingError(
-                    texts = texts,
-                    currentTextIndex = texts.lastIndex,
-                    errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
-                )
-
-            is SaveLabeledTextsResult.Failure.AlreadyAssignedByThisUser ->
+            is SaveLabeledTextsResult.Failure.Unexpected ->
                 TextsLabelingViewState.Loaded.TextsPostingError(
                     texts = texts,
                     currentTextIndex = texts.lastIndex,
@@ -218,7 +204,7 @@ class TextsLabelingViewModel @Inject constructor(
                 errorMessage = UiText.ResourceText(R.string.noMoreTextsToLabelError)
             )
 
-            is GetTextsToLabelResult.Failure.TextsNumberOutOfRange ->
+            is GetTextsToLabelResult.Failure.Unexpected ->
                 TextsLabelingViewState.TextsLoadingError(
                     errorMessage = UiText.ResourceText(R.string.unexpectedErrorOccurredErrorMessage)
                 )

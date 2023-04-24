@@ -79,14 +79,13 @@ dependencies {
     // Splash screen API
     implementation "androidx.core:core-splashscreen:$splashScreenVersion"
 
-    // Ktor client
-    implementation "io.ktor:ktor-client-core:$ktorVersion"
-    implementation "io.ktor:ktor-client-android:$ktorVersion"
-    implementation "io.ktor:ktor-client-logging:$ktorVersion"
-    implementation "io.ktor:ktor-client-auth:$ktorVersion"
-    implementation "io.ktor:ktor-client-content-negotiation:$ktorVersion"
-    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    // OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"

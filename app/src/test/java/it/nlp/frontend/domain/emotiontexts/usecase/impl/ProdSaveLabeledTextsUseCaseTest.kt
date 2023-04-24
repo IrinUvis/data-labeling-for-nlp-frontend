@@ -5,15 +5,11 @@ package it.nlp.frontend.domain.emotiontexts.usecase.impl
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
-import it.nlp.frontend.data.core.model.DataResult
 import it.nlp.frontend.data.remote.emotion.assignments.model.dto.EmotionDto
 import it.nlp.frontend.data.remote.emotion.assignments.model.dto.TextEmotionAssignmentInput
 import it.nlp.frontend.data.remote.emotion.assignments.model.dto.TextEmotionAssignmentOutput
 import it.nlp.frontend.data.remote.emotion.assignments.model.exception.TextEmotionAssignmentException
-import it.nlp.frontend.data.remote.emotion.assignments.repository.TextEmotionAssignmentRepository
-import it.nlp.frontend.data.remote.model.exception.NetworkException
-import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException
-import it.nlp.frontend.data.remote.model.exception.UnauthorizedException
+import it.nlp.frontend.data.remote.emotion.assignments.repository.TextEmotionAssignmentService
 import it.nlp.frontend.domain.emotiontexts.model.Emotion
 import it.nlp.frontend.domain.emotiontexts.model.EmotionText
 import it.nlp.frontend.domain.emotiontexts.model.SaveLabeledTextsResult
@@ -53,7 +49,7 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentOutputs =
                 List(numberOfTexts) { textEmotionAssignmentOutput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
 
             coEvery {
                 textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
@@ -93,7 +89,7 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
 
             coEvery {
                 textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
@@ -132,7 +128,7 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
 
             coEvery {
                 textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
@@ -171,7 +167,7 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
 
             coEvery {
                 textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
@@ -211,7 +207,7 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
 
             coEvery {
                 textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
@@ -251,7 +247,7 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
 
             coEvery {
                 textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(
@@ -285,7 +281,7 @@ class ProdSaveLabeledTextsUseCaseTest {
             )
             val textsToStore = List(numberOfTexts) { emotionTextToStore }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
 
             val useCase = ProdSaveLabeledTextsUseCase(
                 textEmotionAssignmentRepository = textEmotionAssignmentRepositoryMock,
@@ -317,7 +313,7 @@ class ProdSaveLabeledTextsUseCaseTest {
             val textEmotionAssignmentInputs =
                 List(numberOfTexts) { textEmotionAssignmentInput }
 
-            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentRepository = mockk()
+            val textEmotionAssignmentRepositoryMock: TextEmotionAssignmentService = mockk()
 
             coEvery {
                 textEmotionAssignmentRepositoryMock.postTextEmotionAssignments(

@@ -1,58 +1,55 @@
 package it.nlp.frontend.domain.emotiontexts.usecase.impl
 
-import it.nlp.frontend.data.remote.emotion.texts.model.exception.EmotionTextException
-import it.nlp.frontend.data.remote.emotion.texts.repository.EmotionTextRepository
-import it.nlp.frontend.data.remote.model.exception.ApiException
-import it.nlp.frontend.data.remote.model.exception.NetworkException
-import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException
-import it.nlp.frontend.data.remote.model.exception.UnauthorizedException
+import it.nlp.frontend.data.remote.emotion.texts.repository.impl.NetworkEmotionTextRepository
+import it.nlp.frontend.data.remote.model.ApiResponse
+import it.nlp.frontend.data.remote.model.HttpStatus
 import it.nlp.frontend.domain.emotiontexts.model.EmotionText
 import it.nlp.frontend.domain.emotiontexts.model.GetTextsToLabelResult
 import it.nlp.frontend.domain.emotiontexts.usecase.GetTextsToLabelUseCase
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class ProdGetTextsToLabelUseCase @Inject constructor(
-    private val emotionTextRepository: EmotionTextRepository,
+    private val emotionTextRepository: NetworkEmotionTextRepository,
 ) : GetTextsToLabelUseCase {
     override suspend fun invoke(quantity: Int): GetTextsToLabelResult {
-        val textsResult = emotionTextRepository.fetchEmotionTextsToBeAssigned(
-            emotionTextsNumber = quantity,
-        )
-
-        return textsResult.fold(
-            onSuccess = { textDtos ->
-                if (textDtos.isNotEmpty()) {
-                    GetTextsToLabelResult.Success(
-                        emotionTexts = textDtos.map { dto ->
-                            EmotionText(
-                                id = dto.id,
-                                text = dto.content,
-                            )
-                        }
-                    )
-                } else {
+        return when (val apiResponse = emotionTextRepository.getTextsForAssignment(quantity)) {
+            is ApiResponse.Success -> {
+                val texts = apiResponse.data
+                if (texts.isEmpty()) {
                     GetTextsToLabelResult.Failure.NoTexts
+                } else {
+                    GetTextsToLabelResult.Success(
+                        texts.map { text -> EmotionText(text.emotionTextId, text.content) }
+                    )
                 }
-            },
-            onFailure = { apiException ->
-                getTextsToLabelResultForApiException(apiException)
             }
-        )
+
+            is ApiResponse.Failure -> getTextsToLabelResultForApiResponseFailure(apiResponse)
+            is ApiResponse.Exception -> getTextsToLabelResultForApiResponseException(apiResponse)
+        }
     }
 
-    private fun getTextsToLabelResultForApiException(apiException: ApiException): GetTextsToLabelResult {
-        return when (apiException) {
-            is ServiceUnavailableException -> GetTextsToLabelResult.Failure.ServiceUnavailable
-            is NetworkException -> GetTextsToLabelResult.Failure.Network
-            is UnauthorizedException -> GetTextsToLabelResult.Failure.UnauthorizedUser
-            is EmotionTextException -> {
-                when (apiException) {
-                    is EmotionTextException.NumberOutOfRange -> GetTextsToLabelResult.Failure.TextsNumberOutOfRange
-                    else -> GetTextsToLabelResult.Failure.Unknown
-                }
-            }
+    private fun getTextsToLabelResultForApiResponseFailure(
+        apiResponseFailure: ApiResponse.Failure
+    ): GetTextsToLabelResult.Failure {
+        return when (apiResponseFailure.code) {
+            HttpStatus.ServiceUnavailable.code, HttpStatus.GatewayTimeout.code
+            -> GetTextsToLabelResult.Failure.ServiceUnavailable
 
+            HttpStatus.Unauthorized.code -> GetTextsToLabelResult.Failure.UnauthorizedUser
+            HttpStatus.BadRequest.code -> GetTextsToLabelResult.Failure.Unexpected
             else -> GetTextsToLabelResult.Failure.Unknown
+        }
+    }
+
+    private fun getTextsToLabelResultForApiResponseException(
+        apiResponseException: ApiResponse.Exception
+    ): GetTextsToLabelResult.Failure {
+        return when (apiResponseException.exception) {
+            is ConnectException, is SocketTimeoutException -> GetTextsToLabelResult.Failure.Network
+            else -> GetTextsToLabelResult.Failure.Unexpected
         }
     }
 }

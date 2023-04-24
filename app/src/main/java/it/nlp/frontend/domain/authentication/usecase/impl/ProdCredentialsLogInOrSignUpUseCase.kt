@@ -1,23 +1,24 @@
 package it.nlp.frontend.domain.authentication.usecase.impl
 
+import it.nlp.frontend.data.remote.authentication.model.dto.UserInput
+import it.nlp.frontend.data.remote.authentication.repository.impl.NetworkAuthenticationRepository
+import it.nlp.frontend.data.remote.model.ApiResponse
+import it.nlp.frontend.data.remote.model.HttpStatus
+import it.nlp.frontend.data.remote.model.exception.messages.SecurityExceptionMessage
 import it.nlp.frontend.domain.authentication.model.AuthenticationActivity
 import it.nlp.frontend.domain.authentication.model.Credentials
-import it.nlp.frontend.data.remote.authentication.model.exception.AuthenticationException
 import it.nlp.frontend.domain.authentication.model.LogInResult
-import it.nlp.frontend.data.remote.authentication.model.dto.UserInput
-import it.nlp.frontend.data.remote.authentication.repository.AuthenticationRepository
-import it.nlp.frontend.data.remote.model.exception.ApiException
-import it.nlp.frontend.data.remote.model.exception.NetworkException
-import it.nlp.frontend.data.remote.model.exception.ServiceUnavailableException
+import it.nlp.frontend.domain.authentication.usecase.CredentialsLogInOrSignUpUseCase
 import it.nlp.frontend.domain.token.model.StoreTokenResult
 import it.nlp.frontend.domain.token.model.Token
-import it.nlp.frontend.domain.authentication.usecase.CredentialsLogInOrSignUpUseCase
 import it.nlp.frontend.domain.token.usecase.StoreTokenUseCase
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 import java.util.regex.Pattern
 import javax.inject.Inject
 
 class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
-    private val authenticationRepository: AuthenticationRepository,
+    private val authenticationRepository: NetworkAuthenticationRepository,
     private val storeTokenUseCase: StoreTokenUseCase,
 ) : CredentialsLogInOrSignUpUseCase {
     companion object {
@@ -38,29 +39,19 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
         authenticationActivity: AuthenticationActivity,
     ): LogInResult {
         val validationResult = validateCredentials(credentials)
-
         if (validationResult != null) {
             return validationResult
         }
 
-        val repoResult = when (authenticationActivity) {
-            AuthenticationActivity.LogIn -> authenticationRepository.logIn(
-                UserInput(
-                    credentials.email,
-                    credentials.password,
-                ),
-            )
-
-            AuthenticationActivity.SignUp -> authenticationRepository.signUp(
-                UserInput(
-                    credentials.email,
-                    credentials.password,
-                ),
-            )
+        val userInput = UserInput(credentials.email, credentials.password)
+        val apiResponse = when (authenticationActivity) {
+            AuthenticationActivity.LogIn -> authenticationRepository.logIn(userInput)
+            AuthenticationActivity.SignUp -> authenticationRepository.signUp(userInput)
         }
 
-        return repoResult.fold(
-            onSuccess = { userOutput ->
+        return when (apiResponse) {
+            is ApiResponse.Success -> {
+                val userOutput = apiResponse.data
                 val storeTokenResult = storeTokenUseCase(
                     Token(
                         accessToken = userOutput.accessTokenOutput.value,
@@ -70,13 +61,13 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
                 )
                 when (storeTokenResult) {
                     is StoreTokenResult.Success -> LogInResult.Success
-                    is StoreTokenResult.Failure -> LogInResult.Failure.DataStore
+                    is StoreTokenResult.Failure -> LogInResult.Failure.Unexpected
                 }
-            },
-            onFailure = { apiException ->
-                logInResultForApiException(apiException)
             }
-        )
+
+            is ApiResponse.Failure -> logInResultForApiResponseFailure(apiResponse)
+            is ApiResponse.Exception -> logInResultForApiResponseException(apiResponse)
+        }
     }
 
     private fun validateCredentials(credentials: Credentials): LogInResult.Failure? {
@@ -101,27 +92,40 @@ class ProdCredentialsLogInOrSignUpUseCase @Inject constructor(
         }
     }
 
-    private fun logInResultForApiException(exception: ApiException): LogInResult.Failure {
-        return when (exception) {
-            is ServiceUnavailableException -> LogInResult.Failure.ServiceUnavailable
-            is NetworkException -> LogInResult.Failure.Network
-            is AuthenticationException -> {
-                when (exception) {
-                    is AuthenticationException.InvalidEmailAddress -> LogInResult.Failure.InvalidCredentials(
-                        badEmailFormat = true
-                    )
+    private fun logInResultForApiResponseFailure(
+        apiFailureResponse: ApiResponse.Failure
+    ): LogInResult.Failure {
+        return when (apiFailureResponse.code) {
+            HttpStatus.ServiceUnavailable.code, HttpStatus.GatewayTimeout.code -> LogInResult.Failure.ServiceUnavailable
+            HttpStatus.BadRequest.code -> {
+                val message = apiFailureResponse.errorMessage
+                when {
+                    message.contains(SecurityExceptionMessage.InvalidEmailAddress.message) ->
+                        LogInResult.Failure.InvalidCredentials(badEmailFormat = true)
 
-                    is AuthenticationException.InvalidPassword -> LogInResult.Failure.InvalidCredentials(
-                        passwordLessThanSixCharacters = true
-                    )
+                    message.contains(SecurityExceptionMessage.InvalidPassword.message) ->
+                        LogInResult.Failure.InvalidCredentials(passwordLessThanSixCharacters = true)
 
-                    is AuthenticationException.EmailAlreadyTaken -> LogInResult.Failure.EmailAlreadyTaken
-                    is AuthenticationException.BadCredentials -> LogInResult.Failure.WrongCredentials
-                    else -> LogInResult.Failure.Unknown
+                    message.contains(SecurityExceptionMessage.EmailAlreadyTaken.message) ->
+                        LogInResult.Failure.EmailAlreadyTaken
+
+                    message.contains(SecurityExceptionMessage.BadCredentials.message) ->
+                        LogInResult.Failure.WrongCredentials
+
+                    else -> LogInResult.Failure.Unexpected
                 }
             }
 
             else -> LogInResult.Failure.Unknown
+        }
+    }
+
+    private fun logInResultForApiResponseException(
+        apiResponseException: ApiResponse.Exception
+    ): LogInResult.Failure {
+        return when (apiResponseException.exception) {
+            is ConnectException, is SocketTimeoutException -> LogInResult.Failure.Network
+            else -> LogInResult.Failure.Unexpected
         }
     }
 }
