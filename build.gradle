@@ -73,7 +73,7 @@ buildscript {
         // https://mvnrepository.com/artifact/junit/junit
         junitVersion = "4.13.2"
 
-        comAndroidVersion = "7.3.1"
+        comAndroidVersion = '7.4.2'
     }
 }
 
